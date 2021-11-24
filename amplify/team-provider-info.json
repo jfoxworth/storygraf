@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-storygraf-dev-141410-authRole",
+      "UnauthRoleArn": "arn:aws:iam::005373810151:role/amplify-storygraf-dev-141410-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::005373810151:role/amplify-storygraf-dev-141410-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-storygraf-dev-141410-deployment",
+      "UnauthRoleName": "amplify-storygraf-dev-141410-unauthRole",
+      "StackName": "amplify-storygraf-dev-141410",
+      "StackId": "arn:aws:cloudformation:us-east-2:005373810151:stack/amplify-storygraf-dev-141410/ed613200-4c99-11ec-acee-0691a0d8c3ca",
+      "AmplifyAppId": "d28ga168vig8ww"
+    },
+    "categories": {
+      "auth": {
+        "storygraf37100ad0": {}
+      }
+    }
+  }
+}

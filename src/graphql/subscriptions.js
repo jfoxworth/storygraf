@@ -1,0 +1,756 @@
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+export const onCreateArticle = /* GraphQL */ `
+  subscription OnCreateArticle {
+    onCreateArticle {
+      id
+      link
+      title
+      dateWritten
+      dateCreated
+      data
+      approved
+      admin
+      creatorId
+      creator {
+        id
+        userName
+        userImage
+        admin
+        dateCreated
+        data
+        createdAt
+        updatedAt
+      }
+      sourceId
+      source {
+        id
+        sourceName
+        sourceUrl
+        sourceImage
+        creatorId
+        articles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tagArtCons {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateArticle = /* GraphQL */ `
+  subscription OnUpdateArticle {
+    onUpdateArticle {
+      id
+      link
+      title
+      dateWritten
+      dateCreated
+      data
+      approved
+      admin
+      creatorId
+      creator {
+        id
+        userName
+        userImage
+        admin
+        dateCreated
+        data
+        createdAt
+        updatedAt
+      }
+      sourceId
+      source {
+        id
+        sourceName
+        sourceUrl
+        sourceImage
+        creatorId
+        articles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tagArtCons {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteArticle = /* GraphQL */ `
+  subscription OnDeleteArticle {
+    onDeleteArticle {
+      id
+      link
+      title
+      dateWritten
+      dateCreated
+      data
+      approved
+      admin
+      creatorId
+      creator {
+        id
+        userName
+        userImage
+        admin
+        dateCreated
+        data
+        createdAt
+        updatedAt
+      }
+      sourceId
+      source {
+        id
+        sourceName
+        sourceUrl
+        sourceImage
+        creatorId
+        articles {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tagArtCons {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTag = /* GraphQL */ `
+  subscription OnCreateTag {
+    onCreateTag {
+      id
+      name
+      dateCreated
+      creatorId
+      data
+      frontpage
+      official
+      tagArtConns {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTag = /* GraphQL */ `
+  subscription OnUpdateTag {
+    onUpdateTag {
+      id
+      name
+      dateCreated
+      creatorId
+      data
+      frontpage
+      official
+      tagArtConns {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTag = /* GraphQL */ `
+  subscription OnDeleteTag {
+    onDeleteTag {
+      id
+      name
+      dateCreated
+      creatorId
+      data
+      frontpage
+      official
+      tagArtConns {
+        items {
+          id
+          tagId
+          articleId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTagArtCon = /* GraphQL */ `
+  subscription OnCreateTagArtCon {
+    onCreateTagArtCon {
+      id
+      tagId
+      articleId
+      creatorId
+      dateCreated
+      article {
+        id
+        link
+        title
+        dateWritten
+        dateCreated
+        data
+        approved
+        admin
+        creatorId
+        creator {
+          id
+          userName
+          userImage
+          admin
+          dateCreated
+          data
+          createdAt
+          updatedAt
+        }
+        sourceId
+        source {
+          id
+          sourceName
+          sourceUrl
+          sourceImage
+          creatorId
+          createdAt
+          updatedAt
+        }
+        tagArtCons {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      parentRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      childRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTagArtCon = /* GraphQL */ `
+  subscription OnUpdateTagArtCon {
+    onUpdateTagArtCon {
+      id
+      tagId
+      articleId
+      creatorId
+      dateCreated
+      article {
+        id
+        link
+        title
+        dateWritten
+        dateCreated
+        data
+        approved
+        admin
+        creatorId
+        creator {
+          id
+          userName
+          userImage
+          admin
+          dateCreated
+          data
+          createdAt
+          updatedAt
+        }
+        sourceId
+        source {
+          id
+          sourceName
+          sourceUrl
+          sourceImage
+          creatorId
+          createdAt
+          updatedAt
+        }
+        tagArtCons {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      parentRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      childRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTagArtCon = /* GraphQL */ `
+  subscription OnDeleteTagArtCon {
+    onDeleteTagArtCon {
+      id
+      tagId
+      articleId
+      creatorId
+      dateCreated
+      article {
+        id
+        link
+        title
+        dateWritten
+        dateCreated
+        data
+        approved
+        admin
+        creatorId
+        creator {
+          id
+          userName
+          userImage
+          admin
+          dateCreated
+          data
+          createdAt
+          updatedAt
+        }
+        sourceId
+        source {
+          id
+          sourceName
+          sourceUrl
+          sourceImage
+          creatorId
+          createdAt
+          updatedAt
+        }
+        tagArtCons {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      tag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      parentRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      childRelations {
+        items {
+          id
+          parentId
+          childId
+          creatorId
+          dateCreated
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTagRelation = /* GraphQL */ `
+  subscription OnCreateTagRelation {
+    onCreateTagRelation {
+      id
+      parentId
+      childId
+      creatorId
+      dateCreated
+      parentTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      childTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTagRelation = /* GraphQL */ `
+  subscription OnUpdateTagRelation {
+    onUpdateTagRelation {
+      id
+      parentId
+      childId
+      creatorId
+      dateCreated
+      parentTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      childTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTagRelation = /* GraphQL */ `
+  subscription OnDeleteTagRelation {
+    onDeleteTagRelation {
+      id
+      parentId
+      childId
+      creatorId
+      dateCreated
+      parentTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      childTag {
+        id
+        name
+        dateCreated
+        creatorId
+        data
+        frontpage
+        official
+        tagArtConns {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateSource = /* GraphQL */ `
+  subscription OnCreateSource {
+    onCreateSource {
+      id
+      sourceName
+      sourceUrl
+      sourceImage
+      creatorId
+      articles {
+        items {
+          id
+          link
+          title
+          dateWritten
+          dateCreated
+          data
+          approved
+          admin
+          creatorId
+          sourceId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSource = /* GraphQL */ `
+  subscription OnUpdateSource {
+    onUpdateSource {
+      id
+      sourceName
+      sourceUrl
+      sourceImage
+      creatorId
+      articles {
+        items {
+          id
+          link
+          title
+          dateWritten
+          dateCreated
+          data
+          approved
+          admin
+          creatorId
+          sourceId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSource = /* GraphQL */ `
+  subscription OnDeleteSource {
+    onDeleteSource {
+      id
+      sourceName
+      sourceUrl
+      sourceImage
+      creatorId
+      articles {
+        items {
+          id
+          link
+          title
+          dateWritten
+          dateCreated
+          data
+          approved
+          admin
+          creatorId
+          sourceId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser {
+    onCreateUser {
+      id
+      userName
+      userImage
+      admin
+      dateCreated
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser {
+    onUpdateUser {
+      id
+      userName
+      userImage
+      admin
+      dateCreated
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser {
+    onDeleteUser {
+      id
+      userName
+      userImage
+      admin
+      dateCreated
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;

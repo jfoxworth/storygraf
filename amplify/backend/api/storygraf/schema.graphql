@@ -1,0 +1,76 @@
+type Article
+  @model
+  @key(name: "bySource", fields: ["sourceId", "dateWritten"]) {
+  id: ID!
+  link: AWSURL!
+  title: String!
+  dateWritten: String!
+  dateCreated: AWSDateTime!
+  data: AWSJSON!
+  approved: Boolean!
+  admin: Boolean!
+  creatorId: ID!
+  creator: User @connection(fields: ["creatorId"])
+  sourceId: ID!
+  source: Source @connection(fields: ["sourceId"])
+  tagArtCons: [TagArtCon] @connection(keyName: "byArticle", fields: ["id"])
+}
+
+type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
+  id: ID!
+  name: String!
+  dateCreated: AWSDateTime!
+  creatorId: ID!
+  data: AWSJSON!
+  frontpage: String
+  official: Boolean!
+  tagArtConns: [TagArtCon] @connection(keyName: "byTag", fields: ["id"])
+}
+
+type TagArtCon
+  @model
+  @key(name: "byTag", fields: ["tagId"])
+  @key(name: "byArticle", fields: ["articleId"]) {
+  id: ID!
+  tagId: ID!
+  articleId: ID!
+  creatorId: ID!
+  dateCreated: AWSDateTime!
+  article: Article @connection(fields: ["articleId"])
+  tag: Tag @connection(fields: ["tagId"])
+  parentRelations: [TagRelation]
+    @connection(keyName: "byParent", fields: ["tagId"])
+  childRelations: [TagRelation]
+    @connection(keyName: "byChild", fields: ["tagId"])
+}
+
+type TagRelation
+  @model
+  @key(name: "byParent", fields: ["parentId"])
+  @key(name: "byChild", fields: ["childId"]) {
+  id: ID!
+  parentId: ID!
+  childId: ID!
+  creatorId: ID!
+  dateCreated: AWSDateTime!
+  parentTag: Tag @connection(fields: ["parentId"])
+  childTag: Tag @connection(fields: ["childId"])
+}
+
+type Source @model {
+  id: ID!
+  sourceName: String!
+  sourceUrl: String!
+  sourceImage: String!
+  creatorId: ID!
+  articles: [Article] @connection(keyName: "bySource", fields: ["id"])
+}
+
+type User @model {
+  id: ID!
+  userName: String!
+  userImage: String!
+  admin: Boolean!
+  dateCreated: AWSDateTime!
+  data: AWSJSON
+}
