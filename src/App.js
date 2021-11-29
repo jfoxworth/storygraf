@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container, Row, Col } from "react-bootstrap";
+import Logohead from "./components/shared/logoHead/";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Container>
+      <Row className="mt-5">
+        <Col
+          xs={{ span: 4, order: 2 }}
+          md={{ span: 3, order: 1 }}
+          className="mt-5"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          1 of 3
+        </Col>
+        <Col xs={{ span: 4, order: 1 }} md={{ span: 6, order: 2 }}>
+          <Logohead />2 of 3
+        </Col>
+        <Col
+          xs={{ span: 4, order: 3 }}
+          md={{ span: 3, order: 3 }}
+          className="mt-5"
+        >
+          3 of 3
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
