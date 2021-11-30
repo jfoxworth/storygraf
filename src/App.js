@@ -1,10 +1,11 @@
 import { Container, Row, Col } from "react-bootstrap";
-import Logohead from "./components/shared/logoHead/";
 import "./App.css";
+import { withAuthenticator } from "aws-amplify-react";
 
 function App() {
   return (
     <Container>
+      <Row className="mt-5" />
       <Row className="mt-5">
         <Col
           xs={{ span: 4, order: 2 }}
@@ -14,7 +15,7 @@ function App() {
           1 of 3
         </Col>
         <Col xs={{ span: 4, order: 1 }} md={{ span: 6, order: 2 }}>
-          <Logohead />2 of 3
+          2 of 3
         </Col>
         <Col
           xs={{ span: 4, order: 3 }}
@@ -28,4 +29,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App, { includeGreetings: true });

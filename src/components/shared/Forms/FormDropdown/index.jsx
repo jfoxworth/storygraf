@@ -16,22 +16,15 @@
 
 // Standard React Items
 import React, { FC, ReactElement } from "react";
-import styled from "styled-components";
-
-// Components
-import FaIcon from "../../FaIcon/FaIcon";
+import { Form } from "react-bootstrap";
 
 const FormDropdown = ({
   handleChange,
   options,
-  value = "",
   label,
   placeholder = "",
-  type = "text",
-  name = "",
   error = false,
   errorMessage = "",
-  icon = "",
   id = "",
 }) => {
   return (
@@ -40,44 +33,16 @@ const FormDropdown = ({
         {label ? <span>{label}</span> : null}
         {error ? <span className="error">{errorMessage}</span> : null}
       </label>
-
-      <StyledSelect name={name} id={id} defaultValue={value}>
+      <Form.Select aria-label={label} onChange={handleChange}>
+        <option>{placeholder}</option>
         {options.map((option, index) => (
           <option value={option.value} key={`dropdown${index}`}>
             {option.label}
           </option>
         ))}
-      </StyledSelect>
-
-      {icon && (
-        <div className="form-icon">
-          <FaIcon icon={icon} />
-        </div>
-      )}
-
-      {error && (
-        <div className="error-icon">
-          <i data-feather="x"></i>
-        </div>
-      )}
+      </Form.Select>{" "}
     </div>
   );
 };
 
 export default FormDropdown;
-
-const StyledSelect = styled.select`
-  padding: 10px;
-  color: #343434;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  option {
-    color: black;
-    background: white;
-    display: flex;
-    white-space: pre;
-    min-height: 20px;
-    padding: 0px 2px 1px;
-  }
-`;

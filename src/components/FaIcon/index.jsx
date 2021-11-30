@@ -5,9 +5,6 @@
  *
  */
 
-// Standard React items
-import { FC, ReactElement } from "react";
-
 // The icons needed
 import {
   FaTag,
