@@ -7,16 +7,14 @@ import App from "./App";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateTag from "./components/CreateNewTag";
+import CreateSource from "./components/CreateSource";
 import SubmitArticle from "./components/SubmitArticle";
 import MainHeader from "./components/shared/MainHeader";
 import MainFooter from "./components/shared/MainFooter";
 
-import Amplify from "@aws-amplify/core";
-import { Auth } from "@aws-amplify/auth";
+import Amplify, { Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
-Auth.configure(awsconfig);
-
 //Amplify.configure(aws_exports);
 
 ReactDOM.render(
@@ -26,6 +24,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/createTag" element={<CreateTag />} />
+        <Route path="/createSource" element={<CreateSource />} />
         <Route path="/submitArticle" element={<SubmitArticle />} />
       </Routes>
     </BrowserRouter>

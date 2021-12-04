@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 import { withAuthenticator } from "aws-amplify-react";
+import Amplify, { Auth } from "aws-amplify";
 
 function App() {
   return (

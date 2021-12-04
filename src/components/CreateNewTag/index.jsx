@@ -4,8 +4,13 @@ import FormDropdown from "../shared/Forms/FormDropdown";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { API, graphqlOperation } from "aws-amplify";
 import { createTag } from "../../graphql/mutations";
+import { Auth } from "aws-amplify";
 
 const CreateNewTag = () => {
+  let userData = "";
+  Auth.currentAuthenticatedUser({ bypassCache: true }).then(
+    (data) => (userData = data)
+  );
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
@@ -16,26 +21,40 @@ const CreateNewTag = () => {
     setTagType(event.target.value);
   };
 
-  let [tagColor, setTagColor] = useState("#AFAFAF");
+  let [tagColor, setTagColor] = useState("#898989");
   const handleChangeTagColor = (event) => {
     setTagColor(event.target.value);
+  };
+
+  let [textColor, setTextColor] = useState("#FFFFFF");
+  const handleChangeTextColor = (event) => {
+    setTextColor(event.target.value);
   };
 
   const handleAddTag = async (event) => {
     event.preventDefault();
     const input = {
       name: tagName,
-      creatorId: "1234",
-      data: {
+      creatorId: userData.username,
+      data: JSON.stringify({
         color: tagColor,
-      },
+        textcolor: textColor,
+      }),
       frontpage: true,
       official: true,
-      tagType: tagType,
+      type: tagType,
     };
-    await API.graphql(graphqlOperation(createTag, { input }));
+    //    await API.graphql(graphqlOperation(createTag, { input }));
+    await API.graphql({
+      query: createTag,
+      variables: { input: input },
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    });
 
-    setTagName();
+    setTagName("");
+    setTagColor("#898989");
+    setTagType("");
+    setTextColor("#FFFFFF");
   };
 
   return (
@@ -48,14 +67,14 @@ const CreateNewTag = () => {
             <Col xs={3}></Col>
             <Col xs={6}>
               <Row>
-                <Col xs={11}>
+                <Col xs={10}>
                   <FormInput
                     className="mt-5"
                     type="text"
                     name="tagName"
                     icon="Cube"
                     placeholder="Enter name for tag here"
-                    label="Name and color for tag"
+                    label="Name and color for tag and then for text"
                     value={tagName}
                     handleChange={handleChangeTagName}
                   />
@@ -70,10 +89,20 @@ const CreateNewTag = () => {
                     title="Choose your color"
                   />
                 </Col>
+
+                <Col xs={1} className={"mt-4"}>
+                  <Form.Control
+                    type="color"
+                    onChange={handleChangeTextColor}
+                    id="tagcolor"
+                    defaultValue="#FFFFFF"
+                    title="Choose the text color"
+                  />
+                </Col>
               </Row>
 
               <Row>
-                <Col xs={11}>
+                <Col xs={10}>
                   <FormDropdown
                     handleChange={handleChangeTagType}
                     options={[

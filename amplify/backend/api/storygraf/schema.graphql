@@ -19,11 +19,11 @@ type Article
 type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
   id: ID!
   name: String!
-  dateCreated: AWSDateTime!
   creatorId: ID!
   data: AWSJSON!
   frontpage: String
   official: Boolean!
+  type: String!
   tagArtConns: [TagArtCon] @connection(keyName: "byTag", fields: ["id"])
 }
 

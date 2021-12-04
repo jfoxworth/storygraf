@@ -174,11 +174,11 @@ export const createTag = /* GraphQL */ `
     createTag(input: $input, condition: $condition) {
       id
       name
-      dateCreated
       creatorId
       data
       frontpage
       official
+      type
       tagArtConns {
         items {
           id
@@ -204,11 +204,11 @@ export const updateTag = /* GraphQL */ `
     updateTag(input: $input, condition: $condition) {
       id
       name
-      dateCreated
       creatorId
       data
       frontpage
       official
+      type
       tagArtConns {
         items {
           id
@@ -234,11 +234,11 @@ export const deleteTag = /* GraphQL */ `
     deleteTag(input: $input, condition: $condition) {
       id
       name
-      dateCreated
       creatorId
       data
       frontpage
       official
+      type
       tagArtConns {
         items {
           id
@@ -306,11 +306,11 @@ export const createTagArtCon = /* GraphQL */ `
       tag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -396,11 +396,11 @@ export const updateTagArtCon = /* GraphQL */ `
       tag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -486,11 +486,11 @@ export const deleteTagArtCon = /* GraphQL */ `
       tag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -540,11 +540,11 @@ export const createTagRelation = /* GraphQL */ `
       parentTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -554,11 +554,11 @@ export const createTagRelation = /* GraphQL */ `
       childTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -584,11 +584,11 @@ export const updateTagRelation = /* GraphQL */ `
       parentTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -598,11 +598,11 @@ export const updateTagRelation = /* GraphQL */ `
       childTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -628,11 +628,11 @@ export const deleteTagRelation = /* GraphQL */ `
       parentTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -642,11 +642,11 @@ export const deleteTagRelation = /* GraphQL */ `
       childTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }

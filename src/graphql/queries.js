@@ -105,11 +105,11 @@ export const getTag = /* GraphQL */ `
     getTag(id: $id) {
       id
       name
-      dateCreated
       creatorId
       data
       frontpage
       official
+      type
       tagArtConns {
         items {
           id
@@ -137,11 +137,11 @@ export const listTags = /* GraphQL */ `
       items {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -199,11 +199,11 @@ export const getTagArtCon = /* GraphQL */ `
       tag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -269,11 +269,11 @@ export const listTagArtCons = /* GraphQL */ `
         tag {
           id
           name
-          dateCreated
           creatorId
           data
           frontpage
           official
+          type
           createdAt
           updatedAt
         }
@@ -301,11 +301,11 @@ export const getTagRelation = /* GraphQL */ `
       parentTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -315,11 +315,11 @@ export const getTagRelation = /* GraphQL */ `
       childTag {
         id
         name
-        dateCreated
         creatorId
         data
         frontpage
         official
+        type
         tagArtConns {
           nextToken
         }
@@ -347,22 +347,22 @@ export const listTagRelations = /* GraphQL */ `
         parentTag {
           id
           name
-          dateCreated
           creatorId
           data
           frontpage
           official
+          type
           createdAt
           updatedAt
         }
         childTag {
           id
           name
-          dateCreated
           creatorId
           data
           frontpage
           official
+          type
           createdAt
           updatedAt
         }
