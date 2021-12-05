@@ -30,6 +30,8 @@ export const getArticle = /* GraphQL */ `
         sourceUrl
         sourceImage
         creatorId
+        creatorEmail
+        description
         articles {
           nextToken
         }
@@ -87,6 +89,8 @@ export const listArticles = /* GraphQL */ `
           sourceUrl
           sourceImage
           creatorId
+          creatorEmail
+          description
           createdAt
           updatedAt
         }
@@ -187,6 +191,8 @@ export const getTagArtCon = /* GraphQL */ `
           sourceUrl
           sourceImage
           creatorId
+          creatorEmail
+          description
           createdAt
           updatedAt
         }
@@ -381,6 +387,8 @@ export const getSource = /* GraphQL */ `
       sourceUrl
       sourceImage
       creatorId
+      creatorEmail
+      description
       articles {
         items {
           id
@@ -416,6 +424,8 @@ export const listSources = /* GraphQL */ `
         sourceUrl
         sourceImage
         creatorId
+        creatorEmail
+        description
         articles {
           nextToken
         }

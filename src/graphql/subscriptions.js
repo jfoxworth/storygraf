@@ -30,6 +30,8 @@ export const onCreateArticle = /* GraphQL */ `
         sourceUrl
         sourceImage
         creatorId
+        creatorEmail
+        description
         articles {
           nextToken
         }
@@ -82,6 +84,8 @@ export const onUpdateArticle = /* GraphQL */ `
         sourceUrl
         sourceImage
         creatorId
+        creatorEmail
+        description
         articles {
           nextToken
         }
@@ -134,6 +138,8 @@ export const onDeleteArticle = /* GraphQL */ `
         sourceUrl
         sourceImage
         creatorId
+        creatorEmail
+        description
         articles {
           nextToken
         }
@@ -273,6 +279,8 @@ export const onCreateTagArtCon = /* GraphQL */ `
           sourceUrl
           sourceImage
           creatorId
+          creatorEmail
+          description
           createdAt
           updatedAt
         }
@@ -360,6 +368,8 @@ export const onUpdateTagArtCon = /* GraphQL */ `
           sourceUrl
           sourceImage
           creatorId
+          creatorEmail
+          description
           createdAt
           updatedAt
         }
@@ -447,6 +457,8 @@ export const onDeleteTagArtCon = /* GraphQL */ `
           sourceUrl
           sourceImage
           creatorId
+          creatorEmail
+          description
           createdAt
           updatedAt
         }
@@ -630,6 +642,8 @@ export const onCreateSource = /* GraphQL */ `
       sourceUrl
       sourceImage
       creatorId
+      creatorEmail
+      description
       articles {
         items {
           id
@@ -660,6 +674,8 @@ export const onUpdateSource = /* GraphQL */ `
       sourceUrl
       sourceImage
       creatorId
+      creatorEmail
+      description
       articles {
         items {
           id
@@ -690,6 +706,8 @@ export const onDeleteSource = /* GraphQL */ `
       sourceUrl
       sourceImage
       creatorId
+      creatorEmail
+      description
       articles {
         items {
           id
