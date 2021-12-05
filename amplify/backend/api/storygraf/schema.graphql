@@ -63,6 +63,8 @@ type Source @model {
   sourceUrl: String!
   sourceImage: String!
   creatorId: ID!
+  creatorEmail: String!
+  description: String!
   articles: [Article] @connection(keyName: "bySource", fields: ["id"])
 }
 

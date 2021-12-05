@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../shared/Forms/FormInput";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { Auth } from "aws-amplify";
 import { createSource } from "../../graphql/mutations";
@@ -25,13 +25,21 @@ const CreateSource = () => {
     setSourceImage(event.target.value);
   };
 
+  let [sourceDescription, setSourceDescription] = useState("");
+  const handleChangeSourceDescription = (event) => {
+    setSourceDescription(event.target.value);
+  };
+
   const handleAddSource = async (event) => {
     event.preventDefault();
+    console.log(userData);
     const input = {
       sourceName: sourceName,
       creatorId: userData.username,
+      creatorName: userData.attributes.email,
       sourceUrl: sourceURL,
       sourceImage: sourceImage,
+      description: sourceDescription,
     };
     await API.graphql({
       query: createSource,
@@ -42,6 +50,7 @@ const CreateSource = () => {
     setSourceName("");
     setSourceURL("");
     setSourceImage("");
+    setSourceDescription("");
   };
 
   return (
@@ -91,6 +100,16 @@ const CreateSource = () => {
                     value={sourceImage}
                     handleChange={handleSetSourceImage}
                   />
+                </Col>
+                <Col>
+                  <Form.Group className="mb-3" controlId="sourceDesc">
+                    <Form.Label>Description of Source</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      onChange={handleChangeSourceDescription}
+                    />
+                  </Form.Group>{" "}
                 </Col>
               </Row>
               <Row className={"mt-3"}>

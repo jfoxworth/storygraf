@@ -11,6 +11,7 @@ import CreateSource from "./components/CreateSource";
 import SubmitArticle from "./components/SubmitArticle";
 import MainHeader from "./components/shared/MainHeader";
 import MainFooter from "./components/shared/MainFooter";
+import ListSources from "./components/ListSources";
 
 import Amplify, { Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="/createTag" element={<CreateTag />} />
         <Route path="/createSource" element={<CreateSource />} />
+        <Route path="/listSources" element={<ListSources />} />
         <Route path="/submitArticle" element={<SubmitArticle />} />
       </Routes>
     </BrowserRouter>
