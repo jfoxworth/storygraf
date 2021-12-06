@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import FormInput from "../shared/Forms/FormInput";
-import FormDropdown from "../shared/Forms/FormDropdown";
+import FormInput from "../../shared/Forms/FormInput";
+import FormDropdown from "../../shared/Forms/FormDropdown";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { createTag } from "../../graphql/mutations";
+import { createTag, createTagRelation } from "../../../graphql/mutations";
 import { Auth } from "aws-amplify";
 
-const CreateNewTag = () => {
+const CreateTag = ({ parentId }) => {
   let userData = "";
   Auth.currentAuthenticatedUser({ bypassCache: true }).then(
     (data) => (userData = data)
@@ -36,8 +36,14 @@ const CreateNewTag = () => {
     setTagDescription(event.target.value);
   };
 
-  const handleAddTag = async (event) => {
+  const handleAddTag = (event) => {
     event.preventDefault();
+    addTag(event).then((data) => {
+      console.log(data);
+    });
+  };
+
+  const addTag = async (event) => {
     const input = {
       name: tagName,
       creatorId: userData.username,
@@ -46,11 +52,9 @@ const CreateNewTag = () => {
         textcolor: textColor,
         description: tagDescription,
       }),
-      frontpage: true,
-      official: true,
       type: tagType,
     };
-    //    await API.graphql(graphqlOperation(createTag, { input }));
+
     await API.graphql({
       query: createTag,
       variables: { input: input },
@@ -67,8 +71,6 @@ const CreateNewTag = () => {
     <>
       <Container>
         <form onSubmit={handleAddTag}>
-          <Row className="mt-5"></Row>
-          <h3 className={"text-center mt-5 mb-5"}>Create a Tag</h3>
           <Row>
             <Col xs={3}></Col>
             <Col xs={6}>
@@ -123,7 +125,7 @@ const CreateNewTag = () => {
               </Row>
 
               <Row>
-                <Col>
+                <Col xs={10} className={"mt-3"}>
                   <Form.Group className="mb-3" controlId="tagDesc">
                     <Form.Label>Description of Tag</Form.Label>
                     <Form.Control
@@ -157,4 +159,4 @@ const CreateNewTag = () => {
   );
 };
 
-export default CreateNewTag;
+export default CreateTag;

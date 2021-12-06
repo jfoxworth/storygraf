@@ -13,6 +13,8 @@ import MainHeader from "./components/shared/MainHeader";
 import MainFooter from "./components/shared/MainFooter";
 import ListSources from "./components/ListSources";
 
+import TagsPage from "./components/TagsPage";
+
 import Amplify, { Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
@@ -28,6 +30,7 @@ ReactDOM.render(
         <Route path="/createSource" element={<CreateSource />} />
         <Route path="/listSources" element={<ListSources />} />
         <Route path="/submitArticle" element={<SubmitArticle />} />
+        <Route path="/TagsPage" element={<TagsPage />} />
       </Routes>
     </BrowserRouter>
     <MainFooter />

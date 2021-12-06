@@ -21,8 +21,6 @@ type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
   name: String!
   creatorId: ID!
   data: AWSJSON!
-  frontpage: String
-  official: Boolean!
   type: String!
   tagArtConns: [TagArtCon] @connection(keyName: "byTag", fields: ["id"])
 }

@@ -36,7 +36,7 @@ const CreateSource = () => {
     const input = {
       sourceName: sourceName,
       creatorId: userData.username,
-      creatorName: userData.attributes.email,
+      creatorEmail: userData.attributes.email,
       sourceUrl: sourceURL,
       sourceImage: sourceImage,
       description: sourceDescription,
