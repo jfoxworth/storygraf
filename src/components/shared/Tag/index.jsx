@@ -1,24 +1,27 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Badge } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import {
+  BsFillPersonFill,
+  BsGeoAltFill,
+  BsFillPlayCircleFill,
+  BsWrench,
+} from "react-icons/bs";
 
-const Tag = ({ linkAddress, text, type }) => {
+const Tag = ({ tag }) => {
+  console.log(tag);
   return (
-    <LinkContainer to={linkAddress ? linkAddress : "#"}>
+    <LinkContainer to={`/tag/${tag.id}`}>
       <h4>
-        <Badge
-          bg={
-            type == "person"
-              ? "primary"
-              : type == "place"
-              ? "warning"
-              : type == "thing"
-              ? "info"
-              : "secondary"
-          }
+        <Button
+          style={{ backgroundColor: tag.data.color, color: tag.data.textColor }}
         >
-          {text}
-        </Badge>
+          {tag.name}
+          {tag.type === "person" && <BsFillPersonFill className={"mx-1"} />}
+          {tag.type === "place" && <BsGeoAltFill className={"mx-1"} />}
+          {tag.type === "thing" && <BsWrench className={"mx-1"} />}
+          {tag.type === "event" && <BsFillPlayCircleFill className={"mx-1"} />}
+        </Button>
       </h4>
     </LinkContainer>
   );

@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { Auth } from "aws-amplify";
 import { listSources } from "../../graphql/queries";
 import Source from "../Source";
 
 const ListSources = () => {
-  let userData = "";
   let [sourceData, setSourceData] = useState([]);
-  Auth.currentAuthenticatedUser({ bypassCache: true }).then(
-    (data) => (userData = data)
-  );
 
   const getSources = async () => {
     const input = {};
-    let sourcePromise = await API.graphql({
+    await API.graphql({
       query: listSources,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",

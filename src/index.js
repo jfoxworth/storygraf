@@ -6,9 +6,7 @@ import App from "./App";
 //import aws_exports from "./aws-exports";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateTag from "./components/CreateNewTag";
 import CreateSource from "./components/CreateSource";
-import SubmitArticle from "./components/SubmitArticle";
 import MainHeader from "./components/shared/MainHeader";
 import MainFooter from "./components/shared/MainFooter";
 import ListSources from "./components/ListSources";
@@ -27,10 +25,8 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/createTag" element={<CreateTag />} />
         <Route path="/createSource" element={<CreateSource />} />
         <Route path="/listSources" element={<ListSources />} />
-        <Route path="/submitArticle" element={<SubmitArticle />} />
         <Route path="/TagsPage" element={<TagsPage />} />
       </Routes>
     </BrowserRouter>

@@ -8,7 +8,6 @@ export const getArticle = /* GraphQL */ `
       link
       title
       dateWritten
-      dateCreated
       data
       approved
       admin
@@ -18,7 +17,6 @@ export const getArticle = /* GraphQL */ `
         userName
         userImage
         admin
-        dateCreated
         data
         createdAt
         updatedAt
@@ -44,7 +42,6 @@ export const getArticle = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -67,7 +64,6 @@ export const listArticles = /* GraphQL */ `
         link
         title
         dateWritten
-        dateCreated
         data
         approved
         admin
@@ -77,7 +73,6 @@ export const listArticles = /* GraphQL */ `
           userName
           userImage
           admin
-          dateCreated
           data
           createdAt
           updatedAt
@@ -120,7 +115,6 @@ export const getTag = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -163,13 +157,11 @@ export const getTagArtCon = /* GraphQL */ `
       tagId
       articleId
       creatorId
-      dateCreated
       article {
         id
         link
         title
         dateWritten
-        dateCreated
         data
         approved
         admin
@@ -179,7 +171,6 @@ export const getTagArtCon = /* GraphQL */ `
           userName
           userImage
           admin
-          dateCreated
           data
           createdAt
           updatedAt
@@ -255,13 +246,11 @@ export const listTagArtCons = /* GraphQL */ `
         tagId
         articleId
         creatorId
-        dateCreated
         article {
           id
           link
           title
           dateWritten
-          dateCreated
           data
           approved
           admin
@@ -391,7 +380,6 @@ export const getSource = /* GraphQL */ `
           link
           title
           dateWritten
-          dateCreated
           data
           approved
           admin
@@ -439,7 +427,6 @@ export const getUser = /* GraphQL */ `
       userName
       userImage
       admin
-      dateCreated
       data
       createdAt
       updatedAt
@@ -458,7 +445,6 @@ export const listUsers = /* GraphQL */ `
         userName
         userImage
         admin
-        dateCreated
         data
         createdAt
         updatedAt

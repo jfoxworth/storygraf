@@ -4,7 +4,6 @@ import FormDropdown from "../../shared/Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createTag, createTagRelation } from "../../../graphql/mutations";
-import { Auth } from "aws-amplify";
 
 const CreateTagModal = (props) => {
   let [tagName, setTagName] = useState("");
@@ -91,7 +90,7 @@ const CreateTagModal = (props) => {
         <Container>
           <form onSubmit={handleAddTag}>
             <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
+              <Col xs={10} lg={{ span: 6, offset: 2 }}>
                 <FormInput
                   className="mt-5"
                   type="text"
@@ -103,6 +102,24 @@ const CreateTagModal = (props) => {
                   handleChange={handleChangeTagName}
                 />
               </Col>
+              <Col xs={1} className={"mt-4"}>
+                <Form.Control
+                  type="color"
+                  onChange={handleChangeTagColor}
+                  id="tagcolor"
+                  defaultValue="#563d7c"
+                  title="Choose your color"
+                />
+              </Col>
+              <Col xs={1} className={"mt-4"}>
+                <Form.Control
+                  type="color"
+                  onChange={handleChangeTextColor}
+                  id="tagcolor"
+                  defaultValue="#FFFFFF"
+                  title="Choose the text color"
+                />
+              </Col>{" "}
             </Row>
 
             <Row>

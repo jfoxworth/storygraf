@@ -4,8 +4,6 @@ import { listTagRelations } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import Tag from "../../shared/Tag";
 
-import { BsFillBookmarkPlusFill } from "react-icons/bs";
-
 const TagList = ({ parentId, userData }) => {
   const unstringData = (items) => {
     items.forEach((item) => {
@@ -38,9 +36,8 @@ const TagList = ({ parentId, userData }) => {
             <ListGroup.Item key={`${item.childTag.id}`}>
               <Row>
                 <Col>
-                  <Tag type={item.childTag.type} text={item.childTag.name} />
+                  <Tag tag={item.childTag} />
                 </Col>
-                <Col>{userData.username && <BsFillBookmarkPlusFill />}</Col>
               </Row>
             </ListGroup.Item>
           ))}

@@ -16,9 +16,19 @@ const CreateArticleModal = (props) => {
     setArticleLink(event.target.value);
   };
 
+  let [articleDate, setArticleDate] = useState("");
+  const handleChangeDate = (event) => {
+    setArticleDate(event.target.value);
+  };
+
   let [articleData, setArticleData] = useState("");
   const handleChangeArticleData = (event) => {
     setArticleData(event.target.value);
+  };
+
+  let [articleSource, setArticleSource] = useState("");
+  const handleChangeSource = (event) => {
+    setArticleSource(event.target.value);
   };
 
   const handleAddTag = (event) => {
@@ -38,25 +48,20 @@ const CreateArticleModal = (props) => {
       creatorId: props.userData.username,
       approved: false,
       admin: false,
-      sourceId: sourceId,
+      sourceId: articleSource.id,
     };
 
-    setTagName("");
-    setTagColor("#898989");
-    setTagType("");
-    setTextColor("#FFFFFF");
-
     return await API.graphql({
-      query: createTag,
+      query: createArticle,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
 
-  const addTagRelation = async (thisId, parentId) => {
+  const addTagArtCon = async (thisId, tagId) => {
     const input = {
-      parentId: parentId,
-      childId: thisId,
+      tagId: tagId,
+      articleId: thisId,
       creatorId: props.userData.username,
     };
     return await API.graphql({
@@ -79,27 +84,38 @@ const CreateArticleModal = (props) => {
                 <FormInput
                   className="mt-5"
                   type="text"
-                  name="tagName"
+                  name="articleTitle"
                   icon="Cube"
-                  placeholder="Enter name for tag here"
-                  label="Name and color for tag and then for text"
-                  value={tagName}
-                  handleChange={handleChangeTagName}
+                  placeholder="Title of article"
+                  label="Enter the title for the article"
+                  value={articleTitle}
+                  handleChange={handleChangeTitle}
                 />
               </Col>
             </Row>
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <FormDropdown
-                  handleChange={handleChangeTagType}
-                  options={[
-                    { value: "event", label: "Event" },
-                    { value: "person", label: "Person" },
-                    { value: "place", label: "Place" },
-                    { value: "thing", label: "Thing" },
-                  ]}
-                  label="Select type for tag"
+                <FormInput
+                  className="mt-5"
+                  type="text"
+                  name="articleLink"
+                  icon="Cube"
+                  placeholder="Link to article"
+                  label="Enter the link to the article"
+                  value={articleLink}
+                  handleChange={handleChangeLink}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }}>
+                <Form.Control
+                  type="date"
+                  name="date_of_birth"
+                  value={articleDate}
+                  handleChange={handleChangeDate}
                 />
               </Col>
             </Row>
@@ -111,28 +127,9 @@ const CreateArticleModal = (props) => {
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    onChange={handleChangeTagDescription}
+                    onChange={handleChangeArticleData}
                   />
                 </Form.Group>{" "}
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parentTag === null && (
-                  <p>
-                    This tag will be created and placed at the top level with no
-                    parent. It can be included within any other tag or have tags
-                    added beneath it.
-                  </p>
-                )}
-                {props.parentTag !== null && (
-                  <p>
-                    This tag will be created and placed under the tag{" "}
-                    {props.parentTag.name}. It can be included within any other
-                    tag or have tags added beneath it.
-                  </p>
-                )}
               </Col>
             </Row>
           </form>
@@ -141,7 +138,7 @@ const CreateArticleModal = (props) => {
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
         <Button variant="success" onClick={handleAddTag}>
-          Create Tag
+          Add Article
         </Button>
       </Modal.Footer>
     </Modal>

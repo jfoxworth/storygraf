@@ -8,7 +8,6 @@ export const onCreateArticle = /* GraphQL */ `
       link
       title
       dateWritten
-      dateCreated
       data
       approved
       admin
@@ -18,7 +17,6 @@ export const onCreateArticle = /* GraphQL */ `
         userName
         userImage
         admin
-        dateCreated
         data
         createdAt
         updatedAt
@@ -44,7 +42,6 @@ export const onCreateArticle = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -62,7 +59,6 @@ export const onUpdateArticle = /* GraphQL */ `
       link
       title
       dateWritten
-      dateCreated
       data
       approved
       admin
@@ -72,7 +68,6 @@ export const onUpdateArticle = /* GraphQL */ `
         userName
         userImage
         admin
-        dateCreated
         data
         createdAt
         updatedAt
@@ -98,7 +93,6 @@ export const onUpdateArticle = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -116,7 +110,6 @@ export const onDeleteArticle = /* GraphQL */ `
       link
       title
       dateWritten
-      dateCreated
       data
       approved
       admin
@@ -126,7 +119,6 @@ export const onDeleteArticle = /* GraphQL */ `
         userName
         userImage
         admin
-        dateCreated
         data
         createdAt
         updatedAt
@@ -152,7 +144,6 @@ export const onDeleteArticle = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -179,7 +170,6 @@ export const onCreateTag = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -206,7 +196,6 @@ export const onUpdateTag = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -233,7 +222,6 @@ export const onDeleteTag = /* GraphQL */ `
           tagId
           articleId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -251,13 +239,11 @@ export const onCreateTagArtCon = /* GraphQL */ `
       tagId
       articleId
       creatorId
-      dateCreated
       article {
         id
         link
         title
         dateWritten
-        dateCreated
         data
         approved
         admin
@@ -267,7 +253,6 @@ export const onCreateTagArtCon = /* GraphQL */ `
           userName
           userImage
           admin
-          dateCreated
           data
           createdAt
           updatedAt
@@ -338,13 +323,11 @@ export const onUpdateTagArtCon = /* GraphQL */ `
       tagId
       articleId
       creatorId
-      dateCreated
       article {
         id
         link
         title
         dateWritten
-        dateCreated
         data
         approved
         admin
@@ -354,7 +337,6 @@ export const onUpdateTagArtCon = /* GraphQL */ `
           userName
           userImage
           admin
-          dateCreated
           data
           createdAt
           updatedAt
@@ -425,13 +407,11 @@ export const onDeleteTagArtCon = /* GraphQL */ `
       tagId
       articleId
       creatorId
-      dateCreated
       article {
         id
         link
         title
         dateWritten
-        dateCreated
         data
         approved
         admin
@@ -441,7 +421,6 @@ export const onDeleteTagArtCon = /* GraphQL */ `
           userName
           userImage
           admin
-          dateCreated
           data
           createdAt
           updatedAt
@@ -641,7 +620,6 @@ export const onCreateSource = /* GraphQL */ `
           link
           title
           dateWritten
-          dateCreated
           data
           approved
           admin
@@ -673,7 +651,6 @@ export const onUpdateSource = /* GraphQL */ `
           link
           title
           dateWritten
-          dateCreated
           data
           approved
           admin
@@ -705,7 +682,6 @@ export const onDeleteSource = /* GraphQL */ `
           link
           title
           dateWritten
-          dateCreated
           data
           approved
           admin
@@ -728,7 +704,6 @@ export const onCreateUser = /* GraphQL */ `
       userName
       userImage
       admin
-      dateCreated
       data
       createdAt
       updatedAt
@@ -742,7 +717,6 @@ export const onUpdateUser = /* GraphQL */ `
       userName
       userImage
       admin
-      dateCreated
       data
       createdAt
       updatedAt
@@ -756,7 +730,6 @@ export const onDeleteUser = /* GraphQL */ `
       userName
       userImage
       admin
-      dateCreated
       data
       createdAt
       updatedAt
