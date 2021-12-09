@@ -21,6 +21,8 @@ type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
   name: String!
   creatorId: ID!
   data: AWSJSON!
+  frontpage: String
+  official: Boolean!
   type: String!
   tagArtConns: [TagArtCon] @connection(keyName: "byTag", fields: ["id"])
 }
@@ -46,11 +48,9 @@ type TagRelation
   @model
   @key(name: "byParent", fields: ["parentId"])
   @key(name: "byChild", fields: ["childId"]) {
-  id: ID!
   parentId: ID!
   childId: ID!
   creatorId: ID!
-  dateCreated: AWSDateTime!
   parentTag: Tag @connection(fields: ["parentId"])
   childTag: Tag @connection(fields: ["childId"])
 }

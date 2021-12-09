@@ -18,6 +18,7 @@ import TagsPage from "./components/TagsPage";
 import Amplify, { Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
 //Amplify.configure(aws_exports);
 
 ReactDOM.render(

@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, ListGroup, Row, Col } from "react-bootstrap";
 import { listTagRelations } from "../../../graphql/queries";
 import { API } from "aws-amplify";
-import { Auth } from "aws-amplify";
+import Tag from "../../shared/Tag";
 
-const TagList = ({ parentId }) => {
+import { BsFillBookmarkPlusFill } from "react-icons/bs";
+
+const TagList = ({ parentId, userData }) => {
+  const unstringData = (items) => {
+    items.forEach((item) => {
+      item.childTag.data = JSON.parse(item.childTag.data);
+    });
+    return items;
+  };
+
   let [tagData, setTagData] = useState([]);
 
   const getTags = async (event) => {
     await API.graphql({
       query: listTagRelations,
-      variables: { filter: { parentId: { eq: parentId } } },
+      filter: { parentId: { eq: parentId } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => setTagData(data.data.listTagRelations.items));
+    }).then((data) =>
+      setTagData(unstringData(data.data.listTagRelations.items))
+    );
   };
 
   useEffect(() => {
@@ -22,7 +33,18 @@ const TagList = ({ parentId }) => {
   return (
     <>
       <Container>
-        <div>Tag list - {tagData.length}</div>
+        <ListGroup>
+          {tagData.map((item) => (
+            <ListGroup.Item key={`${item.childTag.id}`}>
+              <Row>
+                <Col>
+                  <Tag type={item.childTag.type} text={item.childTag.name} />
+                </Col>
+                <Col>{userData.username && <BsFillBookmarkPlusFill />}</Col>
+              </Row>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>{" "}
       </Container>
     </>
   );

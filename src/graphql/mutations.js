@@ -331,7 +331,6 @@ export const createTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -343,7 +342,6 @@ export const createTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -423,7 +421,6 @@ export const updateTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -435,7 +432,6 @@ export const updateTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -515,7 +511,6 @@ export const deleteTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -527,7 +522,6 @@ export const deleteTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -548,7 +542,6 @@ export const createTagRelation = /* GraphQL */ `
       parentId
       childId
       creatorId
-      dateCreated
       parentTag {
         id
         name
@@ -592,7 +585,6 @@ export const updateTagRelation = /* GraphQL */ `
       parentId
       childId
       creatorId
-      dateCreated
       parentTag {
         id
         name
@@ -636,7 +628,6 @@ export const deleteTagRelation = /* GraphQL */ `
       parentId
       childId
       creatorId
-      dateCreated
       parentTag {
         id
         name

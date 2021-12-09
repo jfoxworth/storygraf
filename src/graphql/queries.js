@@ -222,7 +222,6 @@ export const getTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -234,7 +233,6 @@ export const getTagArtCon = /* GraphQL */ `
           parentId
           childId
           creatorId
-          dateCreated
           createdAt
           updatedAt
         }
@@ -303,7 +301,6 @@ export const getTagRelation = /* GraphQL */ `
       parentId
       childId
       creatorId
-      dateCreated
       parentTag {
         id
         name
@@ -349,7 +346,6 @@ export const listTagRelations = /* GraphQL */ `
         parentId
         childId
         creatorId
-        dateCreated
         parentTag {
           id
           name
