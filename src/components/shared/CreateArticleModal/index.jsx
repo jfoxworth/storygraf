@@ -1,60 +1,44 @@
 import React, { useState } from "react";
-import FormInput from "../../shared/Forms/FormInput";
-import FormDropdown from "../../shared/Forms/FormDropdown";
+import FormInput from "../Forms/FormInput";
+import FormDropdown from "../Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { createTag, createTagRelation } from "../../../graphql/mutations";
-import { Auth } from "aws-amplify";
+import { createArticle, createTagArtCon } from "../../../graphql/mutations";
 
-const CreateTagModal = (props) => {
-  let [tagName, setTagName] = useState("");
-  const handleChangeTagName = (event) => {
-    setTagName(event.target.value);
+const CreateArticleModal = (props) => {
+  let [articleTitle, setArticleTitle] = useState("");
+  const handleChangeTitle = (event) => {
+    setArticleTitle(event.target.value);
   };
 
-  let [tagType, setTagType] = useState("");
-  const handleChangeTagType = (event) => {
-    setTagType(event.target.value);
+  let [articleLink, setArticleLink] = useState("");
+  const handleChangeLink = (event) => {
+    setArticleLink(event.target.value);
   };
 
-  let [tagColor, setTagColor] = useState("#898989");
-  const handleChangeTagColor = (event) => {
-    setTagColor(event.target.value);
-  };
-
-  let [textColor, setTextColor] = useState("#FFFFFF");
-  const handleChangeTextColor = (event) => {
-    setTextColor(event.target.value);
-  };
-
-  let [tagDescription, setTagDescription] = useState("");
-  const handleChangeTagDescription = (event) => {
-    setTagDescription(event.target.value);
+  let [articleData, setArticleData] = useState("");
+  const handleChangeArticleData = (event) => {
+    setArticleData(event.target.value);
   };
 
   const handleAddTag = (event) => {
     event.preventDefault();
-    addTag(event).then((data) => {
+    addArticle(event).then((data) => {
       console.log(data);
-      addTagRelation(
-        data.data.createTag.id,
-        props.parentTag ? props.parentTag.id : 0
-      );
+      addTagArtCon(data.data.createArticle.id, props.tag.id);
     });
   };
 
-  const addTag = async (event) => {
+  const addArticle = async (event) => {
     const input = {
-      name: tagName,
+      title: articleTitle,
+      link: articleLink,
+      dateWritten: articleDate,
+      data: JSON.stringify(articleData),
       creatorId: props.userData.username,
-      data: JSON.stringify({
-        color: tagColor,
-        textcolor: textColor,
-        description: tagDescription,
-      }),
-      frontpage: true,
-      official: true,
-      type: tagType,
+      approved: false,
+      admin: false,
+      sourceId: sourceId,
     };
 
     setTagName("");
@@ -164,4 +148,4 @@ const CreateTagModal = (props) => {
   );
 };
 
-export default CreateTagModal;
+export default CreateArticleModal;

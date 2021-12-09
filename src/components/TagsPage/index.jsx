@@ -50,6 +50,8 @@ const TagsPage = () => {
       <CreateTagModal
         show={showCreateTag}
         onHide={() => setShowCreateTag(false)}
+        parentTag={null}
+        userData={userData}
       />
 
       <Container>

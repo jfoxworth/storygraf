@@ -5,7 +5,6 @@ type Article
   link: AWSURL!
   title: String!
   dateWritten: String!
-  dateCreated: AWSDateTime!
   data: AWSJSON!
   approved: Boolean!
   admin: Boolean!
@@ -35,7 +34,6 @@ type TagArtCon
   tagId: ID!
   articleId: ID!
   creatorId: ID!
-  dateCreated: AWSDateTime!
   article: Article @connection(fields: ["articleId"])
   tag: Tag @connection(fields: ["tagId"])
   parentRelations: [TagRelation]
@@ -71,6 +69,5 @@ type User @model {
   userName: String!
   userImage: String!
   admin: Boolean!
-  dateCreated: AWSDateTime!
   data: AWSJSON
 }
