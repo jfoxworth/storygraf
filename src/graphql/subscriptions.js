@@ -16,6 +16,7 @@ export const onCreateArticle = /* GraphQL */ `
         id
         userName
         userImage
+        userId
         admin
         data
         createdAt
@@ -67,6 +68,7 @@ export const onUpdateArticle = /* GraphQL */ `
         id
         userName
         userImage
+        userId
         admin
         data
         createdAt
@@ -118,6 +120,7 @@ export const onDeleteArticle = /* GraphQL */ `
         id
         userName
         userImage
+        userId
         admin
         data
         createdAt
@@ -252,6 +255,7 @@ export const onCreateTagArtCon = /* GraphQL */ `
           id
           userName
           userImage
+          userId
           admin
           data
           createdAt
@@ -336,6 +340,7 @@ export const onUpdateTagArtCon = /* GraphQL */ `
           id
           userName
           userImage
+          userId
           admin
           data
           createdAt
@@ -420,6 +425,7 @@ export const onDeleteTagArtCon = /* GraphQL */ `
           id
           userName
           userImage
+          userId
           admin
           data
           createdAt
@@ -703,6 +709,7 @@ export const onCreateUser = /* GraphQL */ `
       id
       userName
       userImage
+      userId
       admin
       data
       createdAt
@@ -716,6 +723,7 @@ export const onUpdateUser = /* GraphQL */ `
       id
       userName
       userImage
+      userId
       admin
       data
       createdAt
@@ -729,6 +737,7 @@ export const onDeleteUser = /* GraphQL */ `
       id
       userName
       userImage
+      userId
       admin
       data
       createdAt

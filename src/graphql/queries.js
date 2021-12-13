@@ -16,6 +16,7 @@ export const getArticle = /* GraphQL */ `
         id
         userName
         userImage
+        userId
         admin
         data
         createdAt
@@ -72,6 +73,7 @@ export const listArticles = /* GraphQL */ `
           id
           userName
           userImage
+          userId
           admin
           data
           createdAt
@@ -170,6 +172,7 @@ export const getTagArtCon = /* GraphQL */ `
           id
           userName
           userImage
+          userId
           admin
           data
           createdAt
@@ -426,6 +429,7 @@ export const getUser = /* GraphQL */ `
       id
       userName
       userImage
+      userId
       admin
       data
       createdAt
@@ -444,6 +448,7 @@ export const listUsers = /* GraphQL */ `
         id
         userName
         userImage
+        userId
         admin
         data
         createdAt

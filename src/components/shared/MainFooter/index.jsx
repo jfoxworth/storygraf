@@ -1,8 +1,9 @@
 import React from "react";
 import { Navbar, Container, Col, Nav } from "react-bootstrap";
+import "../../../main.css";
 
 const MainHeader = () => (
-  <Navbar fixed="bottom" bg="light" expand="lg">
+  <Navbar className={"page-footer"} fixed="bottom" bg="light" expand="lg">
     <Container>
       <Col xs={"3"} className="mt-5 mb-3"></Col>
       <Col xs={"3"} className="mt-5 mb-3">

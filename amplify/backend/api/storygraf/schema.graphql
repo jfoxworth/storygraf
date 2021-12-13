@@ -53,12 +53,12 @@ type TagRelation
   childTag: Tag @connection(fields: ["childId"])
 }
 
-type Source @model {
+type Source @model @key(name: "byUser", fields: ["creatorId"]) {
   id: ID!
   sourceName: String!
   sourceUrl: String!
   sourceImage: String!
-  creatorId: ID!
+  creatorId: String!
   creatorEmail: String!
   description: String!
   articles: [Article] @connection(keyName: "bySource", fields: ["id"])
@@ -68,6 +68,7 @@ type User @model {
   id: ID!
   userName: String!
   userImage: String!
+  userId: String!
   admin: Boolean!
   data: AWSJSON
 }

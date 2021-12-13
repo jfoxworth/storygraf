@@ -9,9 +9,8 @@ import {
 } from "react-icons/bs";
 
 const Tag = ({ tag }) => {
-  console.log(tag);
   return (
-    <LinkContainer to={`/tag/${tag.id}`}>
+    <LinkContainer to={`/Tag/${tag.id}`}>
       <h4>
         <Button
           style={{ backgroundColor: tag.data.color, color: tag.data.textColor }}
