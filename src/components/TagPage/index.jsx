@@ -7,6 +7,7 @@ import { getTag } from "../../graphql/queries";
 import { API } from "aws-amplify";
 import TagCard from "./TagCard";
 import UserCard from "./UserCard";
+import TagWaterfall from "../shared/TagWaterFall";
 
 const TagPage = (props) => {
   let [userData, setUserData] = useState({});
@@ -39,31 +40,50 @@ const TagPage = (props) => {
       <CreateTagModal
         show={showCreateTag}
         onHide={() => setShowCreateTag(false)}
-        parentTag={"0"}
-        userData={userData}
+        parenttag={params.tagId}
+        userdata={userData}
       />
 
       <Container>
         <Row className={"mt-5"}></Row>
-        <Row className={"mt-5 text-center"}>
-          <h2>Summary of Tag Data</h2>
-        </Row>
-        <Row className={"mt-3"}>
-          <Col
-            xs={{ span: 12, order: 1 }}
-            sm={{ span: 4, order: 1, offset: 2 }}
-          >
-            {thisTag.id && <TagCard tag={thisTag} />}
-          </Col>
-          <Col
-            xs={{ span: 12, order: 2 }}
-            sm={{ span: 4, order: 2, offset: 0 }}
-          >
-            <UserCard userData={userData} />
-          </Col>
-        </Row>
+        <Row>
+          <Col xs={{ span: 12 }} md={{ span: 8, offset: 2 }}>
+            <Row className="mt-5">
+              <Col>
+                <h2 className="accent-bottom mb-3 pb-3">Summary of Tag Data</h2>
+              </Col>
+            </Row>
+            <Row className={"mt-3"}>
+              <Col xs={{ order: 1 }} sm={{ order: 1 }}>
+                {thisTag.id && <TagCard tag={thisTag} />}
+                <Container>
+                  <div className="mt-3 center-me">
+                    <Button
+                      variant="success"
+                      onClick={() => setShowCreateTag(true)}
+                    >
+                      Create Child Tag
+                    </Button>{" "}
+                  </div>
+                </Container>
+              </Col>
+              <Col xs={{ order: 2 }} sm={{ order: 2 }}>
+                <UserCard userData={userData} />
+              </Col>
+            </Row>
 
-        <Row></Row>
+            <Row className="mt-5">
+              <Col>
+                <h2 className="accent-bottom mb-3 pb-3">Tag Children</h2>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <TagWaterfall tagid={thisTag.id} />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </Container>
     </>
   );

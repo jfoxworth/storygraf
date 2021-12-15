@@ -6,6 +6,7 @@ import { getUser } from "../../graphql/queries";
 import { API } from "aws-amplify";
 
 import ProfileCard from "./ProfileCard";
+import ProfileTags from "./ProfileTags";
 
 const ProfilePage = () => {
   let [userData, setUserData] = useState({});
@@ -38,27 +39,20 @@ const ProfilePage = () => {
   }, [params.userId]);
 
   return (
-    <>
-      <Container>
-        <Row className={"mt-5"}></Row>
-        <Row className={"mt-3"}>
-          <Col
-            xs={{ span: 12, order: 1 }}
-            sm={{ span: 4, order: 1, offset: 2 }}
-          >
-            <ProfileCard userData={userData} profileData={profileData} />
-          </Col>
-          <Col
-            xs={{ span: 12, order: 2 }}
-            sm={{ span: 4, order: 2, offset: 0 }}
-          >
-            List of data
-          </Col>
-        </Row>
+    <Container>
+      <Row className={"mt-5"}></Row>
+      <Row>
+        <Col sm={{ span: 12, offset: 0 }} md={{ span: 8, offset: 2 }}>
+          <Row className={"mt-5"}>
+            <ProfileCard profileData={profileData} />
+          </Row>
 
-        <Row></Row>
-      </Container>
-    </>
+          <Row className={"mt-3"}>
+            <ProfileTags userData={profileData} />
+          </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

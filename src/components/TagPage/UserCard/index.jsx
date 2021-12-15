@@ -1,20 +1,28 @@
 import React from "react";
-import { Container, Card } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
+import "../../../main.css";
 
 const UserCard = ({ userData }) => {
   return (
-    <Container>
-      <Card>
-        <Card.Body>
-          <Card.Title>{userData.name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">sub</Card.Subtitle>
-          <Card.Text>wfwe</Card.Text>
-          <Card.Subtitle className="mb-2 text-muted">
-            {userData.createdAt}
-          </Card.Subtitle>
-        </Card.Body>
-      </Card>{" "}
-    </Container>
+    <Row className="mt-1">
+      <Row>
+        <Col>
+          <Row>
+            <div
+              className={
+                "imageHolder avatars1-image-large avatar1-43 center-me"
+              }
+            ></div>
+          </Row>
+          <Row className="mt-3">
+            <Col className={"bold right-text"}>
+              <strong>User Name :</strong>
+            </Col>
+            <Col>The Wolf</Col>
+          </Row>
+        </Col>
+      </Row>
+    </Row>
   );
 };
 

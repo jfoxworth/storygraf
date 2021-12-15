@@ -6,6 +6,7 @@ import { API } from "aws-amplify";
 import { createTag, createTagRelation } from "../../../graphql/mutations";
 
 const CreateTagModal = (props) => {
+  console.log(props);
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
@@ -35,9 +36,11 @@ const CreateTagModal = (props) => {
     event.preventDefault();
     addTag(event).then((data) => {
       console.log(data);
+      console.log(props);
+      console.log("Should be creating tag relation for this");
       addTagRelation(
         data.data.createTag.id,
-        props.parentTag ? props.parentTag.id : 0
+        props.parenttag ? props.parenttag : 0
       );
     });
   };
@@ -45,7 +48,7 @@ const CreateTagModal = (props) => {
   const addTag = async (event) => {
     const input = {
       name: tagName,
-      creatorId: props.userData.username,
+      creatorId: props.userdata.username,
       data: JSON.stringify({
         color: tagColor,
         textcolor: textColor,
@@ -72,8 +75,9 @@ const CreateTagModal = (props) => {
     const input = {
       parentId: parentId,
       childId: thisId,
-      creatorId: props.userData.username,
+      creatorId: props.userdata.username,
     };
+    console.log(input);
     return await API.graphql({
       query: createTagRelation,
       variables: { input: input },
@@ -152,17 +156,17 @@ const CreateTagModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parentTag === null && (
+                {props.parenttag === null && (
                   <p>
                     This tag will be created and placed at the top level with no
                     parent. It can be included within any other tag or have tags
                     added beneath it.
                   </p>
                 )}
-                {props.parentTag !== null && (
+                {props.parenttag !== null && (
                   <p>
                     This tag will be created and placed under the tag{" "}
-                    {props.parentTag.name}. It can be included within any other
+                    {props.parenttag.name}. It can be included within any other
                     tag or have tags added beneath it.
                   </p>
                 )}

@@ -44,6 +44,14 @@ Sleek and Modern
   border-bottom: 10px solid #d5d6d2 !important;
 }
 
+.accent-border {
+  border: 2px solid #3a5199;
+}
+
+.accent-bottom {
+  border-bottom: 6px solid #3a5199;
+}
+
 .white-bg {
   background-color: #ffffff !important;
 }
@@ -90,6 +98,14 @@ Sleek and Modern
 
 .right-me {
   margin-left: auto;
+}
+
+.right-text {
+  text-align: right;
+}
+
+.left-text {
+  text-align: left;
 }
 
 .mt-tiny {

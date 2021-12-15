@@ -9,6 +9,7 @@ import {
 } from "react-icons/bs";
 
 const Tag = ({ tag }) => {
+  console.log(tag);
   return (
     <LinkContainer to={`/Tag/${tag.id}`}>
       <h4>
