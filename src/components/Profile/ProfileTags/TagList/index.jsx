@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, ListGroup, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { listTagRelations } from "../../../../graphql/queries";
 import { API } from "aws-amplify";
 import Tag from "../../../shared/Tag";

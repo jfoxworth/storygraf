@@ -11,6 +11,7 @@ export const getArticle = /* GraphQL */ `
       data
       approved
       admin
+      tagId
       creatorId
       creator {
         id
@@ -37,17 +38,6 @@ export const getArticle = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      tagArtCons {
-        items {
-          id
-          tagId
-          articleId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -68,6 +58,7 @@ export const listArticles = /* GraphQL */ `
         data
         approved
         admin
+        tagId
         creatorId
         creator {
           id
@@ -91,9 +82,6 @@ export const listArticles = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        tagArtCons {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -111,12 +99,18 @@ export const getTag = /* GraphQL */ `
       frontpage
       official
       type
-      tagArtConns {
+      articles {
         items {
           id
+          link
+          title
+          dateWritten
+          data
+          approved
+          admin
           tagId
-          articleId
           creatorId
+          sourceId
           createdAt
           updatedAt
         }
@@ -142,141 +136,7 @@ export const listTags = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getTagArtCon = /* GraphQL */ `
-  query GetTagArtCon($id: ID!) {
-    getTagArtCon(id: $id) {
-      id
-      tagId
-      articleId
-      creatorId
-      article {
-        id
-        link
-        title
-        dateWritten
-        data
-        approved
-        admin
-        creatorId
-        creator {
-          id
-          userName
-          userImage
-          userId
-          admin
-          data
-          createdAt
-          updatedAt
-        }
-        sourceId
-        source {
-          id
-          sourceName
-          sourceUrl
-          sourceImage
-          creatorId
-          creatorEmail
-          description
-          createdAt
-          updatedAt
-        }
-        tagArtCons {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      tag {
-        id
-        name
-        creatorId
-        data
-        frontpage
-        official
-        type
-        tagArtConns {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      parentRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      childRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listTagArtCons = /* GraphQL */ `
-  query ListTagArtCons(
-    $filter: ModelTagArtConFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTagArtCons(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        tagId
-        articleId
-        creatorId
-        article {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        tag {
-          id
-          name
-          creatorId
-          data
-          frontpage
-          official
-          type
-          createdAt
-          updatedAt
-        }
-        parentRelations {
-          nextToken
-        }
-        childRelations {
+        articles {
           nextToken
         }
         createdAt
@@ -301,7 +161,7 @@ export const getTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -315,7 +175,7 @@ export const getTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -386,6 +246,7 @@ export const getSource = /* GraphQL */ `
           data
           approved
           admin
+          tagId
           creatorId
           sourceId
           createdAt

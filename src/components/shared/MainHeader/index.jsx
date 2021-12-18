@@ -3,13 +3,7 @@ import { Navbar, Container, Nav } from "react-bootstrap";
 import "../../../main.css";
 
 const MainHeader = () => (
-  <Navbar
-    fixed="top"
-    className={"navbar-color"}
-    bg="dark"
-    variant="dark"
-    expand="lg"
-  >
+  <Navbar fixed="top" className={"navbar-color"} variant="dark" expand="lg">
     <Container>
       <Navbar.Brand href="/">StoryGraf</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

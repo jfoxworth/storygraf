@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
 import FormDropdown from "../Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { createArticle, createTagArtCon } from "../../../graphql/mutations";
+import { createArticle } from "../../../graphql/mutations";
+import { listSources } from "../../../graphql/queries";
+import Source from "../Source";
 
 const CreateArticleModal = (props) => {
+  let [sourcesData, setSourcesData] = useState([]);
+  let [sourceId, setSourceId] = useState("0000");
+  let [source, setSource] = useState({});
+
   let [articleTitle, setArticleTitle] = useState("");
   const handleChangeTitle = (event) => {
     setArticleTitle(event.target.value);
@@ -14,6 +20,7 @@ const CreateArticleModal = (props) => {
   let [articleLink, setArticleLink] = useState("");
   const handleChangeLink = (event) => {
     setArticleLink(event.target.value);
+    setArticleSource(event.target.value);
   };
 
   let [articleDate, setArticleDate] = useState("");
@@ -26,29 +33,37 @@ const CreateArticleModal = (props) => {
     setArticleData(event.target.value);
   };
 
-  let [articleSource, setArticleSource] = useState("");
-  const handleChangeSource = (event) => {
-    setArticleSource(event.target.value);
-  };
-
   const handleAddTag = (event) => {
     event.preventDefault();
     addArticle(event).then((data) => {
-      console.log(data);
-      addTagArtCon(data.data.createArticle.id, props.tag.id);
+      // close window
     });
   };
+
+  const getSources = async (id) => {
+    await API.graphql({
+      query: listSources,
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    }).then((data) => {
+      setSourcesData(data.data.listSources.items);
+    });
+  };
+
+  useEffect(() => {
+    getSources();
+  }, []);
 
   const addArticle = async (event) => {
     const input = {
       title: articleTitle,
       link: articleLink,
       dateWritten: articleDate,
-      data: JSON.stringify(articleData),
-      creatorId: props.userData.username,
+      data: JSON.stringify({ description: articleData }),
+      creatorId: props.userdata.username,
       approved: false,
       admin: false,
-      sourceId: articleSource.id,
+      tagId: props.parenttag.id,
+      sourceId: sourceId,
     };
 
     return await API.graphql({
@@ -58,23 +73,19 @@ const CreateArticleModal = (props) => {
     });
   };
 
-  const addTagArtCon = async (thisId, tagId) => {
-    const input = {
-      tagId: tagId,
-      articleId: thisId,
-      creatorId: props.userData.username,
-    };
-    return await API.graphql({
-      query: createTagRelation,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
+  const setArticleSource = (url) => {
+    sourcesData.forEach((source, i) => {
+      if (url.includes(source.sourceUrl)) {
+        setSourceId(source.id);
+        setSource(source);
+      }
     });
   };
 
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Create New Tag</Modal.Title>
+        <Modal.Title>Add Article to Tag</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -111,12 +122,15 @@ const CreateArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <Form.Control
-                  type="date"
-                  name="date_of_birth"
-                  value={articleDate}
-                  handleChange={handleChangeDate}
-                />
+                <Form.Group className="mb-3" controlId="tagDesc">
+                  <Form.Label>Date article was written</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="date_of_article"
+                    value={articleDate}
+                    onChange={handleChangeDate}
+                  />
+                </Form.Group>
               </Col>
             </Row>
 
@@ -130,6 +144,17 @@ const CreateArticleModal = (props) => {
                     onChange={handleChangeArticleData}
                   />
                 </Form.Group>{" "}
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                <Row>
+                  <Col xs={"auto"}>Source - </Col>
+                  <Col xs={"auto"}>
+                    {sourceId != "0000" && <Source source={source} />}
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </form>

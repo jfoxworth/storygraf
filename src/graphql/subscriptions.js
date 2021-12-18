@@ -11,6 +11,7 @@ export const onCreateArticle = /* GraphQL */ `
       data
       approved
       admin
+      tagId
       creatorId
       creator {
         id
@@ -36,17 +37,6 @@ export const onCreateArticle = /* GraphQL */ `
         }
         createdAt
         updatedAt
-      }
-      tagArtCons {
-        items {
-          id
-          tagId
-          articleId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
       createdAt
       updatedAt
@@ -63,6 +53,7 @@ export const onUpdateArticle = /* GraphQL */ `
       data
       approved
       admin
+      tagId
       creatorId
       creator {
         id
@@ -88,17 +79,6 @@ export const onUpdateArticle = /* GraphQL */ `
         }
         createdAt
         updatedAt
-      }
-      tagArtCons {
-        items {
-          id
-          tagId
-          articleId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
       createdAt
       updatedAt
@@ -115,6 +95,7 @@ export const onDeleteArticle = /* GraphQL */ `
       data
       approved
       admin
+      tagId
       creatorId
       creator {
         id
@@ -141,17 +122,6 @@ export const onDeleteArticle = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      tagArtCons {
-        items {
-          id
-          tagId
-          articleId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -167,12 +137,18 @@ export const onCreateTag = /* GraphQL */ `
       frontpage
       official
       type
-      tagArtConns {
+      articles {
         items {
           id
+          link
+          title
+          dateWritten
+          data
+          approved
+          admin
           tagId
-          articleId
           creatorId
+          sourceId
           createdAt
           updatedAt
         }
@@ -193,12 +169,18 @@ export const onUpdateTag = /* GraphQL */ `
       frontpage
       official
       type
-      tagArtConns {
+      articles {
         items {
           id
+          link
+          title
+          dateWritten
+          data
+          approved
+          admin
           tagId
-          articleId
           creatorId
+          sourceId
           createdAt
           updatedAt
         }
@@ -219,267 +201,18 @@ export const onDeleteTag = /* GraphQL */ `
       frontpage
       official
       type
-      tagArtConns {
+      articles {
         items {
           id
+          link
+          title
+          dateWritten
+          data
+          approved
+          admin
           tagId
-          articleId
           creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateTagArtCon = /* GraphQL */ `
-  subscription OnCreateTagArtCon {
-    onCreateTagArtCon {
-      id
-      tagId
-      articleId
-      creatorId
-      article {
-        id
-        link
-        title
-        dateWritten
-        data
-        approved
-        admin
-        creatorId
-        creator {
-          id
-          userName
-          userImage
-          userId
-          admin
-          data
-          createdAt
-          updatedAt
-        }
-        sourceId
-        source {
-          id
-          sourceName
-          sourceUrl
-          sourceImage
-          creatorId
-          creatorEmail
-          description
-          createdAt
-          updatedAt
-        }
-        tagArtCons {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      tag {
-        id
-        name
-        creatorId
-        data
-        frontpage
-        official
-        type
-        tagArtConns {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      parentRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      childRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateTagArtCon = /* GraphQL */ `
-  subscription OnUpdateTagArtCon {
-    onUpdateTagArtCon {
-      id
-      tagId
-      articleId
-      creatorId
-      article {
-        id
-        link
-        title
-        dateWritten
-        data
-        approved
-        admin
-        creatorId
-        creator {
-          id
-          userName
-          userImage
-          userId
-          admin
-          data
-          createdAt
-          updatedAt
-        }
-        sourceId
-        source {
-          id
-          sourceName
-          sourceUrl
-          sourceImage
-          creatorId
-          creatorEmail
-          description
-          createdAt
-          updatedAt
-        }
-        tagArtCons {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      tag {
-        id
-        name
-        creatorId
-        data
-        frontpage
-        official
-        type
-        tagArtConns {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      parentRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      childRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteTagArtCon = /* GraphQL */ `
-  subscription OnDeleteTagArtCon {
-    onDeleteTagArtCon {
-      id
-      tagId
-      articleId
-      creatorId
-      article {
-        id
-        link
-        title
-        dateWritten
-        data
-        approved
-        admin
-        creatorId
-        creator {
-          id
-          userName
-          userImage
-          userId
-          admin
-          data
-          createdAt
-          updatedAt
-        }
-        sourceId
-        source {
-          id
-          sourceName
-          sourceUrl
-          sourceImage
-          creatorId
-          creatorEmail
-          description
-          createdAt
-          updatedAt
-        }
-        tagArtCons {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      tag {
-        id
-        name
-        creatorId
-        data
-        frontpage
-        official
-        type
-        tagArtConns {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      parentRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      childRelations {
-        items {
-          id
-          parentId
-          childId
-          creatorId
+          sourceId
           createdAt
           updatedAt
         }
@@ -505,7 +238,7 @@ export const onCreateTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -519,7 +252,7 @@ export const onCreateTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -545,7 +278,7 @@ export const onUpdateTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -559,7 +292,7 @@ export const onUpdateTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -585,7 +318,7 @@ export const onDeleteTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -599,7 +332,7 @@ export const onDeleteTagRelation = /* GraphQL */ `
         frontpage
         official
         type
-        tagArtConns {
+        articles {
           nextToken
         }
         createdAt
@@ -629,6 +362,7 @@ export const onCreateSource = /* GraphQL */ `
           data
           approved
           admin
+          tagId
           creatorId
           sourceId
           createdAt
@@ -660,6 +394,7 @@ export const onUpdateSource = /* GraphQL */ `
           data
           approved
           admin
+          tagId
           creatorId
           sourceId
           createdAt
@@ -691,6 +426,7 @@ export const onDeleteSource = /* GraphQL */ `
           data
           approved
           admin
+          tagId
           creatorId
           sourceId
           createdAt

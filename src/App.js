@@ -1,35 +1,49 @@
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "./App.css";
 import { withAuthenticator } from "aws-amplify-react";
 import { Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CreateSource from "./components/CreateSource";
+import MainHeader from "./components/shared/MainHeader";
+import MainFooter from "./components/shared/MainFooter";
+import ListSources from "./components/ListSources";
+import TagsPage from "./components/TagsPage";
+import TagPage from "./components/TagPage";
+import ProfilePage from "./components/Profile";
 Auth.configure(awsconfig);
 
 function App() {
+  const [userData, setUserData] = useState({});
+  const UserContext = React.createContext(userData);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
+      setUserData(data);
+    });
+  }, []);
+
   return (
-    <Container>
-      <Row className="mt-5" />
-      <Row className="mt-5">
-        <Col
-          xs={{ span: 4, order: 2 }}
-          md={{ span: 3, order: 1 }}
-          className="mt-5"
-        >
-          1 of 3
-        </Col>
-        <Col xs={{ span: 4, order: 1 }} md={{ span: 6, order: 2 }}>
-          2 of 3
-        </Col>
-        <Col
-          xs={{ span: 4, order: 3 }}
-          md={{ span: 3, order: 3 }}
-          className="mt-5"
-        >
-          3 of 3
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <UserContext.Provider value={userData}>
+        <MainHeader />
+        <Row className="mt-5"></Row>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/createSource" element={<CreateSource />} />
+            <Route path="/Sources" element={<ListSources />} />
+            <Route path="/TagsPage" element={<TagsPage />} />
+            <Route path="/Tag/:tagId" element={<TagPage />} />
+            <Route path="/Profile/:userId" element={<TagPage />} />
+            <Route path="/Profile" element={<ProfilePage />} />
+          </Routes>
+        </BrowserRouter>
+        <MainFooter />
+      </UserContext.Provider>
+    </>
   );
 }
 
-export default withAuthenticator(App, { includeGreetings: true });
+//export default withAuthenticator(App, { includeGreetings: true });
+export default App;

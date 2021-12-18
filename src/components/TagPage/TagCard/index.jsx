@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
+import { Container, Card } from "react-bootstrap";
 
 const TagCard = ({ tag }) => {
   return (

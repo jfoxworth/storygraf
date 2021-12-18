@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import TagList from "./TagList";
 import TagWaterfall from "../../shared/TagWaterFall";
 import CreateTagModal from "../../shared/CreateTagModal";
+import CreateArticleModal from "../../shared/CreateArticleModal";
 import { API } from "aws-amplify";
 import { listTagRelations } from "../../../graphql/queries";
+import "../../../main.css";
 
-const ProfileTags = () => {
-  let [userData, setUserData] = useState({});
+const ProfileTags = ({ userData }) => {
   let [showCreateTag, setShowCreateTag] = useState(false);
+  let [showCreateArticle, setShowCreateArticle] = useState(false);
   let [tagRelData, setTagRelData] = useState([]);
+  let [parentTag, setParentTag] = useState(null);
 
   const unstringData = (items) => {
     items.forEach((item) => {
@@ -30,18 +32,32 @@ const ProfileTags = () => {
   };
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-    });
     getTags();
   }, []);
+
+  const handleCreateTagClick = (parentTag) => {
+    setParentTag(parentTag);
+    setShowCreateTag(true);
+  };
+
+  const handleCreateArticleClick = (parentTag) => {
+    setParentTag(parentTag);
+    setShowCreateArticle(true);
+  };
 
   return (
     <>
       <CreateTagModal
         show={showCreateTag}
         onHide={() => setShowCreateTag(false)}
-        parenttag={null}
+        parenttag={parentTag}
+        userdata={userData}
+      />
+
+      <CreateArticleModal
+        show={showCreateArticle}
+        onHide={() => setShowCreateArticle(false)}
+        parenttag={parentTag}
         userdata={userData}
       />
 
@@ -53,14 +69,21 @@ const ProfileTags = () => {
         </Row>
         <Row className={"mt-3"}>
           <Col>
-            <Button variant="success" onClick={() => setShowCreateTag(true)}>
+            <Button
+              variant="success"
+              onClick={() => handleCreateTagClick(null)}
+            >
               Create New Tag
             </Button>{" "}
           </Col>
         </Row>
         <Row className={"mt-5"}>
           {tagRelData.map((tagRel) => (
-            <TagWaterfall tag={tagRel.childTag} />
+            <TagWaterfall
+              tag={tagRel.childTag}
+              handleCreateTagClick={handleCreateTagClick}
+              handleCreateArticleClick={handleCreateArticleClick}
+            />
           ))}
         </Row>
       </Container>

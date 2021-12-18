@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
-import FormDropdown from "../../shared/Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createTag, createTagRelation } from "../../../graphql/mutations";
+import Tag from "../Tag";
 
 const CreateTagModal = (props) => {
   console.log(props);
@@ -77,7 +77,6 @@ const CreateTagModal = (props) => {
       childId: thisId,
       creatorId: props.userdata.username,
     };
-    console.log(input);
     return await API.graphql({
       query: createTagRelation,
       variables: { input: input },
@@ -127,21 +126,6 @@ const CreateTagModal = (props) => {
             </Row>
 
             <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <FormDropdown
-                  handleChange={handleChangeTagType}
-                  options={[
-                    { value: "event", label: "Event" },
-                    { value: "person", label: "Person" },
-                    { value: "place", label: "Place" },
-                    { value: "thing", label: "Thing" },
-                  ]}
-                  label="Select type for tag"
-                />
-              </Col>
-            </Row>
-
-            <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 <Form.Group className="mb-3" controlId="tagDesc">
                   <Form.Label>Description of Tag</Form.Label>
@@ -163,12 +147,19 @@ const CreateTagModal = (props) => {
                     added beneath it.
                   </p>
                 )}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 {props.parenttag !== null && (
-                  <p>
-                    This tag will be created and placed under the tag{" "}
-                    {props.parenttag.name}. It can be included within any other
-                    tag or have tags added beneath it.
-                  </p>
+                  <Row>
+                    <Col xs={"auto"}>
+                      <div>Parent Tag</div>
+                    </Col>
+                    <Col xs={"auto"}>
+                      <Tag tag={props.parenttag} showAdds={false} />
+                    </Col>
+                  </Row>
                 )}
               </Col>
             </Row>

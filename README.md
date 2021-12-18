@@ -1,4 +1,60 @@
-# Getting Started with Create React App
+# Story graf
+
+This repo is a project using React, AWS Amplify, React Bootstrap, and graphql. It lets users organize news stories based upon tags that they create. This lets them organize news in a manner they see fit. It also presents those tags and stories in a formal manner to all users, allowing then to see the news as we do.
+
+There may be a top level tag called "Donald Trump". Child tags may include "Jan 6", "Russia Gate", "The Wall" or similar subjects or events. Each of these tags can have child tags and articles attached to them. The articles are displayed in a timeline of when they were written and the user is allowed to enter a small description of the article to denote what that article adds to the story.
+
+There are "official" tags that we display on the home page and officially maintain and there are tags created and used by the users.
+
+## Public Facing Pages
+
+### Home page
+
+The home page displays a "Drudge Report" type list of stories. Those stories are organized with tags. Which tags appear on that page depends upon input that we set on a separate page. The idea is that users will click on the tags to see other stories and come back to see updates on those tags and subtags.
+
+### Profile page /Profile
+
+This page shows a users bio, their selected profile image.
+
+### Official Tags page /Tags
+
+A list of official top level tags and the following waterfalls.
+
+### My Tags page /Tags/:username
+
+A list of the users top level tags and the following waterfalls. A button is present that lets them create a new top level tag. Next to each tag are buttons to add a child tag or attach an article. When the user creates a tag, it is done through a modal. This modal lets the user enter a name for the tag, a color, font color, and a description of the tag.
+
+### Tag /Tag/:tagId
+
+This page shows the info for a tag (the description entered by the creator) as well as articles and child tags and its parent tags.
+
+### Sources /Sources
+
+A simple page that shows the user a list of acceptable sources. For someone with admin permissions, this includes a place to add a source.
+
+## Admin Pages
+
+### Front Page Creator /CreateFrontPage
+
+Three columns of inputs where I can enter a tag ID for any place in a column.
+A place where I can enter a tag name and get the ids for that tag.
+A copy of the front page display so that I can see what I am generating.
+
+### Source creator /createSource
+
+A page where I can enter a source and its info and have it stored in the table. I also have to upload the image separately
+
+## Database Tables
+
+Articles - the articles submitted by the users
+Tags - Official tags
+Users - More info for the users
+Source - An official source
+TagRelation - A relationship between two tags that tells where that tag lives. A parentId of 0 means that it is a top level tag.
+
+---
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

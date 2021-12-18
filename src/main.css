@@ -52,6 +52,16 @@ Sleek and Modern
   border-bottom: 6px solid #3a5199;
 }
 
+.accent-bottom-thin {
+  border-bottom: 1px solid #3a5199;
+}
+
+.icon-button {
+  border-radius: 20px !important;
+  height: 40px;
+  width: 40px;
+}
+
 .white-bg {
   background-color: #ffffff !important;
 }
@@ -215,6 +225,11 @@ Sleek and Modern
   margin-top: 50px;
 }
 
+.border-left {
+  border-left: 2px solid #3a5199;
+  padding-left: 1em;
+}
+
 .pt-tiny {
   padding-top: 5px !important;
 }
@@ -343,8 +358,8 @@ Sleek and Modern
 .avatars1-image-large {
   background-image: url("assets/images/avatars1.png");
   background-repeat: no-repeat;
-  height: 130px;
-  width: 130px;
+  height: 130px !important;
+  width: 130px !important;
   zoom: 1.2;
 }
 
@@ -352,8 +367,8 @@ Sleek and Modern
 .avatars1-image-medium {
   background-image: url("assets/images/avatars1.png");
   background-repeat: no-repeat;
-  height: 130px;
-  width: 130px;
+  height: 130px !important;
+  width: 130px !important;
   zoom: 0.78;
 }
 

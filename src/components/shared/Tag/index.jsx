@@ -1,29 +1,60 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button } from "react-bootstrap";
-import {
-  BsFillPersonFill,
-  BsGeoAltFill,
-  BsFillPlayCircleFill,
-  BsWrench,
-} from "react-icons/bs";
+import { Row, Col, Button } from "react-bootstrap";
+import { BsBookmarkPlus, BsFileEarmarkPlus } from "react-icons/bs";
+import "../../../main.css";
 
-const Tag = ({ tag }) => {
-  console.log(tag);
+const Tag = ({
+  tag,
+  showAdds,
+  handleCreateTagClick,
+  handleCreateArticleClick,
+}) => {
   return (
-    <LinkContainer to={`/Tag/${tag.id}`}>
-      <h4>
-        <Button
-          style={{ backgroundColor: tag.data.color, color: tag.data.textColor }}
-        >
-          {tag.name}
-          {tag.type === "person" && <BsFillPersonFill className={"mx-1"} />}
-          {tag.type === "place" && <BsGeoAltFill className={"mx-1"} />}
-          {tag.type === "thing" && <BsWrench className={"mx-1"} />}
-          {tag.type === "event" && <BsFillPlayCircleFill className={"mx-1"} />}
-        </Button>
-      </h4>
-    </LinkContainer>
+    <Row className="pb-3 ">
+      <Col xs="auto">
+        <LinkContainer to={`/Tag/${tag.id}`}>
+          <h4>
+            <Button
+              style={{
+                backgroundColor: tag.data.color,
+                color: tag.data.textColor,
+              }}
+            >
+              {tag.name}
+            </Button>
+          </h4>
+        </LinkContainer>
+      </Col>
+      {showAdds && (
+        <>
+          <Col xs="auto">
+            <Button
+              variant="outline-secondary"
+              className="icon-button px-0 py-1"
+              onClick={() => handleCreateTagClick(tag)}
+            >
+              <BsBookmarkPlus
+                className="lead"
+                style={{ position: "relative", top: "-3px" }}
+              />
+            </Button>
+          </Col>
+          <Col xs="auto">
+            <Button
+              variant="outline-secondary"
+              className="icon-button px-0 py-1"
+              onClick={() => handleCreateArticleClick(tag)}
+            >
+              <BsFileEarmarkPlus
+                className="lead"
+                style={{ position: "relative", top: "-3px" }}
+              />
+            </Button>
+          </Col>
+        </>
+      )}
+    </Row>
   );
 };
 

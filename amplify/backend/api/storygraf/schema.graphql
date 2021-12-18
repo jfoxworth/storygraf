@@ -1,5 +1,6 @@
 type Article
   @model
+  @key(name: "byTag", fields: ["tagId", "dateWritten"])
   @key(name: "bySource", fields: ["sourceId", "dateWritten"]) {
   id: ID!
   link: AWSURL!
@@ -8,14 +9,14 @@ type Article
   data: AWSJSON!
   approved: Boolean!
   admin: Boolean!
+  tagId: ID!
   creatorId: ID!
   creator: User @connection(fields: ["creatorId"])
   sourceId: ID!
   source: Source @connection(fields: ["sourceId"])
-  tagArtCons: [TagArtCon] @connection(keyName: "byArticle", fields: ["id"])
 }
 
-type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
+type Tag @model {
   id: ID!
   name: String!
   creatorId: ID!
@@ -23,23 +24,7 @@ type Tag @model @key(name: "byFrontPage", fields: ["frontpage"]) {
   frontpage: String
   official: Boolean!
   type: String!
-  tagArtConns: [TagArtCon] @connection(keyName: "byTag", fields: ["id"])
-}
-
-type TagArtCon
-  @model
-  @key(name: "byTag", fields: ["tagId"])
-  @key(name: "byArticle", fields: ["articleId"]) {
-  id: ID!
-  tagId: ID!
-  articleId: ID!
-  creatorId: ID!
-  article: Article @connection(fields: ["articleId"])
-  tag: Tag @connection(fields: ["tagId"])
-  parentRelations: [TagRelation]
-    @connection(keyName: "byParent", fields: ["tagId"])
-  childRelations: [TagRelation]
-    @connection(keyName: "byChild", fields: ["tagId"])
+  articles: [Article] @connection(keyName: "byTag", fields: ["id"])
 }
 
 type TagRelation
@@ -61,7 +46,6 @@ type Source @model @key(name: "byUser", fields: ["creatorId"]) {
   creatorId: String!
   creatorEmail: String!
   description: String!
-  articles: [Article] @connection(keyName: "bySource", fields: ["id"])
 }
 
 type User @model {

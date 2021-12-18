@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 import { getUser } from "../../graphql/queries";
@@ -48,7 +48,7 @@ const ProfilePage = () => {
           </Row>
 
           <Row className={"mt-3"}>
-            <ProfileTags userData={profileData} />
+            <ProfileTags userData={userData} />
           </Row>
         </Col>
       </Row>
