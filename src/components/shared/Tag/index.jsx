@@ -10,19 +10,22 @@ const Tag = ({
   handleCreateTagClick,
   handleCreateArticleClick,
 }) => {
+  console.log("The tag in the tag component is ...");
+  console.log(tag);
   return (
     <Row className="pb-3 ">
       <Col xs="auto">
         <LinkContainer to={`/Tag/${tag.id}`}>
           <h4>
-            <Button
+            <div
+              className={"sgtag"}
               style={{
-                backgroundColor: tag.data.color,
-                color: tag.data.textColor,
+                backgroundColor: tag.data.color ? tag.data.color : "#3a5199",
+                color: tag.data.textColor ? tag.data.textColor : "#FFF",
               }}
             >
               {tag.name}
-            </Button>
+            </div>
           </h4>
         </LinkContainer>
       </Col>

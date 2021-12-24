@@ -6,15 +6,11 @@ import { createTag, createTagRelation } from "../../../graphql/mutations";
 import Tag from "../Tag";
 
 const CreateTagModal = (props) => {
-  console.log(props);
+  console.log("The parent tag in create tag modal are ...");
+  console.log(props.parenttag);
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
-  };
-
-  let [tagType, setTagType] = useState("");
-  const handleChangeTagType = (event) => {
-    setTagType(event.target.value);
   };
 
   let [tagColor, setTagColor] = useState("#898989");
@@ -35,13 +31,11 @@ const CreateTagModal = (props) => {
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
-      console.log(data);
-      console.log(props);
-      console.log("Should be creating tag relation for this");
       addTagRelation(
         data.data.createTag.id,
         props.parenttag ? props.parenttag : 0
       );
+      props.setShowCreateTag(false);
     });
   };
 
@@ -56,12 +50,10 @@ const CreateTagModal = (props) => {
       }),
       frontpage: true,
       official: true,
-      type: tagType,
     };
 
     setTagName("");
     setTagColor("#898989");
-    setTagType("");
     setTextColor("#FFFFFF");
 
     return await API.graphql({
@@ -140,7 +132,7 @@ const CreateTagModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parenttag === null && (
+                {props.parenttag.id === 0 && (
                   <p>
                     This tag will be created and placed at the top level with no
                     parent. It can be included within any other tag or have tags
@@ -151,7 +143,7 @@ const CreateTagModal = (props) => {
             </Row>
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parenttag !== null && (
+                {props.parenttag.id !== 0 && (
                   <Row>
                     <Col xs={"auto"}>
                       <div>Parent Tag</div>
@@ -167,7 +159,7 @@ const CreateTagModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={() => props.setShowCreateTag(false)}>Close</Button>
         <Button variant="success" onClick={handleAddTag}>
           Create Tag
         </Button>

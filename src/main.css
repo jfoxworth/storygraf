@@ -210,6 +210,19 @@ Sleek and Modern
   cursor: pointer;
 }
 
+.sgtag {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
 .page-footer {
   background-color: #20232a !important; /* Industrial and in Control */
   border-top: 10px solid #a01d26 !important;

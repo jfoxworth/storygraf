@@ -33,10 +33,10 @@ const CreateArticleModal = (props) => {
     setArticleData(event.target.value);
   };
 
-  const handleAddTag = (event) => {
+  const handleAddArticle = (event) => {
     event.preventDefault();
     addArticle(event).then((data) => {
-      // close window
+      props.setShowCreateArticle(false);
     });
   };
 
@@ -89,7 +89,7 @@ const CreateArticleModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <form onSubmit={handleAddTag}>
+          <form onSubmit={handleAddArticle}>
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
                 <FormInput
@@ -161,8 +161,8 @@ const CreateArticleModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-        <Button variant="success" onClick={handleAddTag}>
+        <Button onClick={() => props.setShowCreateArticle(false)}>Close</Button>
+        <Button variant="success" onClick={handleAddArticle}>
           Add Article
         </Button>
       </Modal.Footer>

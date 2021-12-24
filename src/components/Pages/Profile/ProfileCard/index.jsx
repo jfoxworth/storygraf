@@ -1,10 +1,10 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import "../../../main.css";
+import "../../../../main.css";
 
 const ProfileCard = ({ userData }) => {
   return (
-    <Row className="mt-5">
+    <Row className="">
       <Row>
         <Col>
           <h2 className="accent-bottom mb-3 pb-3">User Profile</h2>

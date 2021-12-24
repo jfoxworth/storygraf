@@ -56,3 +56,16 @@ type User @model {
   admin: Boolean!
   data: AWSJSON
 }
+
+type Storygraf @model {
+  id: ID!
+  creatorId: String!
+  approved: Boolean!
+  data: AWSJSON
+  type: String!
+    @index(
+      name: "storygrafByDate"
+      queryField: "storygrafByDate"
+      sortKeyFields: ["createdAt"]
+    )
+}

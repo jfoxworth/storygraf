@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import "../../../main.css";
+import "../../../../main.css";
 
 const UserCard = ({ userData }) => {
   return (

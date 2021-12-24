@@ -32,9 +32,6 @@ export const getArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -237,23 +234,6 @@ export const getSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -274,9 +254,6 @@ export const listSources = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -311,6 +288,37 @@ export const listUsers = /* GraphQL */ `
         userImage
         userId
         admin
+        data
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getStorygraf = /* GraphQL */ `
+  query GetStorygraf($id: ID!) {
+    getStorygraf(id: $id) {
+      id
+      creatorId
+      approved
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listStorygrafs = /* GraphQL */ `
+  query ListStorygrafs(
+    $filter: ModelStorygrafFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listStorygrafs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        creatorId
+        approved
         data
         createdAt
         updatedAt

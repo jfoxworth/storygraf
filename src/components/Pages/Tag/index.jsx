@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import CreateTagModal from "../shared/CreateTagModal";
+import CreateTagModal from "../../shared/CreateTagModal";
 import { useParams } from "react-router-dom";
-import { getTag } from "../../graphql/queries";
+import { getTag } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import TagCard from "./TagCard";
 import UserCard from "./UserCard";
-import TagWaterfall from "../shared/TagWaterFall";
+import TagWaterfall from "../../shared/TagWaterFall";
 
 const TagPage = (props) => {
   let [userData, setUserData] = useState({});
@@ -22,6 +22,7 @@ const TagPage = (props) => {
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
       let tagData = data.data.getTag;
+      console.log("The tag data in the tag page is");
       console.log(tagData);
       tagData.data = JSON.parse(tagData.data);
       setThisTag(tagData);
@@ -32,17 +33,21 @@ const TagPage = (props) => {
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
     });
+    console.log("The tag id is ...");
+    console.log(params.tagId);
     getThisTag(params.tagId);
   }, [params.tagId]);
 
   return (
     <>
-      <CreateTagModal
-        show={showCreateTag}
-        onHide={() => setShowCreateTag(false)}
-        parenttag={params.tagId}
-        userdata={userData}
-      />
+      {thisTag.id && (
+        <CreateTagModal
+          show={showCreateTag}
+          onHide={() => setShowCreateTag(false)}
+          parenttag={thisTag}
+          userdata={userData}
+        />
+      )}
 
       <Container>
         <Row className={"mt-5"}></Row>
@@ -79,7 +84,15 @@ const TagPage = (props) => {
             </Row>
             <Row>
               <Col>
-                <TagWaterfall tagid={thisTag.id} />
+                {thisTag && (
+                  <TagWaterfall
+                    showArticles={true}
+                    tag={thisTag}
+                    handleCreateTagClick={() => {}}
+                    handleCreateArticleClick={() => {}}
+                    showAdds={false}
+                  />
+                )}
               </Col>
             </Row>
           </Col>

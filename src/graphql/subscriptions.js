@@ -32,9 +32,6 @@ export const onCreateArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -74,9 +71,6 @@ export const onUpdateArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -116,9 +110,6 @@ export const onDeleteArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -353,23 +344,6 @@ export const onCreateSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -385,23 +359,6 @@ export const onUpdateSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -417,23 +374,6 @@ export const onDeleteSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -475,6 +415,42 @@ export const onDeleteUser = /* GraphQL */ `
       userImage
       userId
       admin
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateStorygraf = /* GraphQL */ `
+  subscription OnCreateStorygraf {
+    onCreateStorygraf {
+      id
+      creatorId
+      approved
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateStorygraf = /* GraphQL */ `
+  subscription OnUpdateStorygraf {
+    onUpdateStorygraf {
+      id
+      creatorId
+      approved
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteStorygraf = /* GraphQL */ `
+  subscription OnDeleteStorygraf {
+    onDeleteStorygraf {
+      id
+      creatorId
+      approved
       data
       createdAt
       updatedAt

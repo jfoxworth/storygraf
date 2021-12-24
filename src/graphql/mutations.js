@@ -35,9 +35,6 @@ export const createArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -80,9 +77,6 @@ export const updateArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -125,9 +119,6 @@ export const deleteArticle = /* GraphQL */ `
         creatorId
         creatorEmail
         description
-        articles {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -383,23 +374,6 @@ export const createSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -418,23 +392,6 @@ export const updateSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -453,23 +410,6 @@ export const deleteSource = /* GraphQL */ `
       creatorId
       creatorEmail
       description
-      articles {
-        items {
-          id
-          link
-          title
-          dateWritten
-          data
-          approved
-          admin
-          tagId
-          creatorId
-          sourceId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -520,6 +460,51 @@ export const deleteUser = /* GraphQL */ `
       userImage
       userId
       admin
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createStorygraf = /* GraphQL */ `
+  mutation CreateStorygraf(
+    $input: CreateStorygrafInput!
+    $condition: ModelStorygrafConditionInput
+  ) {
+    createStorygraf(input: $input, condition: $condition) {
+      id
+      creatorId
+      approved
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateStorygraf = /* GraphQL */ `
+  mutation UpdateStorygraf(
+    $input: UpdateStorygrafInput!
+    $condition: ModelStorygrafConditionInput
+  ) {
+    updateStorygraf(input: $input, condition: $condition) {
+      id
+      creatorId
+      approved
+      data
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteStorygraf = /* GraphQL */ `
+  mutation DeleteStorygraf(
+    $input: DeleteStorygrafInput!
+    $condition: ModelStorygrafConditionInput
+  ) {
+    deleteStorygraf(input: $input, condition: $condition) {
+      id
+      creatorId
+      approved
       data
       createdAt
       updatedAt

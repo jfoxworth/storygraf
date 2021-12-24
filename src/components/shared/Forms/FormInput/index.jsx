@@ -12,7 +12,7 @@
 import React from "react";
 
 // Components
-import FaIcon from "../../../FaIcon";
+import FaIcon from "../../FaIcon";
 
 // Bootstrap Items
 import { InputGroup, FormControl } from "react-bootstrap";

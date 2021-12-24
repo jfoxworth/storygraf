@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import { API } from "aws-amplify";
-import { listTagRelations } from "../../graphql/queries";
-import TagWaterfall from "../shared/TagWaterFall";
+import { listTagRelations } from "../../../graphql/queries";
+import TagWaterfall from "../../shared/TagWaterFall";
 
 const TagsPage = () => {
   let [userData, setUserData] = useState({});
@@ -43,6 +43,8 @@ const TagsPage = () => {
       <Row className={"mt-5"}>
         {tagRelData.map((tagRel) => (
           <TagWaterfall
+            showArticles={true}
+            showAdds={false}
             tag={tagRel.childTag}
             handleCreateTagClick={() => {}}
             handleCreateArticleClick={() => {}}

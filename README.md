@@ -16,13 +16,11 @@ The home page displays a "Drudge Report" type list of stories. Those stories are
 
 This page shows a users bio, their selected profile image.
 
+A list of the users top level tags and the following waterfalls. A button is present that lets them create a new top level tag. Next to each tag are buttons to add a child tag or attach an article. When the user creates a tag, it is done through a modal. This modal lets the user enter a name for the tag, a color, font color, and a description of the tag.
+
 ### Official Tags page /Tags
 
 A list of official top level tags and the following waterfalls.
-
-### My Tags page /Tags/:username
-
-A list of the users top level tags and the following waterfalls. A button is present that lets them create a new top level tag. Next to each tag are buttons to add a child tag or attach an article. When the user creates a tag, it is done through a modal. This modal lets the user enter a name for the tag, a color, font color, and a description of the tag.
 
 ### Tag /Tag/:tagId
 
@@ -34,7 +32,7 @@ A simple page that shows the user a list of acceptable sources. For someone with
 
 ## Admin Pages
 
-### Front Page Creator /CreateFrontPage
+### Front Page Creator /createFrontPage
 
 Three columns of inputs where I can enter a tag ID for any place in a column.
 A place where I can enter a tag name and get the ids for that tag.

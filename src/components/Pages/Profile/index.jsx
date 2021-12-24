@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
-import { getUser } from "../../graphql/queries";
+import { getUser } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 
 import ProfileCard from "./ProfileCard";
@@ -20,6 +20,7 @@ const ProfilePage = () => {
         variables: { id: id },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       }).then((data) => {
+        console.log("The user is ...");
         console.log(data);
         let pData = data.data.getTag;
         pData.data = JSON.parse(pData.data);

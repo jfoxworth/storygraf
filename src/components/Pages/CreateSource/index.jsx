@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FormInput from "../shared/Forms/FormInput";
+import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { Auth } from "aws-amplify";
-import { createSource } from "../../graphql/mutations";
+import { createSource } from "../../../graphql/mutations";
 
 const CreateSource = () => {
   let userData = "";
@@ -32,7 +32,6 @@ const CreateSource = () => {
 
   const handleAddSource = async (event) => {
     event.preventDefault();
-    console.log(userData);
     const input = {
       sourceName: sourceName,
       creatorId: userData.username,

@@ -4,7 +4,6 @@ import Source from "../Source";
 import "../../../main.css";
 
 const ArticleLine = ({ article }) => {
-  console.log(article);
   return (
     <Row className="mb-3 ">
       <Col xs="auto">
