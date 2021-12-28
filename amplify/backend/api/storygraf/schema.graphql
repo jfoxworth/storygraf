@@ -62,10 +62,4 @@ type Storygraf @model {
   creatorId: String!
   approved: Boolean!
   data: AWSJSON
-  type: String!
-    @index(
-      name: "storygrafByDate"
-      queryField: "storygrafByDate"
-      sortKeyFields: ["createdAt"]
-    )
 }

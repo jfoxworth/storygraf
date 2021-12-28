@@ -6,6 +6,7 @@ import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import Source from "../Source";
+import TimePicker from "react-bootstrap-time-picker";
 
 const CreateArticleModal = (props) => {
   let [sourcesData, setSourcesData] = useState([]);
@@ -28,9 +29,22 @@ const CreateArticleModal = (props) => {
     setArticleDate(event.target.value);
   };
 
-  let [articleData, setArticleData] = useState("");
-  const handleChangeArticleData = (event) => {
-    setArticleData(event.target.value);
+  let [articleData, setArticleData] = useState({
+    description: {},
+    time: 0,
+    bullets: [],
+  });
+  const handleChangeArticleDesc = (event) => {
+    setArticleData({ ...articleData, description: event.target.value });
+  };
+  const handleChangeTimeData = (event) => {
+    setArticleData({ ...articleData, time: event });
+  };
+  const handleChangeBullets = (event) => {
+    let bullets = articleData.bullets;
+    bullets[event.target.name] = event.target.value;
+    setArticleData({ ...articleData, bullets: bullets });
+    console.log(event);
   };
 
   const handleAddArticle = (event) => {
@@ -38,6 +52,12 @@ const CreateArticleModal = (props) => {
     addArticle(event).then((data) => {
       props.setShowCreateArticle(false);
     });
+  };
+
+  const addBulletPoint = (event) => {
+    let bullets = articleData.bullets;
+    bullets.push("New Bullet");
+    setArticleData({ ...articleData, bullets: bullets });
   };
 
   const getSources = async (id) => {
@@ -58,7 +78,7 @@ const CreateArticleModal = (props) => {
       title: articleTitle,
       link: articleLink,
       dateWritten: articleDate,
-      data: JSON.stringify({ description: articleData }),
+      data: JSON.stringify(articleData),
       creatorId: props.userdata.username,
       approved: false,
       admin: false,
@@ -135,15 +155,53 @@ const CreateArticleModal = (props) => {
             </Row>
 
             <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }}>
+                <Form.Group className="mb-3" controlId="tagDesc">
+                  <Form.Label>Time article was written</Form.Label>
+                  <TimePicker
+                    start="0:00"
+                    end="24:00"
+                    step={5}
+                    onChange={handleChangeTimeData}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 <Form.Group className="mb-3" controlId="tagDesc">
                   <Form.Label>Description of Tag</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    onChange={handleChangeArticleData}
+                    onChange={handleChangeArticleDesc}
                   />
                 </Form.Group>{" "}
+              </Col>
+            </Row>
+
+            {articleData.bullets.map((bullet, j) => (
+              <Row>
+                <Col xs={12} lg={{ span: 8, offset: 2 }}>
+                  <FormInput
+                    className="mt-5"
+                    type="text"
+                    name={j}
+                    icon="Cube"
+                    placeholder="Bullet Point"
+                    label={`Bullet point ${j + 1}`}
+                    value={bullet}
+                    handleChange={handleChangeBullets}
+                  />
+                </Col>
+              </Row>
+            ))}
+            <Row>
+              <Col xs={12} lg={{ span: 4, offset: 4 }}>
+                <Button onClick={() => addBulletPoint()}>
+                  Add Bullet Point
+                </Button>
               </Col>
             </Row>
 

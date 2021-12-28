@@ -24,11 +24,11 @@ const ProfileTags = ({ userData }) => {
   const getTags = async (event) => {
     await API.graphql({
       query: listTagRelations,
-      filter: { parentId: { eq: 0 } },
+      variables: { filter: { parentId: { eq: "0" } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) =>
-      setTagRelData(unstringData(data.data.listTagRelations.items))
-    );
+    }).then((data) => {
+      setTagRelData(unstringData(data.data.listTagRelations.items));
+    });
   };
 
   useEffect(() => {
@@ -44,14 +44,6 @@ const ProfileTags = ({ userData }) => {
     setParentTag(parentTag);
     setShowCreateArticle(true);
   };
-  console.log(
-    <CreateTagModal
-      show={showCreateTag}
-      onHide={() => setShowCreateTag(false)}
-      parenttag={parentTag}
-      userdata={userData}
-    />
-  );
 
   return (
     <>
@@ -86,13 +78,14 @@ const ProfileTags = ({ userData }) => {
           </Col>
         </Row>
         <Row className={"mt-5"}>
-          {tagRelData.map((tagRel) => (
+          {tagRelData.map((tagRel, i) => (
             <TagWaterfall
               showArticles={true}
               showAdds={true}
               tag={tagRel.childTag}
               handleCreateTagClick={handleCreateTagClick}
               handleCreateArticleClick={handleCreateArticleClick}
+              key={`i${tagRel.id}`}
             />
           ))}
         </Row>

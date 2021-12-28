@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createTag, createTagRelation } from "../../../graphql/mutations";
 import Tag from "../Tag";
+import FormDropdown from "../../shared/Forms/FormDropdown";
 
 const CreateTagModal = (props) => {
   console.log("The parent tag in create tag modal are ...");
@@ -28,12 +29,17 @@ const CreateTagModal = (props) => {
     setTagDescription(event.target.value);
   };
 
+  let [tagType, setTagType] = useState("");
+  const handleChangeTagType = (event) => {
+    setTagType(event.target.value);
+  };
+
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
       addTagRelation(
         data.data.createTag.id,
-        props.parenttag ? props.parenttag : 0
+        props.parenttag ? props.parenttag.id : 0
       );
       props.setShowCreateTag(false);
     });
@@ -50,6 +56,7 @@ const CreateTagModal = (props) => {
       }),
       frontpage: true,
       official: true,
+      type: tagType,
     };
 
     setTagName("");
@@ -115,6 +122,23 @@ const CreateTagModal = (props) => {
                   title="Choose the text color"
                 />
               </Col>{" "}
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }}>
+                <FormDropdown
+                  handleChange={handleChangeTagType}
+                  options={[
+                    { value: "event", label: "Event" },
+                    { value: "person", label: "Person" },
+                    { value: "place", label: "Place" },
+                    { value: "thing", label: "Thing" },
+                    { value: "category", label: "Category" },
+                    { value: "opinion", label: "Opinion" },
+                  ]}
+                  label="Select type for tag"
+                />
+              </Col>
             </Row>
 
             <Row>

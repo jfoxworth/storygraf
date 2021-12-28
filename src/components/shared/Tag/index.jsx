@@ -10,8 +10,6 @@ const Tag = ({
   handleCreateTagClick,
   handleCreateArticleClick,
 }) => {
-  console.log("The tag in the tag component is ...");
-  console.log(tag);
   return (
     <Row className="pb-3 ">
       <Col xs="auto">
@@ -21,7 +19,7 @@ const Tag = ({
               className={"sgtag"}
               style={{
                 backgroundColor: tag.data.color ? tag.data.color : "#3a5199",
-                color: tag.data.textColor ? tag.data.textColor : "#FFF",
+                color: tag.data.textcolor ? tag.data.textcolor : "#FFF",
               }}
             >
               {tag.name}

@@ -16,17 +16,15 @@ const TagWaterfall = ({
   const [childData, setChildData] = useState([]);
   const [articleData, setArticleData] = useState([]);
 
-  console.log("The show adds is ");
-  console.log(showAdds);
-
   const getTagChildren = async (id) => {
     await API.graphql({
       query: listTagRelations,
       variables: { filter: { parentId: { eq: id } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      console.log("The tag children in tag waterfall");
-      console.log(data);
+      console.log(
+        `In tag waterfall with a tag id of ${tag.id} and I got ${data.data.listTagRelations.items.length} children`
+      );
       setChildData(data.data.listTagRelations.items);
     });
   };
@@ -60,13 +58,14 @@ const TagWaterfall = ({
       {showArticles &&
         articleData.map((article, i) => <ArticleLine article={article} />)}
 
-      {childData.map((tagRel) => (
+      {childData.map((tagRel, j) => (
         <TagWaterfall
           showArticles={showArticles}
           tag={tagRel.childTag}
           showAdds={showAdds}
           handleCreateTagClick={handleCreateTagClick}
           handleCreateArticleClick={handleCreateArticleClick}
+          key={`${j}${tagRel.id}`}
         />
       ))}
     </div>
