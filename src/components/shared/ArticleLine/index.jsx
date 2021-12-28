@@ -6,6 +6,7 @@ import "../../../main.css";
 const ArticleLine = ({ article }) => {
   return (
     <Row className="mb-3 ">
+      <Col xs={{ span: 2 }}>{article.dateWritten}</Col>
       <Col xs="auto">
         <Source source={article.source} />
       </Col>

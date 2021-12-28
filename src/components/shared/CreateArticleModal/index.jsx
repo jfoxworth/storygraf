@@ -142,7 +142,7 @@ const CreateArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <Form.Group className="mb-3" controlId="tagDesc">
+                <Form.Group className="mb-3" controlId="artDate">
                   <Form.Label>Date article was written</Form.Label>
                   <Form.Control
                     type="date"
@@ -156,7 +156,7 @@ const CreateArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <Form.Group className="mb-3" controlId="tagDesc">
+                <Form.Group className="mb-3" controlId="artTime">
                   <Form.Label>Time article was written</Form.Label>
                   <TimePicker
                     start="0:00"
@@ -170,8 +170,8 @@ const CreateArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <Form.Group className="mb-3" controlId="tagDesc">
-                  <Form.Label>Description of Tag</Form.Label>
+                <Form.Group className="mb-3" controlId="artDesc">
+                  <Form.Label>Description of Article</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -205,16 +205,18 @@ const CreateArticleModal = (props) => {
               </Col>
             </Row>
 
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <Row>
-                  <Col xs={"auto"}>Source - </Col>
-                  <Col xs={"auto"}>
-                    {sourceId != "0000" && <Source source={source} />}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+            {source.id && (
+              <Row>
+                <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                  <Row>
+                    <Col xs={"auto"}>Source - </Col>
+                    <Col xs={"auto"}>
+                      {sourceId != "0000" && <Source source={source} />}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            )}
           </form>
         </Container>
       </Modal.Body>
