@@ -15,6 +15,7 @@ const TagPage = (props) => {
   let [showCreateTag, setShowCreateTag] = useState(false);
   let [showCreateArticle, setShowCreateArticle] = useState(false);
   let [thisTag, setThisTag] = useState({});
+  let [parentTag, setParentTag] = useState({ id: 0 });
   const params = useParams();
 
   const getThisTag = async (id) => {
@@ -40,13 +41,23 @@ const TagPage = (props) => {
     getThisTag(params.tagId);
   }, [params.tagId]);
 
+  const handleCreateTagClick = (parentTag) => {
+    setParentTag(parentTag);
+    setShowCreateTag(true);
+  };
+
+  const handleCreateArticleClick = (parentTag) => {
+    setParentTag(parentTag);
+    setShowCreateArticle(true);
+  };
+
   return (
     <>
       {thisTag.id && (
         <CreateTagModal
           show={showCreateTag}
           onHide={() => setShowCreateTag(false)}
-          parenttag={thisTag}
+          parenttag={parentTag}
           userdata={userData}
         />
       )}
@@ -56,7 +67,7 @@ const TagPage = (props) => {
           show={showCreateArticle}
           setshowcreatearticle={setShowCreateArticle}
           onHide={() => setShowCreateTag(false)}
-          parenttag={thisTag}
+          parenttag={parentTag}
           userdata={userData}
         />
       )}
@@ -73,16 +84,6 @@ const TagPage = (props) => {
             <Row className={"mt-3"}>
               <Col xs={{ order: 1 }} sm={{ order: 1 }}>
                 {thisTag.id && <TagCard tag={thisTag} />}
-                <Container>
-                  <div className="mt-3 center-me">
-                    <Button
-                      variant="success"
-                      onClick={() => setShowCreateTag(true)}
-                    >
-                      Create Child Tag
-                    </Button>{" "}
-                  </div>
-                </Container>
               </Col>
               <Col xs={{ order: 2 }} sm={{ order: 2 }}>
                 <UserCard userData={userData} />
@@ -100,9 +101,11 @@ const TagPage = (props) => {
                   <TagWaterfall
                     showArticles={true}
                     tag={thisTag}
-                    handleCreateTagClick={setShowCreateTag}
-                    handleCreateArticleClick={setShowCreateArticle}
+                    handleCreateTagClick={handleCreateTagClick}
+                    handleCreateArticleClick={handleCreateArticleClick}
                     showAdds={true}
+                    showDelete={true}
+                    key={`main${thisTag.id}`}
                   />
                 )}
               </Col>

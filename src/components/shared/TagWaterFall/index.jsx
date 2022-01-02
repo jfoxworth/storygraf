@@ -12,6 +12,7 @@ const TagWaterfall = ({
   handleCreateArticleClick,
   showArticles,
   showAdds,
+  showDelete,
 }) => {
   const [childData, setChildData] = useState([]);
   const [articleData, setArticleData] = useState([]);
@@ -45,36 +46,41 @@ const TagWaterfall = ({
   }, [tag.id]);
 
   return (
-    <div className="ml-xlarge pt-3 border-left">
-      {tag.id && (
-        <Tag
-          tag={tag}
-          handleCreateTagClick={handleCreateTagClick}
-          handleCreateArticleClick={handleCreateArticleClick}
-          showAdds={showAdds}
-        />
-      )}
-
-      {showArticles &&
-        articleData.map((article, i) => (
-          <ArticleLine
-            article={article}
-            key={`${i}${article.id}`}
+    <>
+      <div className="pt-3">
+        {tag.id && (
+          <Tag
+            tag={tag}
+            handleCreateTagClick={handleCreateTagClick}
+            handleCreateArticleClick={handleCreateArticleClick}
             showAdds={showAdds}
           />
-        ))}
+        )}
+      </div>
 
-      {childData.map((tagRel, j) => (
-        <TagWaterfall
-          showArticles={showArticles}
-          tag={tagRel.childTag}
-          showAdds={showAdds}
-          handleCreateTagClick={handleCreateTagClick}
-          handleCreateArticleClick={handleCreateArticleClick}
-          key={`${j}${tagRel.id}`}
-        />
-      ))}
-    </div>
+      <div className="ml-xlarge pt-3 border-left">
+        {showArticles &&
+          articleData.map((article, i) => (
+            <ArticleLine
+              article={article}
+              key={`${i}${article.id}`}
+              showAdds={showAdds}
+              showDelete={showDelete | false}
+            />
+          ))}
+
+        {childData.map((tagRel, j) => (
+          <TagWaterfall
+            showArticles={showArticles}
+            tag={tagRel.childTag}
+            showAdds={showAdds}
+            handleCreateTagClick={handleCreateTagClick}
+            handleCreateArticleClick={handleCreateArticleClick}
+            key={`${j}${tagRel.id}`}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

@@ -104,7 +104,7 @@ const CreateArticleModal = (props) => {
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Article to Tag</Modal.Title>
+        <Modal.Title>Add Article to Tag - {props.parenttag.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
