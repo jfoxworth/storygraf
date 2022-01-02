@@ -23,9 +23,6 @@ const TagWaterfall = ({
       variables: { filter: { parentId: { eq: id } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      console.log(
-        `In tag waterfall with a tag id of ${tag.id} and I got ${data.data.listTagRelations.items.length} children`
-      );
       setChildData(data.data.listTagRelations.items);
     });
   };

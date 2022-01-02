@@ -6,6 +6,7 @@ type Article
   link: AWSURL!
   title: String!
   dateWritten: String!
+  articleDate: AWSDateTime
   data: AWSJSON!
   approved: Boolean!
   admin: Boolean!

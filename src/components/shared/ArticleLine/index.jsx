@@ -5,25 +5,11 @@ import "../../../main.css";
 import { BsFillTrashFill } from "react-icons/bs";
 import { deleteArticle } from "../../../graphql/mutations";
 import { API } from "aws-amplify";
+import DateBlock from "./dateBlock";
 
 const ArticleLine = ({ article, showDelete = false }) => {
   const [as, setAs] = useState(true);
-  let dayWritten = new Date(article.dateWritten);
-  dayWritten.setDate(dayWritten.getDate() + 1);
-  let monthArr = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  let artData = JSON.parse(article.data);
 
   const deleteThisArticle = async (id) => {
     return await API.graphql({
@@ -37,13 +23,15 @@ const ArticleLine = ({ article, showDelete = false }) => {
     <>
       {as && (
         <Row className="mb-3 ">
-          <Col xs={{ span: 2 }}>{`${
-            monthArr[dayWritten.getMonth()]
-          } ${dayWritten.getDate()} ${dayWritten.getFullYear()}`}</Col>
           <Col xs={{ span: 2 }}>
-            <Source source={article.source} />
+            <DateBlock datestring={article.dateWritten} time={artData} />
           </Col>
-          <Col xs={{ span: 8 }}>
+          <Col xs={{ span: 1 }}>
+            <a href={article.link} target="_blank" rel="noopener noreferrer">
+              <Source source={article.source} />
+            </a>
+          </Col>
+          <Col xs={{ span: 9 }} style={{ "font-size": "0.9em" }}>
             {article.title}
             {showDelete && (
               <div

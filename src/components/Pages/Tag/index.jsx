@@ -75,7 +75,7 @@ const TagPage = (props) => {
       <Container>
         <Row className={"mt-5"}></Row>
         <Row>
-          <Col xs={{ span: 12 }} md={{ span: 8, offset: 2 }}>
+          <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
             <Row className="mt-5">
               <Col>
                 <h2 className="accent-bottom mb-3 pb-3">Summary of Tag Data</h2>
