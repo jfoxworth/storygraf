@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "storygraf37100ad0": {}
+        "storygraf37100ad0": {},
+        "userPoolGroups": {}
       }
     }
   }

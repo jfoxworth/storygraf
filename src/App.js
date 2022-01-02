@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Amplify, { Auth } from "aws-amplify";
 import { Container, Row, Col } from "react-bootstrap";
 import "./App.css";
-import { withAuthenticator } from "aws-amplify-react";
-import { Auth } from "aws-amplify";
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 import awsconfig from "./aws-exports";
+import awsExports from "./aws-exports";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateSource from "./components/Pages/CreateSource";
 import MainHeader from "./components/shared/MainHeader";
@@ -14,7 +16,6 @@ import TagPage from "./components/Pages/Tag";
 import ProfilePage from "./components/Pages/Profile";
 import MainPage from "./components/Pages/MainPage";
 import CreateMainPage from "./components/Pages/CreateMain";
-Auth.configure(awsconfig);
 
 function App() {
   const [userData, setUserData] = useState({});
@@ -49,5 +50,4 @@ function App() {
   );
 }
 
-//export default withAuthenticator(App, { includeGreetings: true });
-export default App;
+export default withAuthenticator(App, { includeGreetings: true });

@@ -7,8 +7,6 @@ import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 
 const CreateTagModal = (props) => {
-  console.log("The parent tag in create tag modal are ...");
-  console.log(props.parenttag);
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
@@ -41,7 +39,7 @@ const CreateTagModal = (props) => {
         data.data.createTag.id,
         props.parenttag ? props.parenttag.id : 0
       );
-      props.setShowCreateTag(false);
+      props.setshowcreatetag(false);
     });
   };
 
@@ -183,7 +181,7 @@ const CreateTagModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => props.setShowCreateTag(false)}>Close</Button>
+        <Button onClick={() => props.setshowcreatetag(false)}>Close</Button>
         <Button variant="success" onClick={handleAddTag}>
           Create Tag
         </Button>

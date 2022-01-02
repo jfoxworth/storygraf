@@ -56,7 +56,13 @@ const TagWaterfall = ({
       )}
 
       {showArticles &&
-        articleData.map((article, i) => <ArticleLine article={article} />)}
+        articleData.map((article, i) => (
+          <ArticleLine
+            article={article}
+            key={`${i}${article.id}`}
+            showAdds={showAdds}
+          />
+        ))}
 
       {childData.map((tagRel, j) => (
         <TagWaterfall

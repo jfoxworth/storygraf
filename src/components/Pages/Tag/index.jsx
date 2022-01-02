@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import CreateTagModal from "../../shared/CreateTagModal";
+import CreateArticleModal from "../../shared/CreateArticleModal";
 import { useParams } from "react-router-dom";
 import { getTag } from "../../../graphql/queries";
 import { API } from "aws-amplify";
@@ -12,6 +13,7 @@ import TagWaterfall from "../../shared/TagWaterFall";
 const TagPage = (props) => {
   let [userData, setUserData] = useState({});
   let [showCreateTag, setShowCreateTag] = useState(false);
+  let [showCreateArticle, setShowCreateArticle] = useState(false);
   let [thisTag, setThisTag] = useState({});
   const params = useParams();
 
@@ -43,6 +45,16 @@ const TagPage = (props) => {
       {thisTag.id && (
         <CreateTagModal
           show={showCreateTag}
+          onHide={() => setShowCreateTag(false)}
+          parenttag={thisTag}
+          userdata={userData}
+        />
+      )}
+
+      {thisTag.id && (
+        <CreateArticleModal
+          show={showCreateArticle}
+          setshowcreatearticle={setShowCreateArticle}
           onHide={() => setShowCreateTag(false)}
           parenttag={thisTag}
           userdata={userData}
@@ -88,9 +100,9 @@ const TagPage = (props) => {
                   <TagWaterfall
                     showArticles={true}
                     tag={thisTag}
-                    handleCreateTagClick={() => {}}
-                    handleCreateArticleClick={() => {}}
-                    showAdds={false}
+                    handleCreateTagClick={setShowCreateTag}
+                    handleCreateArticleClick={setShowCreateArticle}
+                    showAdds={true}
                   />
                 )}
               </Col>

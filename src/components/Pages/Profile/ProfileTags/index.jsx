@@ -49,14 +49,14 @@ const ProfileTags = ({ userData }) => {
     <>
       <CreateTagModal
         show={showCreateTag}
-        setShowCreateTag={setShowCreateTag}
+        setshowcreatetag={setShowCreateTag}
         parenttag={parentTag}
         userdata={userData}
       />
 
       <CreateArticleModal
         show={showCreateArticle}
-        setShowCreateArticle={setShowCreateArticle}
+        setshowcreatearticle={setShowCreateArticle}
         parenttag={parentTag}
         userdata={userData}
       />

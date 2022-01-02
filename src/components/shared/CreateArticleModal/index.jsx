@@ -44,13 +44,12 @@ const CreateArticleModal = (props) => {
     let bullets = articleData.bullets;
     bullets[event.target.name] = event.target.value;
     setArticleData({ ...articleData, bullets: bullets });
-    console.log(event);
   };
 
   const handleAddArticle = (event) => {
     event.preventDefault();
     addArticle(event).then((data) => {
-      props.setShowCreateArticle(false);
+      props.setshowcreatearticle(false);
     });
   };
 
@@ -162,6 +161,7 @@ const CreateArticleModal = (props) => {
                     start="0:00"
                     end="24:00"
                     step={5}
+                    value={articleData.time}
                     onChange={handleChangeTimeData}
                   />
                 </Form.Group>
@@ -221,7 +221,7 @@ const CreateArticleModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => props.setShowCreateArticle(false)}>Close</Button>
+        <Button onClick={() => props.setshowcreatearticle(false)}>Close</Button>
         <Button variant="success" onClick={handleAddArticle}>
           Add Article
         </Button>
