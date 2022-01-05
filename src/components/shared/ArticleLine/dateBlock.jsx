@@ -24,7 +24,7 @@ const DateBlock = ({ datestring, time }) => {
   let timeString = `${hour}:${minute} ${state}`;
 
   return (
-    <div style={{ "font-size": "0.7em", color: "#555555" }}>
+    <div style={{ fontSize: "0.7em", color: "#555555" }}>
       {`${monthArr[dayWritten.getMonth()]} ${dayWritten.getDate()},
        ${timeString} ${dayWritten.getFullYear()}`}
     </div>

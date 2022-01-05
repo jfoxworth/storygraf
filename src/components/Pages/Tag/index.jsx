@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import CreateTagModal from "../../shared/CreateTagModal";
-import CreateArticleModal from "../../shared/CreateArticleModal";
 import { useParams } from "react-router-dom";
 import { getTag } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import TagCard from "./TagCard";
 import UserCard from "./UserCard";
 import TagWaterfall from "../../shared/TagWaterFall";
+import CreateTagModal from "../../shared/CreateTagModal";
+import CreateArticleModal from "../../shared/CreateArticleModal";
+import EditTagModal from "../../shared/EditTagModal";
 
 const TagPage = (props) => {
   let [userData, setUserData] = useState({});
   let [showCreateTag, setShowCreateTag] = useState(false);
   let [showCreateArticle, setShowCreateArticle] = useState(false);
+  let [showEditTag, setShowEditTag] = useState(false);
   let [thisTag, setThisTag] = useState({});
   let [parentTag, setParentTag] = useState({ id: 0 });
   const params = useParams();
@@ -25,8 +27,6 @@ const TagPage = (props) => {
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
       let tagData = data.data.getTag;
-      console.log("The tag data in the tag page is");
-      console.log(tagData);
       tagData.data = JSON.parse(tagData.data);
       setThisTag(tagData);
     });
@@ -36,10 +36,8 @@ const TagPage = (props) => {
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
     });
-    console.log("The tag id is ...");
-    console.log(params.tagId);
     getThisTag(params.tagId);
-  }, [params.tagId]);
+  }, [params.tagId, showEditTag]);
 
   const handleCreateTagClick = (parentTag) => {
     setParentTag(parentTag);
@@ -53,6 +51,16 @@ const TagPage = (props) => {
 
   return (
     <>
+      {thisTag.id && (
+        <EditTagModal
+          show={showEditTag}
+          onHide={() => setShowEditTag(false)}
+          tag={thisTag}
+          userdata={userData}
+          setshowedittag={setShowEditTag}
+        />
+      )}
+
       {thisTag.id && (
         <CreateTagModal
           show={showCreateTag}
@@ -84,6 +92,18 @@ const TagPage = (props) => {
             <Row className={"mt-3"}>
               <Col xs={{ order: 1 }} sm={{ order: 1 }}>
                 {thisTag.id && <TagCard tag={thisTag} />}
+                {thisTag.id && (
+                  <div className="mx-3 px-1 mt-3">
+                    <Button
+                      variant="success"
+                      onClick={() => {
+                        setShowEditTag(true);
+                      }}
+                    >
+                      Edit Tag
+                    </Button>
+                  </div>
+                )}
               </Col>
               <Col xs={{ order: 2 }} sm={{ order: 2 }}>
                 <UserCard userData={userData} />

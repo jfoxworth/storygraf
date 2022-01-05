@@ -23,7 +23,7 @@ const ArticleLine = ({ article, showDelete = false }) => {
     <>
       {as && (
         <Row className="mb-3 ">
-          <Col xs={{ span: 2 }}>
+          <Col xs={{ span: 2 }} className={"pt-2"}>
             <DateBlock datestring={article.dateWritten} time={artData} />
           </Col>
           <Col xs={{ span: 1 }}>
@@ -31,7 +31,11 @@ const ArticleLine = ({ article, showDelete = false }) => {
               <Source source={article.source} />
             </a>
           </Col>
-          <Col xs={{ span: 9 }} style={{ "font-size": "0.9em" }}>
+          <Col
+            xs={{ span: 9 }}
+            className={"pt-1"}
+            style={{ fontSize: "0.9em" }}
+          >
             {article.title}
             {showDelete && (
               <div

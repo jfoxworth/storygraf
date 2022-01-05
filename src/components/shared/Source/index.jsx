@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import "../../../main.css";
 
 const Source = ({ source, size = "small" }) => {
-  const imageSize = { small: 40, large: 80 };
+  const imageSize = { small: 30, large: 80 };
 
   return (
     <img
