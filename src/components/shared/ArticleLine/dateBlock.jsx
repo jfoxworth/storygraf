@@ -1,6 +1,7 @@
 import React from "react";
+import { LinkContainer } from "react-router-bootstrap";
 
-const DateBlock = ({ datestring, time }) => {
+const DateBlock = ({ datestring, time, articleid }) => {
   let dayWritten = new Date(datestring);
   dayWritten.setDate(dayWritten.getDate() + 1);
   let monthArr = [
@@ -24,10 +25,15 @@ const DateBlock = ({ datestring, time }) => {
   let timeString = `${hour}:${minute} ${state}`;
 
   return (
-    <div style={{ fontSize: "0.7em", color: "#555555" }}>
-      {`${monthArr[dayWritten.getMonth()]} ${dayWritten.getDate()},
+    <LinkContainer
+      to={`/Article/${articleid}`}
+      style={{ fontSize: "0.7em", color: "#555555", cursor: "pointer" }}
+    >
+      <div>
+        {`${monthArr[dayWritten.getMonth()]} ${dayWritten.getDate()},
        ${timeString} ${dayWritten.getFullYear()}`}
-    </div>
+      </div>
+    </LinkContainer>
   );
 };
 

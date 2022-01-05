@@ -8,6 +8,7 @@ export const getArticle = /* GraphQL */ `
       link
       title
       dateWritten
+      articleDate
       data
       approved
       admin

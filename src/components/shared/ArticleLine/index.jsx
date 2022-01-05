@@ -24,7 +24,11 @@ const ArticleLine = ({ article, showDelete = false }) => {
       {as && (
         <Row className="mb-3 ">
           <Col xs={{ span: 2 }} className={"pt-2"}>
-            <DateBlock datestring={article.dateWritten} time={artData} />
+            <DateBlock
+              datestring={article.dateWritten}
+              time={artData}
+              articleid={article.id}
+            />
           </Col>
           <Col xs={{ span: 1 }}>
             <a href={article.link} target="_blank" rel="noopener noreferrer">
@@ -42,7 +46,10 @@ const ArticleLine = ({ article, showDelete = false }) => {
                 style={{ cursor: "pointer" }}
                 onClick={() => deleteThisArticle(article.id)}
               >
-                <BsFillTrashFill />
+                <BsFillTrashFill
+                  style={{ cursor: "pointer" }}
+                  onClick={() => deleteThisArticle(article.id)}
+                />
               </div>
             )}
           </Col>

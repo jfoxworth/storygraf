@@ -13,6 +13,7 @@ import MainFooter from "./components/shared/MainFooter";
 import ListSources from "./components/Pages/Sources";
 import Tags from "./components/Pages/Tags";
 import TagPage from "./components/Pages/Tag";
+import ArticlePage from "./components/Pages/Article";
 import ProfilePage from "./components/Pages/Profile";
 import MainPage from "./components/Pages/MainPage";
 import CreateMainPage from "./components/Pages/CreateMain";
@@ -40,6 +41,7 @@ function App() {
             <Route path="/Sources" element={<ListSources />} />
             <Route path="/Tags" element={<Tags />} />
             <Route path="/Tag/:tagId" element={<TagPage />} />
+            <Route path="/Article/:articleId" element={<ArticlePage />} />
             <Route path="/Profile/:userId" element={<TagPage />} />
             <Route path="/Profile" element={<ProfilePage />} />
           </Routes>

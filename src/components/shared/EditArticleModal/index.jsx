@@ -1,38 +1,37 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
-import FormDropdown from "../Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
-import { createArticle } from "../../../graphql/mutations";
+import { updateArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import Source from "../Source";
 import TimePicker from "react-bootstrap-time-picker";
 
-const CreateArticleModal = (props) => {
+const EditArticleModal = (props) => {
   let [sourcesData, setSourcesData] = useState([]);
   let [sourceId, setSourceId] = useState("0000");
   let [source, setSource] = useState({});
 
-  let [articleTitle, setArticleTitle] = useState("");
+  let [articleTitle, setArticleTitle] = useState(props.article.title);
   const handleChangeTitle = (event) => {
     setArticleTitle(event.target.value);
   };
 
-  let [articleLink, setArticleLink] = useState("");
+  let [articleLink, setArticleLink] = useState(props.article.link);
   const handleChangeLink = (event) => {
     setArticleLink(event.target.value);
     setArticleSource(event.target.value);
   };
 
-  let [articleDate, setArticleDate] = useState("");
+  let [articleDate, setArticleDate] = useState(props.article.dateWritten);
   const handleChangeDate = (event) => {
     setArticleDate(event.target.value);
   };
 
   let [articleData, setArticleData] = useState({
-    description: {},
-    time: 0,
-    bullets: [],
+    description: props.article.data.description,
+    time: props.article.data.time,
+    bullets: props.article.data.bullets,
   });
   const handleChangeArticleDesc = (event) => {
     setArticleData({ ...articleData, description: event.target.value });
@@ -46,10 +45,10 @@ const CreateArticleModal = (props) => {
     setArticleData({ ...articleData, bullets: bullets });
   };
 
-  const handleAddArticle = (event) => {
+  const handleEditArticle = (event) => {
     event.preventDefault();
-    addArticle(event).then((data) => {
-      props.setshowcreatearticle(false);
+    editArticle(event).then((data) => {
+      props.setshoweditarticle(false);
     });
   };
 
@@ -72,7 +71,7 @@ const CreateArticleModal = (props) => {
     getSources();
   }, []);
 
-  const addArticle = async (event) => {
+  const editArticle = async (event) => {
     let dateString = articleDate.split("-");
     let hour = Math.floor(articleData.time / 3600) % 12;
     let minute = Math.floor((articleData.time % 3600) / 60);
@@ -84,6 +83,7 @@ const CreateArticleModal = (props) => {
       minute
     );
     const input = {
+      id: props.article.id,
       title: articleTitle,
       link: articleLink,
       dateWritten: articleDate,
@@ -92,12 +92,12 @@ const CreateArticleModal = (props) => {
       creatorId: props.userdata.username,
       approved: false,
       admin: false,
-      tagId: props.parenttag.id,
-      sourceId: sourceId,
+      tagId: props.article.tagId,
+      sourceId: props.article.sourceId,
     };
 
     return await API.graphql({
-      query: createArticle,
+      query: updateArticle,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
@@ -115,11 +115,11 @@ const CreateArticleModal = (props) => {
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Article to Tag - {props.parenttag.name}</Modal.Title>
+        <Modal.Title>Edit Article</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <form onSubmit={handleAddArticle}>
+          <form onSubmit={handleEditArticle}>
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
                 <FormInput
@@ -187,6 +187,7 @@ const CreateArticleModal = (props) => {
                     as="textarea"
                     rows={3}
                     onChange={handleChangeArticleDesc}
+                    value={articleData.description}
                   />
                 </Form.Group>{" "}
               </Col>
@@ -232,13 +233,13 @@ const CreateArticleModal = (props) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => props.setshowcreatearticle(false)}>Close</Button>
-        <Button variant="success" onClick={handleAddArticle}>
-          Add Article
+        <Button onClick={() => props.setshoweditarticle(false)}>Close</Button>
+        <Button variant="success" onClick={handleEditArticle}>
+          Edit Article
         </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default CreateArticleModal;
+export default EditArticleModal;
