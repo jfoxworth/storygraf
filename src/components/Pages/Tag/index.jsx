@@ -37,7 +37,7 @@ const TagPage = (props) => {
       setUserData(data);
     });
     getThisTag(params.tagId);
-  }, [params.tagId, showEditTag]);
+  }, [params.tagId, showEditTag, showCreateArticle, showCreateTag]);
 
   const handleCreateTagClick = (parentTag) => {
     setParentTag(parentTag);

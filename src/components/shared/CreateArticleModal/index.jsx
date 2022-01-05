@@ -73,10 +73,21 @@ const CreateArticleModal = (props) => {
   }, []);
 
   const addArticle = async (event) => {
+    let dateString = articleDate.split("-");
+    let hour = Math.floor(articleData.time / 3600) % 12;
+    let minute = Math.floor((articleData.time % 3600) / 60);
+    let thisDateTime = new Date(
+      dateString[0],
+      dateString[2],
+      dateString[1],
+      hour,
+      minute
+    );
     const input = {
       title: articleTitle,
       link: articleLink,
       dateWritten: articleDate,
+      articleDate: thisDateTime,
       data: JSON.stringify(articleData),
       creatorId: props.userdata.username,
       approved: false,
