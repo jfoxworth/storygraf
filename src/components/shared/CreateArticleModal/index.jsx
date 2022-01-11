@@ -233,7 +233,11 @@ const CreateArticleModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={() => props.setshowcreatearticle(false)}>Close</Button>
-        <Button variant="success" onClick={handleAddArticle}>
+        <Button
+          disabled={!source.id}
+          variant="success"
+          onClick={handleAddArticle}
+        >
           Add Article
         </Button>
       </Modal.Footer>
