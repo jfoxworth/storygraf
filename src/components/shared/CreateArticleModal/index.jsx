@@ -7,6 +7,7 @@ import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import Source from "../Source";
 import TimePicker from "react-bootstrap-time-picker";
+const axios = require("axios");
 
 const CreateArticleModal = (props) => {
   let [sourcesData, setSourcesData] = useState([]);
@@ -22,6 +23,15 @@ const CreateArticleModal = (props) => {
   const handleChangeLink = (event) => {
     setArticleLink(event.target.value);
     setArticleSource(event.target.value);
+    axios({
+      url: "http://localhost:3001/scrape",
+      method: "post",
+      data: {
+        url: event.target.value,
+      },
+    }).then(({ data }) => {
+      console.log(data);
+    });
   };
 
   let [articleDate, setArticleDate] = useState("");
