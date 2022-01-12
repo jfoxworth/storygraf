@@ -1,6 +1,17 @@
+/*  This is the modal popup that is used to pull in data from 
+    an article that is being submitted and prep that data
+    to display that article on the site. The server must
+    be running either locally or on AWS (in the future).
+    The user enters a URL and the code pulls all available 
+    data. If there is no date, no description, whatever, then
+    the code gives the user a change to enter that data 
+    prior to saving the data.
+
+    The article must be from an approved source before it can 
+    be submitted.
+*/
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
-import FormDropdown from "../Forms/FormDropdown";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
@@ -13,15 +24,24 @@ const CreateArticleModal = (props) => {
   let [sourcesData, setSourcesData] = useState([]);
   let [sourceId, setSourceId] = useState("0000");
   let [source, setSource] = useState({});
-
   let [articleTitle, setArticleTitle] = useState("");
+  let [articleLink, setArticleLink] = useState("");
+  let [articleDate, setArticleDate] = useState("");
+  let [articleData, setArticleData] = useState({
+    description: {},
+    time: 0,
+    bullets: [],
+  });
+  let [approval, setApproval] = useState(false);
+  let [hasTitle, setHasTitle] = useState(true);
+  let [hasDesc, setHasDesc] = useState(true);
+  let [hasDate, setHasDate] = useState(true);
+
   const handleChangeTitle = (event) => {
     setArticleTitle(event.target.value);
   };
 
-  let [articleLink, setArticleLink] = useState("");
   const handleChangeLink = (event) => {
-    setArticleLink(event.target.value);
     setArticleSource(event.target.value);
     axios({
       url: "http://localhost:3001/scrape",
@@ -31,19 +51,38 @@ const CreateArticleModal = (props) => {
       },
     }).then(({ data }) => {
       console.log(data);
+      setArticleData({
+        ...articleData,
+        description: data.description,
+        title: data.title,
+        url: data.url,
+        content_tier: data.content_tier,
+        image: data.image,
+        keywords: data.keywords,
+        locale: data.locale,
+        site_name: data.site_name,
+        opinion: data.opinion,
+        modified_time: data.modified_time,
+        published_time: data.published_time,
+        modified: data.modified,
+        published: data.published,
+        type: data.type,
+      });
+      setArticleLink(data.url ? data.url : event.target.value);
+      setArticleTitle(data.title ? data.title : articleTitle);
+      const time = data.published_time
+        ? data.published_time
+        : data.published
+        ? data.published
+        : articleDate;
+      setArticleDate(time);
     });
   };
 
-  let [articleDate, setArticleDate] = useState("");
   const handleChangeDate = (event) => {
     setArticleDate(event.target.value);
   };
 
-  let [articleData, setArticleData] = useState({
-    description: {},
-    time: 0,
-    bullets: [],
-  });
   const handleChangeArticleDesc = (event) => {
     setArticleData({ ...articleData, description: event.target.value });
   };
@@ -135,21 +174,6 @@ const CreateArticleModal = (props) => {
                 <FormInput
                   className="mt-5"
                   type="text"
-                  name="articleTitle"
-                  icon="Cube"
-                  placeholder="Title of article"
-                  label="Enter the title for the article"
-                  value={articleTitle}
-                  handleChange={handleChangeTitle}
-                />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <FormInput
-                  className="mt-5"
-                  type="text"
                   name="articleLink"
                   icon="Cube"
                   placeholder="Link to article"
@@ -189,19 +213,6 @@ const CreateArticleModal = (props) => {
               </Col>
             </Row>
 
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <Form.Group className="mb-3" controlId="artDesc">
-                  <Form.Label>Description of Article</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    onChange={handleChangeArticleDesc}
-                  />
-                </Form.Group>{" "}
-              </Col>
-            </Row>
-
             {articleData.bullets.map((bullet, j) => (
               <Row>
                 <Col xs={12} lg={{ span: 8, offset: 2 }}>
@@ -225,6 +236,14 @@ const CreateArticleModal = (props) => {
                 </Button>
               </Col>
             </Row>
+
+            {!source.id && (
+              <Row>
+                <Col xs={12}>
+                  All articles must come from an approved source.
+                </Col>
+              </Row>
+            )}
 
             {source.id && (
               <Row>
