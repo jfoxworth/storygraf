@@ -4,8 +4,8 @@
     be running either locally or on AWS (in the future).
     The user enters a URL and the code pulls all available 
     data. If there is no date, no description, whatever, then
-    the code gives the user a change to enter that data 
-    prior to saving the data.
+    the code gives the user a chance to enter that data 
+    prior to saving the article.
 
     The article must be from an approved source before it can 
     be submitted.
@@ -18,31 +18,47 @@ import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import Source from "../Source";
 import TimePicker from "react-bootstrap-time-picker";
+import ArticleBlock from "../ArticleBlock";
 const axios = require("axios");
 
 const CreateArticleModal = (props) => {
-  let [sourcesData, setSourcesData] = useState([]);
-  let [sourceId, setSourceId] = useState("0000");
-  let [source, setSource] = useState({});
-  let [articleTitle, setArticleTitle] = useState("");
-  let [articleLink, setArticleLink] = useState("");
-  let [articleDate, setArticleDate] = useState("");
-  let [articleData, setArticleData] = useState({
-    description: {},
-    time: 0,
-    bullets: [],
-  });
-  let [approval, setApproval] = useState(false);
-  let [hasTitle, setHasTitle] = useState(true);
-  let [hasDesc, setHasDesc] = useState(true);
-  let [hasDate, setHasDate] = useState(true);
+  console.log(props);
+  const [sourcesData, setSourcesData] = useState([]);
+  const [source, setSource] = useState({});
+  const [articleLink, setArticleLink] = useState("");
 
-  const handleChangeTitle = (event) => {
-    setArticleTitle(event.target.value);
-  };
+  const [article, setArticle] = useState({
+    link: "",
+    title: "",
+    dateWritten: new Date(),
+    articleDate: new Date(),
+    data: {
+      description: "",
+      title: "",
+      url: "",
+      content_tier: "",
+      image: "",
+      keywords: "",
+      locale: "",
+      site_name: "",
+      opinion: false,
+      modified_time: new Date(),
+      published_time: new Date(),
+      modified: new Date(),
+      published: new Date(),
+      type: "article",
+      bullets: [],
+    },
+    approved: false,
+    admin: false,
+    tagId: props.parenttag.id,
+    creatorId: props.userdata.username,
+    sourceId: "",
+  });
 
   const handleChangeLink = (event) => {
     setArticleSource(event.target.value);
+    setArticleLink(event.target.value);
     axios({
       url: "http://localhost:3001/scrape",
       method: "post",
@@ -50,49 +66,50 @@ const CreateArticleModal = (props) => {
         url: event.target.value,
       },
     }).then(({ data }) => {
+      console.log("----------------------------------");
       console.log(data);
-      setArticleData({
-        ...articleData,
-        description: data.description,
+      setArticle({
+        ...article,
+        link: data.url ? data.url : event.target.value,
         title: data.title,
-        url: data.url,
-        content_tier: data.content_tier,
-        image: data.image,
-        keywords: data.keywords,
-        locale: data.locale,
-        site_name: data.site_name,
-        opinion: data.opinion,
-        modified_time: data.modified_time,
-        published_time: data.published_time,
-        modified: data.modified,
-        published: data.published,
-        type: data.type,
+        articleDate: new Date(data.published_time)
+          ? new Date(data.published_time)
+          : new Date(data.published)
+          ? new Date(data.published)
+          : new Date(),
+        dateWritten: new Date(data.published_time)
+          ? new Date(data.published_time)
+          : new Date(data.published)
+          ? new Date(data.published)
+          : new Date(),
+        data: {
+          description: data.description,
+          title: data.title,
+          url: data.url,
+          content_tier: data.content_tier,
+          image: data.image,
+          keywords: data.keywords,
+          locale: data.locale,
+          site_name: data.site_name,
+          opinion: data.opinion,
+          modified_time: data.modified_time,
+          published_time: data.published_time,
+          modified: data.modified,
+          published: data.published,
+          type: data.type,
+          bullets: [],
+        },
+        tagId: props.parenttag.id,
+        creatorId: props.userdata.username,
+        sourceId: source.id,
       });
-      setArticleLink(data.url ? data.url : event.target.value);
-      setArticleTitle(data.title ? data.title : articleTitle);
-      const time = data.published_time
-        ? data.published_time
-        : data.published
-        ? data.published
-        : articleDate;
-      setArticleDate(time);
     });
   };
 
-  const handleChangeDate = (event) => {
-    setArticleDate(event.target.value);
-  };
-
-  const handleChangeArticleDesc = (event) => {
-    setArticleData({ ...articleData, description: event.target.value });
-  };
-  const handleChangeTimeData = (event) => {
-    setArticleData({ ...articleData, time: event });
-  };
   const handleChangeBullets = (event) => {
-    let bullets = articleData.bullets;
+    let bullets = article.data.bullets;
     bullets[event.target.name] = event.target.value;
-    setArticleData({ ...articleData, bullets: bullets });
+    setArticle({ ...article, data: { ...article.data, bullets: bullets } });
   };
 
   const handleAddArticle = (event) => {
@@ -103,9 +120,9 @@ const CreateArticleModal = (props) => {
   };
 
   const addBulletPoint = (event) => {
-    let bullets = articleData.bullets;
+    let bullets = article.data.bullets;
     bullets.push("New Bullet");
-    setArticleData({ ...articleData, bullets: bullets });
+    setArticle({ ...article, data: { ...article.data, bullets: bullets } });
   };
 
   const getSources = async (id) => {
@@ -122,32 +139,10 @@ const CreateArticleModal = (props) => {
   }, []);
 
   const addArticle = async (event) => {
-    let dateString = articleDate.split("-");
-    let hour = Math.floor(articleData.time / 3600) % 12;
-    let minute = Math.floor((articleData.time % 3600) / 60);
-    let thisDateTime = new Date(
-      dateString[0],
-      dateString[1],
-      dateString[2],
-      hour,
-      minute
-    );
-    const input = {
-      title: articleTitle,
-      link: articleLink,
-      dateWritten: articleDate,
-      articleDate: thisDateTime,
-      data: JSON.stringify(articleData),
-      creatorId: props.userdata.username,
-      approved: false,
-      admin: false,
-      tagId: props.parenttag.id,
-      sourceId: sourceId,
-    };
-
+    console.log(article);
     return await API.graphql({
       query: createArticle,
-      variables: { input: input },
+      variables: { input: { ...article, data: JSON.stringify(article.data) } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
@@ -155,8 +150,8 @@ const CreateArticleModal = (props) => {
   const setArticleSource = (url) => {
     sourcesData.forEach((source, i) => {
       if (url.includes(source.sourceUrl)) {
-        setSourceId(source.id);
         setSource(source);
+        setArticle({ ...article, sourceId: source.id });
       }
     });
   };
@@ -184,36 +179,7 @@ const CreateArticleModal = (props) => {
               </Col>
             </Row>
 
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <Form.Group className="mb-3" controlId="artDate">
-                  <Form.Label>Date article was written</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="date_of_article"
-                    value={articleDate}
-                    onChange={handleChangeDate}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <Form.Group className="mb-3" controlId="artTime">
-                  <Form.Label>Time article was written</Form.Label>
-                  <TimePicker
-                    start="0:00"
-                    end="24:00"
-                    step={5}
-                    value={articleData.time}
-                    onChange={handleChangeTimeData}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            {articleData.bullets.map((bullet, j) => (
+            {article.data.bullets.map((bullet, j) => (
               <Row>
                 <Col xs={12} lg={{ span: 8, offset: 2 }}>
                   <FormInput
@@ -229,31 +195,29 @@ const CreateArticleModal = (props) => {
                 </Col>
               </Row>
             ))}
-            <Row>
-              <Col xs={12} lg={{ span: 4, offset: 4 }}>
-                <Button onClick={() => addBulletPoint()}>
-                  Add Bullet Point
-                </Button>
-              </Col>
-            </Row>
+
+            {source.id && (
+              <Row className="mt-3 text-center">
+                <Col>
+                  <Button onClick={() => addBulletPoint()}>
+                    Add Bullet Point
+                  </Button>
+                </Col>
+              </Row>
+            )}
 
             {!source.id && (
-              <Row>
+              <Row className="mt-3 text-center">
                 <Col xs={12}>
-                  All articles must come from an approved source.
+                  <h5>All articles must come from an approved source.</h5>
                 </Col>
               </Row>
             )}
 
             {source.id && (
-              <Row>
-                <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                  <Row>
-                    <Col xs={"auto"}>Source - </Col>
-                    <Col xs={"auto"}>
-                      {sourceId != "0000" && <Source source={source} />}
-                    </Col>
-                  </Row>
+              <Row className="mt-3 margin:auto">
+                <Col xs={"12"} md={{ span: 8, offset: 2 }}>
+                  <ArticleBlock article={article} />
                 </Col>
               </Row>
             )}
