@@ -37,8 +37,9 @@ const xpaths = {
 
 const retrievePage = (url) => axios.request({ url });
 const convertBodyToDocument = (body) => new DOMParser().parseFromString(body);
-const nodesFromDocument = (document, xpathselector) =>
-  xpath.select(xpathselector, document);
+const nodesFromDocument = (document, xpathselector) => {
+  return xpath.select(xpathselector, document);
+};
 const mapProperties = (paths, document) =>
   Object.keys(paths).reduce(
     (acc, key) => ({ ...acc, [key]: nodesFromDocument(document, paths[key]) }),
@@ -47,6 +48,7 @@ const mapProperties = (paths, document) =>
 
 const parseUrl = (url) =>
   retrievePage(url).then((response) => {
+    console.log(response.data);
     const document = convertBodyToDocument(response.data);
     const mappedProperties = mapProperties(xpaths, document);
     return mappedProperties;

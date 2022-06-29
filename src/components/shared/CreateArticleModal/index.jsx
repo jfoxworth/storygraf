@@ -142,7 +142,13 @@ const CreateArticleModal = (props) => {
     console.log(article);
     return await API.graphql({
       query: createArticle,
-      variables: { input: { ...article, data: JSON.stringify(article.data) } },
+      variables: {
+        input: {
+          ...article,
+          data: JSON.stringify(article.data),
+          sourceId: source.id,
+        },
+      },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
