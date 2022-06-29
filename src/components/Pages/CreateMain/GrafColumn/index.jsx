@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { updateStorygraf } from "../../../../graphql/mutations";
 
@@ -14,7 +14,6 @@ const GrafColumn = ({ grafdata }) => {
     });
   };
 
-  console.log(grafdata);
   return (
     <Container>
       {grafdata &&

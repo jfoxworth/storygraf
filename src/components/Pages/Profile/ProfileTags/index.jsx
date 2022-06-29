@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Auth } from "aws-amplify";
 import TagWaterfall from "../../../shared/TagWaterFall";
 import CreateTagModal from "../../../shared/CreateTagModal";
 import CreateArticleModal from "../../../shared/CreateArticleModal";

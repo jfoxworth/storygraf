@@ -223,7 +223,7 @@ const EditArticleModal = (props) => {
                   <Row>
                     <Col xs={"auto"}>Source - </Col>
                     <Col xs={"auto"}>
-                      {sourceId != "0000" && <Source source={source} />}
+                      {sourceId !== "0000" && <Source source={source} />}
                     </Col>
                   </Row>
                 </Col>
