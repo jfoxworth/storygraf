@@ -3,7 +3,6 @@
   same way that it is displayed on Facebook.
 */
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 
 const ArticleBlock = ({ article, width = "100%", height = "300px" }) => {
   return (

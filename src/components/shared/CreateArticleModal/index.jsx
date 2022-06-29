@@ -12,17 +12,14 @@
 */
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
-import Source from "../Source";
-import TimePicker from "react-bootstrap-time-picker";
 import ArticleBlock from "../ArticleBlock";
 const axios = require("axios");
 
 const CreateArticleModal = (props) => {
-  console.log(props);
   const [sourcesData, setSourcesData] = useState([]);
   const [source, setSource] = useState({});
   const [articleLink, setArticleLink] = useState("");

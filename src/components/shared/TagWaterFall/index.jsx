@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { Auth } from "aws-amplify";
 import { listTagRelations, listArticles } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import Tag from "../Tag";

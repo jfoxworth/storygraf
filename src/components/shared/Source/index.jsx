@@ -1,5 +1,4 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
 import "../../../main.css";
 
 const Source = ({ source, size = "small" }) => {
@@ -9,6 +8,7 @@ const Source = ({ source, size = "small" }) => {
     <img
       src={`https://storygraf.s3.us-east-2.amazonaws.com/sources/${source.sourceImage}`}
       height={imageSize[size]}
+      alt={`source image`}
     />
   );
 };

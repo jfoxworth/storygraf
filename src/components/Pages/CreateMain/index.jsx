@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { listStorygrafs } from "../../../graphql/queries";
-import { createStorygraf, updateStorygraf } from "../../../graphql/mutations";
+import { createStorygraf } from "../../../graphql/mutations";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 import { listTagRelations } from "../../../graphql/queries";
 import GrafColumn from "./GrafColumn";
@@ -117,7 +117,7 @@ const CreateMainPage = () => {
   // then makes a space for the item being inserted
   const addGrafItem = (column, stackPlace, thisGrafStack) => {
     thisGrafStack.forEach((gs, i) => {
-      if (gs.column == column && gs.stackPlace >= stackPlace) {
+      if (gs.column === column && gs.stackPlace >= stackPlace) {
         thisGrafStack[i]["stackPlace"] = thisGrafStack[i]["stackPlace"] + 1;
       }
     });
@@ -129,7 +129,6 @@ const CreateMainPage = () => {
     temp.creatorId = userData.username;
     temp.approved = true;
     temp.data = JSON.stringify(storygraf.data);
-    console.log(temp);
     await API.graphql({
       query: createStorygraf,
       variables: { input: temp },
@@ -148,7 +147,7 @@ const CreateMainPage = () => {
           {storygraf.data && (
             <GrafColumn
               grafdata={storygraf.data.filter(
-                (grafItem) => grafItem.column == "left"
+                (grafItem) => grafItem.column === "left"
               )}
             />
           )}
@@ -162,7 +161,7 @@ const CreateMainPage = () => {
           {storygraf.data && (
             <GrafColumn
               grafdata={storygraf.data.filter(
-                (grafItem) => grafItem.column == "center"
+                (grafItem) => grafItem.column === "center"
               )}
             />
           )}
@@ -176,7 +175,7 @@ const CreateMainPage = () => {
           {storygraf.data && (
             <GrafColumn
               grafdata={storygraf.data.filter(
-                (grafItem) => grafItem.column == "right"
+                (grafItem) => grafItem.column === "right"
               )}
             />
           )}

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Amplify, { Auth } from "aws-amplify";
-import { Container, Row, Col } from "react-bootstrap";
+import { Auth } from "aws-amplify";
+import { Row } from "react-bootstrap";
 import "./App.css";
-import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import awsconfig from "./aws-exports";
-import awsExports from "./aws-exports";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateSource from "./components/Pages/CreateSource";
 import MainHeader from "./components/shared/MainHeader";

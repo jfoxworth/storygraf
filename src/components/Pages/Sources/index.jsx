@@ -42,7 +42,7 @@ const ListSources = () => {
         </Col>
       </Row>
 
-      {listType == "grid" && (
+      {listType === "grid" && (
         <Row>
           <Col xs={{ span: "12" }} md={{ span: "8", offset: "2" }}>
             <Row className={"mb-3"}>
@@ -56,7 +56,7 @@ const ListSources = () => {
         </Row>
       )}
 
-      {listType == "list" && (
+      {listType === "list" && (
         <Row>
           <Col xs={{ span: "12" }} md={{ span: "10", offset: "1" }}>
             {sourceData.map((source, index) => (

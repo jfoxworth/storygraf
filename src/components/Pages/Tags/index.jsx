@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import { API } from "aws-amplify";
 import { listTagRelations } from "../../../graphql/queries";
@@ -17,7 +17,6 @@ const Tags = () => {
   };
 
   const getTags = async (event) => {
-    console.log("In get tags");
     await API.graphql({
       query: listTagRelations,
       filter: { parentId: { eq: 0 } },
