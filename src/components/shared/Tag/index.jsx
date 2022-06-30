@@ -6,9 +6,9 @@ import "../../../main.css";
 
 const Tag = ({
   tag,
-  showAdds,
-  handleCreateTagClick,
-  handleCreateArticleClick,
+  showAdds = false,
+  handleCreateTagClick = () => {},
+  handleCreateArticleClick = () => {},
 }) => {
   return (
     <Row className="pb-3 ">
@@ -18,8 +18,8 @@ const Tag = ({
             <div
               className={"sgtag"}
               style={{
-                backgroundColor: tag.data.color ? tag.data.color : "#3a5199",
-                color: tag.data.textcolor ? tag.data.textcolor : "#FFF",
+                backgroundColor: tag.data?.color ? tag.data?.color : "#3a5199",
+                color: tag.data?.textcolor ? tag.data?.textcolor : "#FFF",
               }}
             >
               {tag.name}
