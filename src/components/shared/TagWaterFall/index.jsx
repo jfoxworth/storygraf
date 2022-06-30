@@ -11,6 +11,8 @@ const TagWaterfall = ({
   showArticles,
   showAdds,
   showDelete,
+  showTag = true,
+  showLeftBorder = true,
 }) => {
   const [childData, setChildData] = useState([]);
   const [articleData, setArticleData] = useState([]);
@@ -43,7 +45,7 @@ const TagWaterfall = ({
   return (
     <>
       <div className="pt-3">
-        {tag.id && (
+        {tag.id && showTag && (
           <Tag
             tag={tag}
             handleCreateTagClick={handleCreateTagClick}
@@ -53,7 +55,7 @@ const TagWaterfall = ({
         )}
       </div>
 
-      <div className="ml-xlarge pt-3 border-left">
+      <div className={`ml-xlarge pt-3 ${showLeftBorder ? "border-left" : ""}`}>
         {showArticles &&
           articleData.map((article, i) => (
             <ArticleLine
