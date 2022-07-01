@@ -16,7 +16,7 @@ const ArticleBlock = ({ article, width = "100%", height = "300px" }) => {
       <div
         style={{
           width: width,
-          backgroundImage: "url(" + article.data.image + ")",
+          backgroundImage: "url(" + article.data.image.url + ")",
           height: height,
           backgroundSize: "cover",
           borderRadius: "5px 5px 0px 0px",

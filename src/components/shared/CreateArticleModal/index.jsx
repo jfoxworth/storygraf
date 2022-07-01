@@ -56,51 +56,46 @@ const CreateArticleModal = (props) => {
   const handleChangeLink = (event) => {
     setArticleSource(event.target.value);
     setArticleLink(event.target.value);
-    axios({
-      url: "http://localhost:3001/scrape",
-      method: "post",
-      data: {
-        url: event.target.value,
-      },
-    }).then(({ data }) => {
-      console.log("----------------------------------");
-      console.log(data);
-      setArticle({
-        ...article,
-        link: data.url ? data.url : event.target.value,
-        title: data.title,
-        articleDate: new Date(data.published_time)
-          ? new Date(data.published_time)
-          : new Date(data.published)
-          ? new Date(data.published)
-          : new Date(),
-        dateWritten: new Date(data.published_time)
-          ? new Date(data.published_time)
-          : new Date(data.published)
-          ? new Date(data.published)
-          : new Date(),
+    try {
+      axios({
+        url: "http://localhost:3001/scrape",
+        method: "post",
         data: {
-          description: data.description,
-          title: data.title,
-          url: data.url,
-          content_tier: data.content_tier,
-          image: data.image,
-          keywords: data.keywords,
-          locale: data.locale,
-          site_name: data.site_name,
-          opinion: data.opinion,
-          modified_time: data.modified_time,
-          published_time: data.published_time,
-          modified: data.modified,
-          published: data.published,
-          type: data.type,
-          bullets: [],
+          url: event.target.value,
         },
-        tagId: props.parenttag.id,
-        creatorId: props.userdata.username,
-        sourceId: source.id,
+      }).then(({ data }) => {
+        setArticle({
+          ...article,
+          link: data.ogUrl ? data.ogUrl : event.target.value,
+          title: data.ogTitle,
+          articleDate: data.articlePublishedTime
+            ? new Date(data.articlePublishedTime)
+            : data.ogDate
+            ? new Date(data.ogDate)
+            : new Date(),
+          data: {
+            description: data.ogDescription,
+            title: data.ogTitle,
+            url: data.ogUrl,
+            image: data.ogImage,
+            site_name: data.ogSiteName,
+            modified: data.modified,
+            published: data.articlePublishedTime
+              ? data.articlePublishedTime
+              : data.ogDate
+              ? data.ogDate
+              : "",
+            type: data.ogType,
+            bullets: [],
+          },
+          tagId: props.parenttag.id,
+          creatorId: props.userdata.username,
+          sourceId: source.id,
+        });
       });
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChangeBullets = (event) => {

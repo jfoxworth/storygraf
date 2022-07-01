@@ -49,7 +49,7 @@ const TagInfo = ({ tag, userData, numChildren, numArticles }) => {
         <CreateArticleModal
           show={showCreateArticle}
           setshowcreatearticle={setShowCreateArticle}
-          onHide={() => setShowCreateTag(false)}
+          onHide={() => setShowCreateArticle(false)}
           parenttag={tag}
           userdata={userData}
         />
