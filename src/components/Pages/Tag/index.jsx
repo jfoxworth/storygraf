@@ -82,6 +82,7 @@ const TagPage = (props) => {
                       <TagArticles
                         tag={thisTag}
                         setNumArticles={setNumArticles}
+                        showEdits={true}
                       />
                     </>
                   )}

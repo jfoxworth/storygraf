@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Row, Col, Button } from "react-bootstrap";
 import { BsBookmarkPlus, BsFileEarmarkPlus } from "react-icons/bs";
 import "../../../main.css";
 
 const Tag = ({
-  tag,
+  tag = {},
   showAdds = false,
   handleCreateTagClick = () => {},
   handleCreateArticleClick = () => {},

@@ -12,17 +12,18 @@
 */
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
-import { Container, Row, Col, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
-import ArticleBlock from "../ArticleBlock";
+import ArticleLine from "../ArticleLine";
 const axios = require("axios");
 
 const CreateArticleModal = (props) => {
   const [sourcesData, setSourcesData] = useState([]);
   const [source, setSource] = useState({});
   const [articleLink, setArticleLink] = useState("");
+  const [userDescription, setUserDescription] = useState("");
 
   const [article, setArticle] = useState({
     link: "",
@@ -64,33 +65,67 @@ const CreateArticleModal = (props) => {
           url: event.target.value,
         },
       }).then(({ data }) => {
+        const url = data.ogUrl ? data.ogUrl : event.target.value;
+        const title = data.ogTitle
+          ? data.ogTitle
+          : data.dcTitle
+          ? data.dcTitle
+          : data.twitterTitle
+          ? data.twitterTitle
+          : "";
+        const articleDate = data.articlePublishedTime
+          ? new Date(data.articlePublishedTime)
+          : data.ogDate
+          ? new Date(data.ogDate)
+          : data.dcDate
+          ? new Date(data.dcDate)
+          : new Date();
+        const description = data.ogDescription
+          ? data.ogDescription
+          : data.dcDescription
+          ? data.dcDescription
+          : "";
+        const image = data.ogImage;
+        const site_name = data.ogSiteName
+          ? data.ogSiteName
+          : data.dcPublisher
+          ? data.dcPublisher
+          : data.dcSource
+          ? data.dcSource
+          : "";
+        const type = data.ogType ? data.ogType : "";
+        const author = data.dcCreator;
+        let artSource = "";
+        sourcesData.forEach((source, i) => {
+          if (url.includes(source.sourceUrl)) {
+            artSource = source;
+            setSource(source);
+          }
+        });
         setArticle({
           ...article,
-          link: data.ogUrl ? data.ogUrl : event.target.value,
-          title: data.ogTitle,
-          articleDate: data.articlePublishedTime
-            ? new Date(data.articlePublishedTime)
-            : data.ogDate
-            ? new Date(data.ogDate)
-            : new Date(),
+          link: url,
+          title: title,
+          articleDate: articleDate,
           data: {
-            description: data.ogDescription,
-            title: data.ogTitle,
-            url: data.ogUrl,
-            image: data.ogImage,
-            site_name: data.ogSiteName,
-            modified: data.modified,
-            published: data.articlePublishedTime
-              ? data.articlePublishedTime
-              : data.ogDate
-              ? data.ogDate
-              : "",
-            type: data.ogType,
-            bullets: [],
+            description: description,
+            title: title,
+            url: url,
+            image: image,
+            site_name: site_name,
+            modified: articleDate,
+            published: articleDate,
+            type: type,
+            author: author,
+            source: artSource,
+            userDescription: "",
+            ...data,
           },
           tagId: props.parenttag.id,
           creatorId: props.userdata.username,
           sourceId: source.id,
+          approved: false,
+          admin: false,
         });
       });
     } catch (error) {
@@ -102,6 +137,14 @@ const CreateArticleModal = (props) => {
     let bullets = article.data.bullets;
     bullets[event.target.name] = event.target.value;
     setArticle({ ...article, data: { ...article.data, bullets: bullets } });
+  };
+
+  const handleChangeDescription = (event) => {
+    setUserDescription(event.target.value);
+    setArticle({
+      ...article,
+      data: { ...article.data, userDescription: event.target.value },
+    });
   };
 
   const handleAddArticle = (event) => {
@@ -131,10 +174,14 @@ const CreateArticleModal = (props) => {
   }, []);
 
   const addArticle = async (event) => {
-    console.log(article);
+    const input = {
+      ...article,
+      data: JSON.stringify(article.data),
+      sourceId: source.id,
+    };
     return await API.graphql({
       query: createArticle,
-      variables: { input: { ...article, data: JSON.stringify(article.data) } },
+      variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
@@ -171,34 +218,7 @@ const CreateArticleModal = (props) => {
               </Col>
             </Row>
 
-            {article.data.bullets.map((bullet, j) => (
-              <Row>
-                <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                  <FormInput
-                    className="mt-5"
-                    type="text"
-                    name={j}
-                    icon="Cube"
-                    placeholder="Bullet Point"
-                    label={`Bullet point ${j + 1}`}
-                    value={bullet}
-                    handleChange={handleChangeBullets}
-                  />
-                </Col>
-              </Row>
-            ))}
-
-            {source.id && (
-              <Row className="mt-3 text-center">
-                <Col>
-                  <Button onClick={() => addBulletPoint()}>
-                    Add Bullet Point
-                  </Button>
-                </Col>
-              </Row>
-            )}
-
-            {!source.id && (
+            {!source.id && articleLink.length > 0 && (
               <Row className="mt-3 text-center">
                 <Col xs={12}>
                   <h5>All articles must come from an approved source.</h5>
@@ -209,10 +229,25 @@ const CreateArticleModal = (props) => {
             {source.id && (
               <Row className="mt-3 margin:auto">
                 <Col xs={"12"} md={{ span: 8, offset: 2 }}>
-                  <ArticleBlock article={article} />
+                  <ArticleLine article={article} />
                 </Col>
               </Row>
             )}
+
+            <Row>
+              <Col xs={"12"} md={{ span: 8, offset: 2 }}>
+                <Form.Label className="mt-5">Description of Article</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name={"userDescription"}
+                  placeholder="Your description of article"
+                  label={`Your description of article`}
+                  rows={5}
+                  handleChange={handleChangeDescription}
+                  value={userDescription}
+                />
+              </Col>
+            </Row>
           </form>
         </Container>
       </Modal.Body>
