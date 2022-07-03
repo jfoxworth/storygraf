@@ -1,9 +1,7 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 
-const DateBlock = ({ datestring, time, articleid }) => {
-  let dayWritten = new Date(datestring);
-  dayWritten.setDate(dayWritten.getDate() + 1);
+const DateBlock = ({ datestring, articleid }) => {
   let monthArr = [
     "Jan",
     "Feb",
@@ -18,11 +16,13 @@ const DateBlock = ({ datestring, time, articleid }) => {
     "Nov",
     "Dec",
   ];
-  let thisTime = time.time;
-  let hour = Math.floor(thisTime / 3600) % 12;
-  let minute = Math.floor((thisTime % 3600) / 60);
-  let state = Math.floor(thisTime / 3600) / 12 > 0 ? "PM" : "AM";
-  let timeString = `${hour}:${minute} ${state}`;
+  var tempDate = new Date(datestring);
+  var hours = tempDate.getHours();
+  var minutes = tempDate.getMinutes();
+  var ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
 
   return (
     <LinkContainer
@@ -30,8 +30,9 @@ const DateBlock = ({ datestring, time, articleid }) => {
       style={{ fontSize: "0.7em", color: "#555555", cursor: "pointer" }}
     >
       <div>
-        {`${monthArr[dayWritten.getMonth()]} ${dayWritten.getDate()},
-       ${timeString} ${dayWritten.getFullYear()}`}
+        {`${hours}:${minutes} ${ampm} ${
+          monthArr[tempDate.getMonth()]
+        } ${tempDate.getDate()}, ${tempDate.getFullYear()}`}
       </div>
     </LinkContainer>
   );

@@ -3,11 +3,7 @@ import { listArticles } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import ArticleLine from "../ArticleLine";
 
-const TagArticles = ({
-  tag,
-  showDelete = false,
-  setNumArticles = () => {},
-}) => {
+const TagArticles = ({ tag, showEdits = false, setNumArticles = () => {} }) => {
   const [articleData, setArticleData] = useState([]);
 
   const getTagArticles = async (id) => {
@@ -16,7 +12,12 @@ const TagArticles = ({
       variables: { filter: { tagId: { eq: id } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      setArticleData(data.data.listArticles.items);
+      console.log(data.data.listArticles.items);
+      let articleList = [];
+      data.data.listArticles.items.forEach((art) => {
+        articleList.push({ ...art, data: JSON.parse(art.data) });
+      });
+      setArticleData(articleList);
       setNumArticles(data.data.listArticles.items.length);
     });
   };
@@ -31,7 +32,7 @@ const TagArticles = ({
         <ArticleLine
           article={article}
           key={`${i}${article.id}`}
-          showDelete={showDelete | false}
+          showEdits={showEdits}
         />
       ))}
     </div>

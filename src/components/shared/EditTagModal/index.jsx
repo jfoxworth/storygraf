@@ -7,7 +7,6 @@ import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 
 const EditTagModal = (props) => {
-  console.log(props);
   let [tagName, setTagName] = useState(props.tag.name);
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);

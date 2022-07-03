@@ -13,7 +13,15 @@ const TagChildren = ({ tag, setNumChildren = () => {} }) => {
       variables: { filter: { parentId: { eq: id } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      setChildData(data.data.listTagRelations.items);
+      let childArray = [];
+      data.data.listTagRelations.items.forEach((child) => {
+        childArray.push({
+          ...child.childTag,
+          data: JSON.parse(child.childTag.data),
+        });
+      });
+      console.log(childArray);
+      setChildData(childArray);
       setNumChildren(data.data.listTagRelations.items.length);
     });
   };
@@ -26,12 +34,11 @@ const TagChildren = ({ tag, setNumChildren = () => {} }) => {
     <div className="pt-3">
       {childData.length > 0 &&
         childData.map((tagRel, j) => {
-          let thisData = JSON.parse(tagRel.childTag.data);
           return (
             <Row key={`childtag${j}`}>
               <Col xs={{ span: 6 }} md={{ span: 4 }}>
                 <div style={{ display: "inline-block" }}>
-                  <Tag tag={tagRel.childTag} />
+                  <Tag tag={tagRel} />
                 </div>
               </Col>
               <Col xs={{ span: 6 }} md={{ span: 8 }}>
@@ -39,7 +46,7 @@ const TagChildren = ({ tag, setNumChildren = () => {} }) => {
                   className={"text-muted"}
                   style={{ display: "inline-block" }}
                 >
-                  {thisData.description}
+                  {tagRel.data.description}
                 </div>
               </Col>
             </Row>
