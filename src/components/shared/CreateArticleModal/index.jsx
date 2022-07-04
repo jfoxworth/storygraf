@@ -45,7 +45,7 @@ const CreateArticleModal = (props) => {
       modified: new Date(),
       published: new Date(),
       type: "article",
-      bullets: [],
+      cumulatives: [],
     },
     approved: false,
     admin: false,
@@ -119,6 +119,7 @@ const CreateArticleModal = (props) => {
             author: author,
             source: artSource,
             userDescription: "",
+            cumulatives: cumulatives,
             ...data,
           },
           tagId: props.parenttag.id,
@@ -131,12 +132,6 @@ const CreateArticleModal = (props) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleChangeBullets = (event) => {
-    let bullets = article.data.bullets;
-    bullets[event.target.name] = event.target.value;
-    setArticle({ ...article, data: { ...article.data, bullets: bullets } });
   };
 
   const handleChangeDescription = (event) => {
@@ -154,12 +149,6 @@ const CreateArticleModal = (props) => {
     });
   };
 
-  const addBulletPoint = (event) => {
-    let bullets = article.data.bullets;
-    bullets.push("New Bullet");
-    setArticle({ ...article, data: { ...article.data, bullets: bullets } });
-  };
-
   const getSources = async (id) => {
     await API.graphql({
       query: listSources,
@@ -167,6 +156,29 @@ const CreateArticleModal = (props) => {
     }).then((data) => {
       setSourcesData(data.data.listSources.items);
     });
+  };
+
+  let [cumulatives, setCumulatives] = useState([]);
+  const handleAddCumulative = (event) => {
+    setCumulatives(
+      cumulatives.concat([{ text: "Cumulative Property", value: 0 }])
+    );
+  };
+
+  const handleCumulativeChange = (event) => {
+    let temp = [];
+    cumulatives.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    if (event.target.name.match("cumulativetext")) {
+      const index = parseInt(event.target.name.replace("cumulativetext", ""));
+      temp[index]["text"] = event.target.value;
+    }
+    if (event.target.name.match("cumulativevalue")) {
+      const index = parseInt(event.target.name.replace("cumulativevalue", ""));
+      temp[index]["value"] = event.target.value;
+    }
+    setCumulatives(temp);
   };
 
   useEffect(() => {
@@ -229,7 +241,7 @@ const CreateArticleModal = (props) => {
             {source.id && (
               <Row className="mt-3 margin:auto">
                 <Col xs={"12"} md={{ span: 8, offset: 2 }}>
-                  <ArticleLine article={article} />
+                  <ArticleLine article={article} parentTag={props.parenttag} />
                 </Col>
               </Row>
             )}
@@ -246,6 +258,37 @@ const CreateArticleModal = (props) => {
                   handleChange={handleChangeDescription}
                   value={userDescription}
                 />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                <h4>Cumulative Items</h4>
+                {cumulatives.map((cumItem, i) => (
+                  <Row key={`cumulativetext${i}`}>
+                    <Col>
+                      <FormInput
+                        name={`cumulativetext${i}`}
+                        icon="Cube"
+                        value={cumItem.text}
+                        className={"mb-1"}
+                        handleChange={handleCumulativeChange}
+                      />
+                    </Col>
+                    <Col>
+                      <FormInput
+                        name={`cumulativevalue${i}`}
+                        icon="Cube"
+                        value={cumItem.value}
+                        className={"mb-1"}
+                        handleChange={handleCumulativeChange}
+                      />
+                    </Col>
+                  </Row>
+                ))}
+                <Button variant={"success"} onClick={handleAddCumulative}>
+                  Add Cumulative
+                </Button>
               </Col>
             </Row>
           </form>

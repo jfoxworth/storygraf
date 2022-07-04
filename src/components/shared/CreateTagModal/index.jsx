@@ -32,6 +32,21 @@ const CreateTagModal = (props) => {
     setTagType(event.target.value);
   };
 
+  let [cumulatives, setCumulatives] = useState([]);
+  const handleAddCumulative = (event) => {
+    setCumulatives(cumulatives.concat(["Cumulative Property"]));
+  };
+
+  const handleCumulativeChange = (event) => {
+    let temp = [];
+    cumulatives.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    const index = parseInt(event.target.name.replace("cumulative", ""));
+    temp[index] = event.target.value;
+    setCumulatives(temp);
+  };
+
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
@@ -51,6 +66,7 @@ const CreateTagModal = (props) => {
         color: tagColor,
         textcolor: textColor,
         description: tagDescription,
+        cumulatives: cumulatives,
       }),
       frontpage: true,
       official: true,
@@ -90,6 +106,31 @@ const CreateTagModal = (props) => {
         <Container>
           <form onSubmit={handleAddTag}>
             <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                {props.parenttag.id !== 0 && (
+                  <Row>
+                    <Col xs={"auto"}>
+                      <div>Parent Tag</div>
+                    </Col>
+                    <Col xs={"auto"}>
+                      <Tag tag={props.parenttag} showAdds={false} />
+                    </Col>
+                  </Row>
+                )}
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                {props.parenttag.id === 0 && (
+                  <p>
+                    This tag will be created and placed at the top level with no
+                    parent. It can be included within any other tag or have tags
+                    added beneath it.
+                  </p>
+                )}
+              </Col>
+            </Row>
+            <Row>
               <Col xs={10} lg={{ span: 6, offset: 2 }}>
                 <FormInput
                   className="mt-5"
@@ -126,6 +167,7 @@ const CreateTagModal = (props) => {
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
                 <FormDropdown
                   handleChange={handleChangeTagType}
+                  value={tagType}
                   options={[
                     { value: "event", label: "Event" },
                     { value: "person", label: "Person" },
@@ -154,27 +196,20 @@ const CreateTagModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parenttag.id === 0 && (
-                  <p>
-                    This tag will be created and placed at the top level with no
-                    parent. It can be included within any other tag or have tags
-                    added beneath it.
-                  </p>
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                {props.parenttag.id !== 0 && (
-                  <Row>
-                    <Col xs={"auto"}>
-                      <div>Parent Tag</div>
-                    </Col>
-                    <Col xs={"auto"}>
-                      <Tag tag={props.parenttag} showAdds={false} />
-                    </Col>
-                  </Row>
-                )}
+                <h4>Cumulative Items</h4>
+                {cumulatives.map((cumItem, i) => (
+                  <FormInput
+                    key={`cumulative${i}`}
+                    name={`cumulative${i}`}
+                    icon="Cube"
+                    value={cumItem}
+                    className={"mb-1"}
+                    handleChange={handleCumulativeChange}
+                  />
+                ))}
+                <Button variant={"success"} onClick={handleAddCumulative}>
+                  Add Cumulative
+                </Button>
               </Col>
             </Row>
           </form>

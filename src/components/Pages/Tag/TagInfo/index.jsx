@@ -6,7 +6,7 @@ import CreateArticleModal from "../../../shared/CreateArticleModal";
 import EditTagModal from "../../../shared/EditTagModal";
 import DateBlock from "../../../shared/DateBlock";
 
-const TagInfo = ({ tag, userData, numChildren, numArticles }) => {
+const TagInfo = ({ tag, userData, numChildren, numArticles, cumulatives }) => {
   const [showCreateTag, setShowCreateTag] = useState(false);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditTag, setShowEditTag] = useState(false);
@@ -100,6 +100,17 @@ const TagInfo = ({ tag, userData, numChildren, numArticles }) => {
                   </Button>
                   <div className={"text-muted"}>Add Article</div>
                 </Col>
+              </Row>
+              <Row>
+                <h4 className={"mt-5 mb-3"}>Cumulative Items</h4>
+                {!tag.data.cumulatives?.length && (
+                  <div>There are no cumulative items for his tag.</div>
+                )}
+                {tag.data.cumulatives?.map((cumItem, i) => (
+                  <div className={"text-muted"} key={`artKeyItem${i}`}>
+                    {cumItem} - {cumulatives[cumItem]}
+                  </div>
+                ))}
               </Row>
             </div>
           </Row>
