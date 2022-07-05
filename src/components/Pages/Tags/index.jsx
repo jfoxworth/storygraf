@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify";
 import { API } from "aws-amplify";
 import { listTagRelations } from "../../../graphql/queries";
 import TagGrid from "./TagGrid";
+import TagChildren from "../../shared/TagChildren";
 
 const Tags = () => {
   let [userData, setUserData] = useState({});
@@ -22,8 +23,6 @@ const Tags = () => {
       filter: { parentId: { eq: 0 } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      console.log("The tag rel data in the tags page is ...");
-      console.log(data);
       setTagRelData(unstringData(data.data.listTagRelations.items));
     });
   };
@@ -53,7 +52,7 @@ const Tags = () => {
             </Col>
           </Row>
           <Row className={"mt-5"}>
-            <TagGrid tagRels={tagRelData} />
+            <TagChildren tag={{ id: 0 }} setNumChildren={() => {}} />
           </Row>
         </Col>
       </Row>

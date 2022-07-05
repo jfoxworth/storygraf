@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { listArticles } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import ArticleLine from "../ArticleLine";
+import { UserContext } from "../../../App";
 
 const TagArticles = ({
   tag,
@@ -22,6 +23,7 @@ const TagArticles = ({
       data.data.listArticles.items.forEach((art) => {
         articleList.push({ ...art, data: JSON.parse(art.data) });
       });
+      console.log(articleList);
       setArticleData(articleList);
       setNumArticles(data.data.listArticles.items.length);
       let temp = [];

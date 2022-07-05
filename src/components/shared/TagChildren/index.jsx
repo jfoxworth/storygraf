@@ -35,7 +35,7 @@ const TagChildren = ({ tag, setNumChildren = () => {} }) => {
       {childData.length > 0 &&
         childData.map((tagRel, j) => {
           return (
-            <Row key={`childtag${j}`}>
+            <Row key={`childtag${j}`} className={"mb-3"}>
               <Col xs={{ span: 6 }} md={{ span: 4 }}>
                 <div style={{ display: "inline-block" }}>
                   <Tag tag={tagRel} />

@@ -16,9 +16,10 @@ import ProfilePage from "./components/Pages/Profile";
 import MainPage from "./components/Pages/MainPage";
 import CreateMainPage from "./components/Pages/CreateMain";
 
+export const UserContext = React.createContext();
+
 function App() {
   const [userData, setUserData] = useState({});
-  const UserContext = React.createContext(userData);
 
   useEffect(() => {
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {

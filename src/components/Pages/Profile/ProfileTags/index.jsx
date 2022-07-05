@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import TagWaterfall from "../../../shared/TagWaterFall";
 import CreateTagModal from "../../../shared/CreateTagModal";
-import CreateArticleModal from "../../../shared/CreateArticleModal";
+import TagChildren from "../../../shared/TagChildren";
 import { API } from "aws-amplify";
 import { listTagRelations } from "../../../../graphql/queries";
 import "../../../../main.css";
 
 const ProfileTags = ({ userData }) => {
   let [showCreateTag, setShowCreateTag] = useState(false);
-  let [showCreateArticle, setShowCreateArticle] = useState(false);
   let [tagRelData, setTagRelData] = useState([]);
   let [parentTag, setParentTag] = useState({ id: 0 });
 
@@ -39,23 +37,11 @@ const ProfileTags = ({ userData }) => {
     setShowCreateTag(true);
   };
 
-  const handleCreateArticleClick = (parentTag) => {
-    setParentTag(parentTag);
-    setShowCreateArticle(true);
-  };
-
   return (
     <>
       <CreateTagModal
         show={showCreateTag}
         setshowcreatetag={setShowCreateTag}
-        parenttag={parentTag}
-        userdata={userData}
-      />
-
-      <CreateArticleModal
-        show={showCreateArticle}
-        setshowcreatearticle={setShowCreateArticle}
         parenttag={parentTag}
         userdata={userData}
       />
@@ -77,16 +63,7 @@ const ProfileTags = ({ userData }) => {
           </Col>
         </Row>
         <Row className={"mt-5"}>
-          {tagRelData.map((tagRel, i) => (
-            <TagWaterfall
-              showArticles={true}
-              showAdds={true}
-              tag={tagRel.childTag}
-              handleCreateTagClick={handleCreateTagClick}
-              handleCreateArticleClick={handleCreateArticleClick}
-              key={`i${tagRel.id}`}
-            />
-          ))}
+          <TagChildren tag={parentTag} setNumChildren={() => {}} />
         </Row>
       </Container>
     </>

@@ -6,6 +6,7 @@ import { getArticle } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import Source from "../../shared/Source";
 import EditArticleModal from "../../shared/EditArticleModal";
+import ArticleLine from "../../shared/ArticleLine";
 
 const ArticlePage = (props) => {
   let [article, setThisArticle] = useState({});
@@ -51,40 +52,19 @@ const ArticlePage = (props) => {
             <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
               <Row className="mt-5">
                 <Col>
-                  <h2 className="accent-bottom mb-3 pb-3">
-                    Article Information
-                  </h2>
-                  <Card>
-                    <Card.Header as="h5">Article Data</Card.Header>
-                    <Card.Body>
-                      <Card.Title>Title : {article.title}</Card.Title>
-                      <Card.Text>
-                        Description : {article.data.description}
-                      </Card.Text>
-                      <Card.Text>
-                        Article Date : {article.articleDate}
-                      </Card.Text>
-                      <Card.Text>Date Added : {article.createdAt}</Card.Text>
-                      <Card.Text>
-                        <Button
-                          onClick={() => {
-                            setShowEditArticle(true);
-                          }}
-                        >
-                          Edit Article
-                        </Button>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                  <h2 className="accent-bottom mb-3 pb-3">Article</h2>
 
-                  <Card className={"mt-5"}>
-                    <Card.Header as="h5">Article Source</Card.Header>
-                    <Card.Body>
-                      <Card.Title>{article.source.sourceName}</Card.Title>
-                      <Card.Text>{article.source.description}</Card.Text>
-                      <Source source={article.source} size={"large"} />
-                    </Card.Body>
-                  </Card>
+                  <ArticleLine article={article} />
+
+                  <Button
+                    onClick={() => {
+                      setShowEditArticle(true);
+                    }}
+                  >
+                    Edit Article
+                  </Button>
+
+                  <h2 className="accent-bottom mt-5 mb-3 pb-3">Comments</h2>
                 </Col>
               </Row>
             </Col>
