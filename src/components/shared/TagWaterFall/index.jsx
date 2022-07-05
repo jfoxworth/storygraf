@@ -63,6 +63,7 @@ const TagWaterfall = ({
               key={`${i}${article.id}`}
               showAdds={showAdds}
               showDelete={showDelete | false}
+              parentTag={tag}
             />
           ))}
 

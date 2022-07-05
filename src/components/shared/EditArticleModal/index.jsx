@@ -1,22 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FormInput from "../Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { API } from "aws-amplify";
 import { updateArticle } from "../../../graphql/mutations";
-import { listSources } from "../../../graphql/queries";
-import Source from "../Source";
 import ArticleLine from "../ArticleLine";
+import { BsXLg } from "react-icons/bs";
 
 const EditArticleModal = (props) => {
   let [article, setArticle] = useState(props.article);
-  let [sourcesData, setSourcesData] = useState([]);
-  let [sourceId, setSourceId] = useState("0000");
-  let [source, setSource] = useState({});
 
   const handleChangeArticleDesc = (event) => {
     setArticle({
       ...article,
       data: { ...article.data, userDescription: event.target.value },
+    });
+  };
+
+  const handleAddCumulative = (event) => {
+    let temp = article.data.cumulatives ? article.data.cumulatives : [];
+    temp.push({ text: "New Cumulative", value: 0 });
+    setArticle({
+      ...article,
+      data: { ...article.data, cumulatives: temp },
+    });
+  };
+  const handleCumulativeChange = (event) => {
+    let temp = [];
+    article.data.cumulatives?.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    if (event.target.name.match("cumulativetext")) {
+      const index = parseInt(event.target.name.replace("cumulativetext", ""));
+      temp[index]["text"] = event.target.value;
+    }
+    if (event.target.name.match("cumulativevalue")) {
+      const index = parseInt(event.target.name.replace("cumulativevalue", ""));
+      temp[index]["value"] = event.target.value;
+    }
+    setArticle({
+      ...article,
+      data: { ...article.data, cumulatives: temp },
+    });
+  };
+  const handleDeleteCumulative = (index) => {
+    let temp = article.data.cumulatives;
+    temp.splice(index, 1);
+    setArticle({
+      ...article,
+      data: { ...article.data, cumulatives: temp },
     });
   };
 
@@ -27,24 +58,16 @@ const EditArticleModal = (props) => {
     });
   };
 
-  /*
-  const handleChangeBullets = (event) => {
-    let bullets = articleData.bullets;
-    bullets[event.target.name] = event.target.value;
-    setArticleData({ ...articleData, bullets: bullets });
-  };
-
-  const addBulletPoint = (event) => {
-    let bullets = articleData.bullets;
-    bullets.push("New Bullet");
-    setArticleData({ ...articleData, bullets: bullets });
-  };
-  */
-
   const editArticle = async (event) => {
+    const tempArt = { ...article };
+    delete tempArt.creator;
+    delete tempArt.source;
+    delete tempArt.createdAt;
+    delete tempArt.updatedAt;
+    tempArt.data = JSON.stringify(article.data);
     return await API.graphql({
       query: updateArticle,
-      variables: { input: article },
+      variables: { input: tempArt },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
@@ -66,7 +89,11 @@ const EditArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <ArticleLine article={article} showEdits={false} />
+                <ArticleLine
+                  article={article}
+                  showEdits={false}
+                  parentTag={props.tag}
+                />
               </Col>
             </Row>
 
@@ -84,18 +111,48 @@ const EditArticleModal = (props) => {
               </Col>
             </Row>
 
-            {source.id && (
-              <Row>
-                <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                  <Row>
-                    <Col xs={"auto"}>Source - </Col>
-                    <Col xs={"auto"}>
-                      {sourceId !== "0000" && <Source source={source} />}
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                <h4>Cumulative Items</h4>
+                {article.data.cumulatives?.map((cumItem, i) => (
+                  <Row key={`cumulativetext${i}`}>
+                    <Col xs={5}>
+                      <FormInput
+                        name={`cumulativetext${i}`}
+                        icon="Cube"
+                        value={cumItem.text}
+                        className={"mb-1"}
+                        handleChange={handleCumulativeChange}
+                      />
+                    </Col>
+                    <Col xs={5}>
+                      <FormInput
+                        name={`cumulativevalue${i}`}
+                        icon="Cube"
+                        value={cumItem.value}
+                        className={"mb-1"}
+                        handleChange={handleCumulativeChange}
+                      />
+                    </Col>
+                    <Col xs={2}>
+                      <Button
+                        variant="outline-secondary"
+                        className="icon-button px-0 py-1 mt-4"
+                        onClick={() => handleDeleteCumulative(i)}
+                      >
+                        <BsXLg
+                          className="lead"
+                          style={{ position: "relative", top: "-3px" }}
+                        />
+                      </Button>
                     </Col>
                   </Row>
-                </Col>
-              </Row>
-            )}
+                ))}
+                <Button variant={"success"} onClick={handleAddCumulative}>
+                  Add Cumulative
+                </Button>
+              </Col>
+            </Row>
           </form>
         </Container>
       </Modal.Body>

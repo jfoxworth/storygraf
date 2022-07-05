@@ -12,9 +12,9 @@ import TagArticles from "../../shared/TagArticles";
 const TagPage = (props) => {
   const [userData, setUserData] = useState({});
   const [thisTag, setThisTag] = useState({});
-  const [parentTag, setParentTag] = useState({ id: 0 });
   const [numChildren, setNumChildren] = useState(0);
   const [numArticles, setNumArticles] = useState(0);
+  const [cumulatives, setCumulatives] = useState([]);
   const params = useParams();
 
   const getThisTag = async (id) => {
@@ -64,6 +64,7 @@ const TagPage = (props) => {
                 userData={userData}
                 numArticles={numArticles}
                 numChildren={numChildren}
+                cumulatives={cumulatives}
               />
 
               <Row className="mt-5">
@@ -83,6 +84,8 @@ const TagPage = (props) => {
                         tag={thisTag}
                         setNumArticles={setNumArticles}
                         showEdits={true}
+                        cumulatives={thisTag.data.cumulatives}
+                        setCumulatives={setCumulatives}
                       />
                     </>
                   )}

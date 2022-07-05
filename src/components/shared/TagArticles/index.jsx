@@ -3,7 +3,13 @@ import { listArticles } from "../../../graphql/queries";
 import { API } from "aws-amplify";
 import ArticleLine from "../ArticleLine";
 
-const TagArticles = ({ tag, showEdits = false, setNumArticles = () => {} }) => {
+const TagArticles = ({
+  tag,
+  showEdits = false,
+  setNumArticles = () => {},
+  cumulatives = [],
+  setCumulatives = () => {},
+}) => {
   const [articleData, setArticleData] = useState([]);
 
   const getTagArticles = async (id) => {
@@ -12,13 +18,27 @@ const TagArticles = ({ tag, showEdits = false, setNumArticles = () => {} }) => {
       variables: { filter: { tagId: { eq: id } } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
-      console.log(data.data.listArticles.items);
       let articleList = [];
       data.data.listArticles.items.forEach((art) => {
         articleList.push({ ...art, data: JSON.parse(art.data) });
       });
       setArticleData(articleList);
       setNumArticles(data.data.listArticles.items.length);
+      let temp = [];
+      articleList.forEach((art) => {
+        art.data?.cumulatives?.forEach((artCumItem) => {
+          cumulatives.forEach((cumItem) => {
+            if (cumItem === artCumItem.text) {
+              if (cumulatives[cumItem]) {
+                temp[cumItem] = temp[cumItem] + artCumItem.value;
+              } else {
+                temp[cumItem] = artCumItem.value;
+              }
+            }
+          });
+        });
+      });
+      setCumulatives(temp);
     });
   };
 
@@ -33,6 +53,7 @@ const TagArticles = ({ tag, showEdits = false, setNumArticles = () => {} }) => {
           article={article}
           key={`${i}${article.id}`}
           showEdits={showEdits}
+          parentTag={tag}
         />
       ))}
     </div>

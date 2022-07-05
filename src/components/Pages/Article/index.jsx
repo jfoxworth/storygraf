@@ -22,7 +22,6 @@ const ArticlePage = (props) => {
       let articleData = data.data.getArticle;
       articleData.data = JSON.parse(articleData.data);
       setThisArticle(articleData);
-      console.log(articleData);
     });
   };
 

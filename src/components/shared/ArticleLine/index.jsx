@@ -8,7 +8,7 @@ import { API } from "aws-amplify";
 import DateBlock from "./dateBlock";
 import EditArticleModal from "../EditArticleModal";
 
-const ArticleLine = ({ article, userData, showEdits = false }) => {
+const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
   const [as, setAs] = useState(true);
   const [showEditArticle, setShowEditArticle] = useState(false);
   let artData =
@@ -38,6 +38,7 @@ const ArticleLine = ({ article, userData, showEdits = false }) => {
         onHide={() => setShowEditArticle(false)}
         article={article}
         userdata={userData}
+        parentTag={tag}
       />
 
       {as && (
@@ -108,6 +109,17 @@ const ArticleLine = ({ article, userData, showEdits = false }) => {
                   ? article.data.userDescription
                   : article?.data?.description}
               </div>
+            </Row>
+            <Row className={"my-3"}>
+              <Col>
+                {article.data?.cumulatives?.map((cumItem, i) => (
+                  <Row key={`cumulative${i}`}>
+                    <div className={"text-muted"} style={{ fontSize: "0.7em" }}>
+                      {cumItem.text} - {cumItem.value}
+                    </div>
+                  </Row>
+                ))}
+              </Col>
             </Row>
           </Col>
         </Row>

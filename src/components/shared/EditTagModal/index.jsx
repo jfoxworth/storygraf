@@ -34,6 +34,21 @@ const EditTagModal = (props) => {
     setTagType(event.target.value);
   };
 
+  let [cumulatives, setCumulatives] = useState([]);
+  const handleAddCumulative = (event) => {
+    setCumulatives(cumulatives.concat(["Cumulative Property"]));
+  };
+
+  const handleCumulativeChange = (event) => {
+    let temp = [];
+    cumulatives.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    const index = parseInt(event.target.name.replace("cumulative", ""));
+    temp[index] = event.target.value;
+    setCumulatives(temp);
+  };
+
   const handleEditTag = (event) => {
     event.preventDefault();
     editTag(event).then((data) => {
@@ -50,6 +65,7 @@ const EditTagModal = (props) => {
         color: tagColor,
         textcolor: textColor,
         description: tagDescription,
+        cumulatives: cumulatives,
       }),
       frontpage: true,
       official: true,
@@ -152,6 +168,25 @@ const EditTagModal = (props) => {
                     </Col>
                   </Row>
                 )}
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                <h4>Cumulative Items</h4>
+                {cumulatives.map((cumItem, i) => (
+                  <FormInput
+                    key={`cumulative${i}`}
+                    name={`cumulative${i}`}
+                    icon="Cube"
+                    value={cumItem}
+                    className={"mb-1"}
+                    handleChange={handleCumulativeChange}
+                  />
+                ))}
+                <Button variant={"success"} onClick={handleAddCumulative}>
+                  Add Cumulative
+                </Button>
               </Col>
             </Row>
           </form>
