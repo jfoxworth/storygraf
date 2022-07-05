@@ -23,7 +23,9 @@ const TagArticles = ({
       data.data.listArticles.items.forEach((art) => {
         articleList.push({ ...art, data: JSON.parse(art.data) });
       });
-      console.log(articleList);
+      articleList.sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : b.createdAt > a.createdAt ? -1 : 0
+      );
       setArticleData(articleList);
       setNumArticles(data.data.listArticles.items.length);
       let temp = [];
