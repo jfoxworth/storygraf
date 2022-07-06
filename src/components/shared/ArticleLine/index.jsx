@@ -54,6 +54,15 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
               time={artData}
               articleid={article?.id}
             />
+            <div className={"mt-3"}>
+              {article.data?.keyPoints?.map((kp, i) => (
+                <Row key={`keypoint${i}`}>
+                  <div className={"text-muted"} style={{ fontSize: "0.7em" }}>
+                    {kp}
+                  </div>
+                </Row>
+              ))}
+            </div>
           </Col>
           <Col xs={{ span: 7 }} lg={{ span: 8 }} className={"pb-3"}>
             <Row className={"mb-3 mx-3"}>
@@ -123,7 +132,7 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
                       : article?.data?.description}
                   </div>
                 </Row>
-                {article.data?.cumulatives.length > 0 && (
+                {article.data?.cumulatives?.length > 0 && (
                   <Row className={"my-3"}>
                     <Col>
                       {article.data?.cumulatives?.map((cumItem, i) => (

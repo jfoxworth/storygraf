@@ -17,6 +17,7 @@ import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import ArticleLine from "../ArticleLine";
+import { BsXLg } from "react-icons/bs";
 const axios = require("axios");
 
 const CreateArticleModal = (props) => {
@@ -180,6 +181,38 @@ const CreateArticleModal = (props) => {
     }
     setCumulatives(temp);
   };
+  const handleDeleteCumulative = (index) => {
+    let temp = [];
+    cumulatives.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    temp.splice(index, 1);
+    setCumulatives(temp);
+  };
+
+  let [keyPoints, setKeyPoints] = useState([]);
+  const handleAddKeyPoint = (event) => {
+    setKeyPoints(keyPoints.concat(["Key Point"]));
+  };
+
+  const handleKeyPointChange = (event) => {
+    let temp = [];
+    keyPoints.forEach((cumItem) => {
+      temp.push(cumItem);
+    });
+    const index = parseInt(event.target.name.replace("keypoint", ""));
+    temp[index] = event.target.value;
+    setKeyPoints(temp);
+  };
+
+  const handleDeleteKeyPoint = (index) => {
+    let temp = [];
+    keyPoints.forEach((kp) => {
+      temp.push(kp);
+    });
+    temp.splice(index, 1);
+    setKeyPoints(temp);
+  };
 
   useEffect(() => {
     getSources();
@@ -263,10 +296,48 @@ const CreateArticleModal = (props) => {
 
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h4>Cumulative Items</h4>
-                {cumulatives.map((cumItem, i) => (
+                <h5 className={"mt-3"}>Key Points</h5>
+                {keyPoints.map((kp, i) => (
+                  <Row className={"p-0 m-0"} key={`keypoint${i}`}>
+                    <Col xs={10}>
+                      <FormInput
+                        name={`keypoint${i}`}
+                        icon="Cube"
+                        value={kp}
+                        className={"m-0 p-0"}
+                        handleChange={handleKeyPointChange}
+                      />
+                    </Col>
+                    <Col xs={2}>
+                      <Button
+                        variant="outline-secondary"
+                        className="icon-button px-0 py-1 mt-4"
+                        onClick={() => handleDeleteKeyPoint(i)}
+                      >
+                        <BsXLg
+                          className="lead"
+                          style={{ position: "relative", top: "-3px" }}
+                        />
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
+                <Button
+                  variant={"success"}
+                  className={"mb-3"}
+                  onClick={handleAddKeyPoint}
+                >
+                  Add Key Point
+                </Button>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
+                <h5 className={"mt-3"}>Cumulative Items</h5>
+                {cumulatives?.map((cumItem, i) => (
                   <Row key={`cumulativetext${i}`}>
-                    <Col>
+                    <Col xs={5}>
                       <FormInput
                         name={`cumulativetext${i}`}
                         icon="Cube"
@@ -275,7 +346,7 @@ const CreateArticleModal = (props) => {
                         handleChange={handleCumulativeChange}
                       />
                     </Col>
-                    <Col>
+                    <Col xs={5}>
                       <FormInput
                         name={`cumulativevalue${i}`}
                         icon="Cube"
@@ -283,6 +354,18 @@ const CreateArticleModal = (props) => {
                         className={"mb-1"}
                         handleChange={handleCumulativeChange}
                       />
+                    </Col>
+                    <Col xs={2}>
+                      <Button
+                        variant="outline-secondary"
+                        className="icon-button px-0 py-1 mt-4"
+                        onClick={() => handleDeleteCumulative(i)}
+                      >
+                        <BsXLg
+                          className="lead"
+                          style={{ position: "relative", top: "-3px" }}
+                        />
+                      </Button>
                     </Col>
                   </Row>
                 ))}
