@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 import { getArticle } from "../../../graphql/queries";
-import { API } from "aws-amplify";
-import Source from "../../shared/Source";
 import EditArticleModal from "../../shared/EditArticleModal";
 import ArticleLine from "../../shared/ArticleLine";
 
@@ -15,6 +12,7 @@ const ArticlePage = (props) => {
   const params = useParams();
 
   const getThisArticle = async (id) => {
+    /*
     await API.graphql({
       query: getArticle,
       variables: { id: id },
@@ -24,13 +22,16 @@ const ArticlePage = (props) => {
       articleData.data = JSON.parse(articleData.data);
       setThisArticle(articleData);
     });
+    */
   };
 
   useEffect(() => {
+    /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
     });
     getThisArticle(params.articleId);
+    */
   }, [params.articleId, showEditArticle]);
 
   return (

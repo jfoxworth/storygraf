@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Auth } from "aws-amplify";
 import { Row } from "react-bootstrap";
 import "./App.css";
-import { withAuthenticator } from "@aws-amplify/ui-react";
-import "@aws-amplify/ui-react/styles.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateSource from "./components/Pages/CreateSource";
 import MainHeader from "./components/shared/MainHeader";
@@ -22,9 +19,11 @@ function App() {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
+    /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
     });
+    */
   }, []);
 
   return (
@@ -51,4 +50,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App, { includeGreetings: true });
+export default App;

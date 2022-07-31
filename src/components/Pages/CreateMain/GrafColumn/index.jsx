@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { updateStorygraf } from "../../../../graphql/mutations";
 
 const GrafColumn = ({ grafdata }) => {
+  /*
   const changeColumnProps = async (event) => {
     event.preventDefault();
     const input = {};
@@ -13,6 +13,7 @@ const GrafColumn = ({ grafdata }) => {
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
   };
+  */
 
   return (
     <Container>

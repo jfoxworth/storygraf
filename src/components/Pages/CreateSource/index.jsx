@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import { API } from "aws-amplify";
-import { Auth } from "aws-amplify";
 import { createSource } from "../../../graphql/mutations";
 
 const CreateSource = () => {
   let userData = "";
+  /*
   Auth.currentAuthenticatedUser({ bypassCache: true }).then(
     (data) => (userData = data)
   );
+  */
   let [sourceName, setSourceName] = useState("");
   const handleChangeSourceName = (event) => {
     setSourceName(event.target.value);
@@ -40,11 +40,13 @@ const CreateSource = () => {
       sourceImage: sourceImage,
       description: sourceDescription,
     };
+    /*
     await API.graphql({
       query: createSource,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
+  */
 
     setSourceName("");
     setSourceURL("");

@@ -13,7 +13,6 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { createArticle } from "../../../graphql/mutations";
 import { listSources } from "../../../graphql/queries";
 import ArticleLine from "../ArticleLine";
@@ -151,12 +150,14 @@ const CreateArticleModal = (props) => {
   };
 
   const getSources = async (id) => {
+    /*
     await API.graphql({
       query: listSources,
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {
       setSourcesData(data.data.listSources.items);
     });
+    */
   };
 
   let [cumulatives, setCumulatives] = useState([]);
@@ -224,11 +225,13 @@ const CreateArticleModal = (props) => {
       data: JSON.stringify(article.data),
       sourceId: source.id,
     };
+    /*
     return await API.graphql({
       query: createArticle,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
+    */
   };
 
   const setArticleSource = (url) => {

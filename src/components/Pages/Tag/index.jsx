@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 import { getTag } from "../../../graphql/queries";
-import { API } from "aws-amplify";
 import Tag from "../../shared/Tag";
 import TagInfo from "./TagInfo";
 import TagChildren from "../../shared/TagChildren";
@@ -18,6 +16,7 @@ const TagPage = (props) => {
   const params = useParams();
 
   const getThisTag = async (id) => {
+    /*
     await API.graphql({
       query: getTag,
       variables: { id: id },
@@ -27,13 +26,16 @@ const TagPage = (props) => {
       tagData.data = JSON.parse(tagData.data);
       setThisTag(tagData);
     });
+    */
   };
 
   useEffect(() => {
+    /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
     });
     getThisTag(params.tagId);
+    */
   }, [params.tagId]);
 
   return (

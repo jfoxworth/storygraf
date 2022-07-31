@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CreateTagModal from "../../../shared/CreateTagModal";
 import TagChildren from "../../../shared/TagChildren";
-import { API } from "aws-amplify";
 import { listTagRelations } from "../../../../graphql/queries";
 import "../../../../main.css";
 
@@ -19,6 +18,7 @@ const ProfileTags = ({ userData }) => {
   };
 
   const getTags = async (event) => {
+    /*
     await API.graphql({
       query: listTagRelations,
       variables: { filter: { parentId: { eq: "0" } } },
@@ -26,6 +26,7 @@ const ProfileTags = ({ userData }) => {
     }).then((data) => {
       setTagRelData(unstringData(data.data.listTagRelations.items));
     });
+    */
   };
 
   useEffect(() => {

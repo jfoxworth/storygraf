@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { updateTag } from "../../../graphql/mutations";
 import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
@@ -71,12 +70,14 @@ const EditTagModal = (props) => {
       official: true,
       type: tagType,
     };
+    /*
 
     return await API.graphql({
       query: updateTag,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
+    */
   };
 
   return (

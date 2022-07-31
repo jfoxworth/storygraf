@@ -18,6 +18,7 @@ const TagWaterfall = ({
   const [articleData, setArticleData] = useState([]);
 
   const getTagChildren = async (id) => {
+    /*
     await API.graphql({
       query: listTagRelations,
       variables: { filter: { parentId: { eq: id } } },
@@ -25,9 +26,11 @@ const TagWaterfall = ({
     }).then((data) => {
       setChildData(data.data.listTagRelations.items);
     });
+    */
   };
 
   const getTagArticles = async (id) => {
+    /*
     await API.graphql({
       query: listArticles,
       variables: { filter: { tagId: { eq: id } } },
@@ -35,6 +38,7 @@ const TagWaterfall = ({
     }).then((data) => {
       setArticleData(data.data.listArticles.items);
     });
+    */
   };
 
   useEffect(() => {

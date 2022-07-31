@@ -4,7 +4,6 @@ import Source from "../Source";
 import "../../../main.css";
 import { BsFillTrashFill, BsGear } from "react-icons/bs";
 import { deleteArticle } from "../../../graphql/mutations";
-import { API } from "aws-amplify";
 import DateBlock from "./dateBlock";
 import EditArticleModal from "../EditArticleModal";
 
@@ -15,19 +14,23 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
     typeof article.data === "string" ? JSON.parse(article.data) : article.data;
 
   const deleteThisArticle = async (id) => {
+    /*
     return await API.graphql({
       query: deleteArticle,
       variables: { input: { id: id } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then(setAs(false));
+    */
   };
 
   const editThisArticle = async (id) => {
+    /*
     return await API.graphql({
       query: deleteArticle,
       variables: { input: { id: id } },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then(setAs(false));
+    */
   };
 
   return (

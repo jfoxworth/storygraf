@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { listTagRelations } from "../../../graphql/queries";
 import { Row, Col } from "react-bootstrap";
-import { API } from "aws-amplify";
 import Tag from "../Tag";
 
 const TagChildren = ({ tag, setNumChildren = () => {} }) => {
   const [childData, setChildData] = useState([]);
 
   const getTagChildren = async (id) => {
+    /*
     await API.graphql({
       query: listTagRelations,
       variables: { filter: { parentId: { eq: id } } },
@@ -24,6 +24,7 @@ const TagChildren = ({ tag, setNumChildren = () => {} }) => {
       setChildData(childArray);
       setNumChildren(data.data.listTagRelations.items.length);
     });
+    */
   };
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { listSources } from "../../../graphql/queries";
 import Source from "../../shared/Source";
 import { BsFillGrid3X3GapFill, BsList } from "react-icons/bs";
@@ -11,11 +10,13 @@ const ListSources = () => {
 
   const getSources = async () => {
     const input = {};
+    /*
     await API.graphql({
       query: listSources,
       variables: { input: input },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => setSourceData(data.data.listSources.items));
+    */
   };
 
   useEffect(() => {

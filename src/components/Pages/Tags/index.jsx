@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Auth } from "aws-amplify";
-import { API } from "aws-amplify";
 import { listTagRelations } from "../../../graphql/queries";
 import TagGrid from "./TagGrid";
 import TagChildren from "../../shared/TagChildren";
@@ -18,6 +16,7 @@ const Tags = () => {
   };
 
   const getTags = async (event) => {
+    /*
     await API.graphql({
       query: listTagRelations,
       filter: { parentId: { eq: 0 } },
@@ -25,13 +24,16 @@ const Tags = () => {
     }).then((data) => {
       setTagRelData(unstringData(data.data.listTagRelations.items));
     });
+    */
   };
 
   useEffect(() => {
+    /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
       getTags();
     });
+    */
   }, []);
 
   return (

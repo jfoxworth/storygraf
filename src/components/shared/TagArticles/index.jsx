@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { listArticles } from "../../../graphql/queries";
-import { API } from "aws-amplify";
 import ArticleLine from "../ArticleLine";
 import { UserContext } from "../../../App";
 
@@ -14,6 +13,7 @@ const TagArticles = ({
   const [articleData, setArticleData] = useState([]);
 
   const getTagArticles = async (id) => {
+    /*
     await API.graphql({
       query: listArticles,
       variables: { filter: { tagId: { eq: id } } },
@@ -44,6 +44,7 @@ const TagArticles = ({
       });
       setCumulatives(temp);
     });
+    */
   };
 
   useEffect(() => {

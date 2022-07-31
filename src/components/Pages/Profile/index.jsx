@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 import { getUser } from "../../../graphql/queries";
-import { API } from "aws-amplify";
 
 import ProfileCard from "./ProfileCard";
 import ProfileTags from "./ProfileTags";
@@ -15,6 +13,7 @@ const ProfilePage = () => {
 
   const getThisUser = async (id) => {
     if (id) {
+      /*
       await API.graphql({
         query: getUser,
         variables: { id: id },
@@ -26,17 +25,20 @@ const ProfilePage = () => {
         pData.data = JSON.parse(pData.data);
         setProfileData(pData);
       });
+      */
     } else {
       setProfileData({});
     }
   };
 
   useEffect(() => {
+    /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);
       console.log(data);
     });
     getThisUser(params.userId);
+    */
   }, [params.userId]);
 
   return (

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { updateArticle } from "../../../graphql/mutations";
 import ArticleLine from "../ArticleLine";
 import { BsXLg } from "react-icons/bs";
@@ -94,11 +93,13 @@ const EditArticleModal = (props) => {
     delete tempArt.createdAt;
     delete tempArt.updatedAt;
     tempArt.data = JSON.stringify(article.data);
+    /*
     return await API.graphql({
       query: updateArticle,
       variables: { input: tempArt },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     });
+    */
   };
 
   return (

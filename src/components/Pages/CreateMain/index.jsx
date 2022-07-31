@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { API } from "aws-amplify";
 import { listStorygrafs } from "../../../graphql/queries";
 import { createStorygraf } from "../../../graphql/mutations";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 import { listTagRelations } from "../../../graphql/queries";
 import GrafColumn from "./GrafColumn";
-import { Auth } from "aws-amplify";
 
 const CreateMainPage = () => {
   const [tagRelData, setTagRelData] = useState([]); // Changing data holding the relevant tag data for the selected tag
@@ -19,6 +17,7 @@ const CreateMainPage = () => {
 
   const getTags = async (id) => {
     console.log(id);
+    /*
     await API.graphql({
       query: listTagRelations,
       filter: { parentId: { eq: id } },
@@ -29,9 +28,11 @@ const CreateMainPage = () => {
       console.log(data);
       setTagRelData(unstringData(data.data.listTagRelations.items));
     });
+    */
   };
 
   const getPageGraf = async () => {
+    /*
     await API.graphql({
       query: listStorygrafs,
       variables: {},
@@ -43,14 +44,17 @@ const CreateMainPage = () => {
       console.log(temp);
       setStorygraf(temp);
     });
+    */
   };
 
   useEffect(() => {
+    /*
     getPageGraf();
     getTags(0);
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) =>
       setUserData(data)
     );
+    */
   }, []);
 
   const unstringData = (items) => {
@@ -129,11 +133,13 @@ const CreateMainPage = () => {
     temp.creatorId = userData.username;
     temp.approved = true;
     temp.data = JSON.stringify(storygraf.data);
+    /*
     await API.graphql({
       query: createStorygraf,
       variables: { input: temp },
       authMode: "AMAZON_COGNITO_USER_POOLS",
     }).then((data) => {});
+    */
   };
 
   return (
