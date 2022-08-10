@@ -12,6 +12,8 @@ import ArticlePage from "./components/Pages/Article";
 import ProfilePage from "./components/Pages/Profile";
 import MainPage from "./components/Pages/MainPage";
 import CreateMainPage from "./components/Pages/CreateMain";
+import RegisterPage from "./components/Pages/Register";
+import LoginPage from "./components/Pages/Login";
 
 export const UserContext = React.createContext();
 
@@ -42,6 +44,8 @@ function App() {
             <Route path="/Article/:articleId" element={<ArticlePage />} />
             <Route path="/Profile/:userId" element={<TagPage />} />
             <Route path="/Profile" element={<ProfilePage />} />
+            <Route path="/Register" element={<RegisterPage />} />
+            <Route path="/Login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
         <MainFooter />

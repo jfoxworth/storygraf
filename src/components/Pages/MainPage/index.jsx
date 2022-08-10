@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import CognitoUserPool from "../../shared/CognitoPool";
+import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
 
 const MainPage = () => {
   const getPageGraf = async () => {
@@ -20,6 +22,34 @@ const MainPage = () => {
 
   useEffect(() => {
     getPageGraf();
+    console.log(CognitoUserPool);
+    var attributeList = [];
+    var dataEmail = {
+      Name: "email",
+      Value: "email@mydomain.com",
+    };
+    console.log("here 1");
+    var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
+      dataEmail
+    );
+    console.log("here 2");
+    attributeList.push(attributeEmail);
+
+    console.log("here 3");
+    CognitoUserPool.signUp(
+      "username",
+      "123asdASD>?",
+      attributeList,
+      function (err, result) {
+        if (err) {
+          alert(err.message || JSON.stringify(err));
+          return;
+        }
+        var cognitoUser = result.user;
+        console.log("user name is " + cognitoUser.getUsername());
+      }
+    );
+    console.log("here 4");
   }, []);
 
   return (
