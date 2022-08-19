@@ -1,32 +1,34 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Container, Form, Button } from "react-bootstrap";
-import { signUpUser } from "../../../shared/utils/cognito";
+import React from "react";
+import { Container, Button } from "react-bootstrap";
 import InputWrapper from "../../../shared/Forms/InputWrapper";
 
 const RegistrationForm = ({ disabled }) => {
   return (
     <Container>
-      <Form>
-        <InputWrapper label={"User Name"} name={"username"} required={true} />
-        <InputWrapper label={"email"} name={"email"} required={true} />
-        <InputWrapper label={"Password"} name={"password"} required={true} />
-        <InputWrapper
-          label={"Repeat Password"}
-          name={"repeatPassword"}
-          required={true}
-        />
+      <InputWrapper label={"User Name"} name={"username"} required={true} />
+      <InputWrapper label={"email"} name={"email"} required={true} />
+      <InputWrapper
+        label={"Password"}
+        name={"password"}
+        type={"password"}
+        required={true}
+      />
+      <InputWrapper
+        label={"Repeat Password"}
+        name={"repeatPassword"}
+        type={"password"}
+        required={true}
+      />
 
-        <p className="forgot-password text-right">
-          Already registered <a href="/login">log in?</a>
-        </p>
+      <p className="forgot-password text-right">
+        Already registered <a href="/login">log in?</a>
+      </p>
 
-        {disabled && (
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        )}
-      </Form>
+      {disabled && (
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      )}
     </Container>
   );
 };

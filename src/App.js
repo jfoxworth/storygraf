@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./components/Contexts/UserContext";
 import CreateSource from "./components/Pages/CreateSource";
 import MainHeader from "./components/shared/MainHeader";
 import MainFooter from "./components/shared/MainFooter";
@@ -14,23 +15,12 @@ import MainPage from "./components/Pages/MainPage";
 import CreateMainPage from "./components/Pages/CreateMain";
 import RegisterPage from "./components/Pages/Register";
 import LoginPage from "./components/Pages/Login";
-
-export const UserContext = React.createContext();
+import ConfirmPage from "./components/Pages/Confirm";
 
 function App() {
-  const [userData, setUserData] = useState({});
-
-  useEffect(() => {
-    /*
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-    });
-    */
-  }, []);
-
   return (
     <>
-      <UserContext.Provider value={userData}>
+      <UserProvider>
         <MainHeader />
         <Row className="mt-5"></Row>
         <BrowserRouter>
@@ -46,10 +36,11 @@ function App() {
             <Route path="/Profile" element={<ProfilePage />} />
             <Route path="/Register" element={<RegisterPage />} />
             <Route path="/Login" element={<LoginPage />} />
+            <Route path="/Confirm/:username" element={<ConfirmPage />} />
           </Routes>
         </BrowserRouter>
         <MainFooter />
-      </UserContext.Provider>
+      </UserProvider>
     </>
   );
 }

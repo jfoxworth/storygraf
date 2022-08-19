@@ -13,11 +13,7 @@ const RegisterPage = () => {
   const [disableButton, setDisabled] = useState(true);
 
   const onFormSubmit = (e) => {
-    console.log("Form submitting");
-    /*
-    e.preventDefault();
     signUpUser(username, email, password);
-    */
   };
 
   const validate = (values) => {
@@ -42,7 +38,6 @@ const RegisterPage = () => {
       errors.repeatPassword = "The password must be entered twice";
     }
     if (values?.password !== values?.repeatPassword) {
-      errors.password = "The first password must match the second password";
       errors.repeatPassword =
         "The first password must match the second password";
     }
@@ -64,9 +59,9 @@ const RegisterPage = () => {
         <Form
           onSubmit={onFormSubmit}
           validate={validate}
-          render={({ onFormSubmit }) => {
+          render={({ handleSubmit }) => {
             return (
-              <form onSubmit={onFormSubmit}>
+              <form onSubmit={handleSubmit}>
                 <RegistrationForm disabled={disableButton} />
               </form>
             );

@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { listTagRelations } from "../../../graphql/queries";
 import TagGrid from "./TagGrid";
 import TagChildren from "../../shared/TagChildren";
+const axios = require("axios");
 
 const Tags = () => {
   let [userData, setUserData] = useState({});
@@ -16,6 +17,17 @@ const Tags = () => {
   };
 
   const getTags = async (event) => {
+    try {
+      axios({
+        url: process.env.REACT_APP_API_GATEWAY + "/tags",
+        method: "GET",
+        data: {},
+      }).then(({ data }) => {
+        console.log(data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
     /*
     await API.graphql({
       query: listTagRelations,
@@ -28,6 +40,7 @@ const Tags = () => {
   };
 
   useEffect(() => {
+    getTags();
     /*
     Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
       setUserData(data);

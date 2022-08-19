@@ -1,49 +1,66 @@
-/*
-  This is a wrapper for an input element that will be used throughout the site.
-  It is designed to be used as part of a React Final Form form. The component 
-  will house the label, error / helper message, and other items that are 
-  related to the input.
-*/
-
 import React from "react";
 import { Field } from "react-final-form";
-import { Form, InputGroup, FormControl } from "react-bootstrap";
+import styled from "styled-components";
 
 const InputWrapper = ({
   label,
   placeholder = null,
   required,
+  displayValue = "",
   name,
+  type = "text",
   ...otherProps
 }) => {
   const showLabel = required ? label + "*" : label;
 
   return (
-    <div>
-      <Form>
-        <Form.Group className="mb-3">
-          <Field name={name}>
-            {({ input, meta }) => {
-              const isError = meta.touched && meta.invalid;
+    <FieldWrapper>
+      <Field name={name}>
+        {({ input, meta }) => {
+          const isError = meta.touched && meta.invalid;
 
-              return (
-                <>
-                  <Form.Label>{label && <span>{showLabel}</span>}</Form.Label>
-                  <Form.Control
-                    {...input}
-                    type="text"
-                    placeholder={placeholder}
-                  />
-                  {isError && (
-                    <Form.Text className="text-danger">{meta.error}</Form.Text>
-                  )}
-                </>
-              );
-            }}
-          </Field>
-        </Form.Group>
-      </Form>
-    </div>
+          return (
+            <>
+              <InputLabel>{label && <span>{showLabel}</span>}</InputLabel>
+              <InputClass
+                className={InputClass}
+                {...input}
+                type={type}
+                placeholder={placeholder}
+              />
+
+              {isError && <ErrorBox>{meta.error}</ErrorBox>}
+            </>
+          );
+        }}
+      </Field>
+    </FieldWrapper>
   );
 };
+
+const FieldWrapper = styled.div`
+  display: block;
+  margin: 1em auto;
+`;
+
+const InputLabel = styled.div`
+  display: block;
+  margin: 0.2em auto;
+  font-color: #808080;
+`;
+
+const InputClass = styled.input`
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 8px;
+`;
+
+const ErrorBox = styled.div`
+  display: block;
+  margin: 0.2em 0.2em;
+  color: red;
+  font-size: 0.7em;
+`;
+
 export default InputWrapper;

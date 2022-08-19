@@ -1,5 +1,6 @@
 import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
 import * as AWS from "aws-sdk/global";
+import { useHistory } from "react-router-dom";
 
 const createPool = () => {
   const poolData = {
@@ -24,12 +25,35 @@ const signUpUser = (username, email, password) => {
     username,
     password,
     attributeList,
+    {},
     function (err, result) {
       if (err) {
         alert(err.message || JSON.stringify(err));
         return;
       }
       var cognitoUser = result.user;
+      //      history.push("/confirm/" + cognitoUser.username);
+    }
+  );
+};
+
+const confirmUser = (username, confirmationNumber) => {
+  const userPool = createPool();
+  var userData = {
+    Username: username,
+    Pool: userPool,
+  };
+  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  cognitoUser.confirmRegistration(
+    confirmationNumber,
+    true,
+    function (err, result) {
+      if (err) {
+        alert(err.message || JSON.stringify(err));
+        return;
+      }
+      console.log("call result: " + result);
+      //      history.push("/profile");
     }
   );
 };
@@ -43,9 +67,8 @@ const loginUser = (username, password) => {
     authenticationData
   );
   var userPool = createPool();
-  console.log(userPool);
   var userData = {
-    Username: "username",
+    Username: username,
     Pool: userPool,
   };
   var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
@@ -84,4 +107,4 @@ const loginUser = (username, password) => {
   });
 };
 
-export { createPool, signUpUser, loginUser };
+export { createPool, signUpUser, loginUser, confirmUser };

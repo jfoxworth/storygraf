@@ -3,6 +3,7 @@ import LoginForm from "./LoginForm";
 import styled from "styled-components";
 import { Container } from "react-bootstrap";
 import { Form } from "react-final-form";
+import { loginUser } from "../../shared/utils/cognito";
 
 const LoginPage = () => {
   const LoginContainer = styled.div`
@@ -10,12 +11,8 @@ const LoginPage = () => {
     margin: 10em auto;
   `;
 
-  const onFormSubmit = (e) => {
-    console.log("Form submitting");
-    /*
-    e.preventDefault();
-    signUpUser(username, email, password);
-    */
+  const onFormSubmit = async (values) => {
+    loginUser(values.username, values.password);
   };
 
   return (
@@ -24,9 +21,9 @@ const LoginPage = () => {
         <h1 className="mb-4">Login</h1>
         <Form
           onSubmit={onFormSubmit}
-          render={({ onFormSubmit }) => {
+          render={({ handleSubmit }) => {
             return (
-              <form onSubmit={onFormSubmit}>
+              <form onSubmit={handleSubmit}>
                 <LoginForm />
               </form>
             );
