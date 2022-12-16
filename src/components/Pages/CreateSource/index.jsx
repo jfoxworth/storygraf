@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import { createSource } from "../../../graphql/mutations";
 
 const CreateSource = () => {
   let userData = "";
@@ -32,21 +31,26 @@ const CreateSource = () => {
 
   const handleAddSource = async (event) => {
     event.preventDefault();
-    const input = {
-      sourceName: sourceName,
-      creatorId: userData.username,
-      creatorEmail: userData.attributes.email,
-      sourceUrl: sourceURL,
-      sourceImage: sourceImage,
-      description: sourceDescription,
-    };
-    /*
-    await API.graphql({
-      query: createSource,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
+    fetch("http://localhost:3080/api/source", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Item: {
+          data: {
+            sourceName: sourceName,
+            creatorId: userData?.username,
+            creatorEmail: userData?.attributes?.email,
+            sourceUrl: sourceURL,
+            sourceImage: sourceImage,
+            description: sourceDescription,
+          },
+        },
+      }),
+    }).then((response) => {
+      console.log(response.data);
     });
-  */
 
     setSourceName("");
     setSourceURL("");

@@ -1,27 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { listSources } from "../../../graphql/queries";
 import Source from "../../shared/Source";
 import { BsFillGrid3X3GapFill, BsList } from "react-icons/bs";
+import { useSource } from "../../Contexts/SourceContext";
 
 const ListSources = () => {
-  let [sourceData, setSourceData] = useState([]);
   let [listType, setListType] = useState("grid");
-
-  const getSources = async () => {
-    const input = {};
-    /*
-    await API.graphql({
-      query: listSources,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => setSourceData(data.data.listSources.items));
-    */
-  };
-
-  useEffect(() => {
-    getSources();
-  }, []);
+  const sourceData = useSource();
 
   return (
     <Container>
@@ -65,7 +50,7 @@ const ListSources = () => {
                 <Col xs={"2"}>
                   <Source source={source} size={"large"} />
                 </Col>
-                <Col xs={"10"}>{source.description}</Col>
+                <Col xs={"10"}>{source.data.description}</Col>
               </Row>
             ))}
           </Col>

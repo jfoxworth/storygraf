@@ -1,42 +1,71 @@
+/*
+ 
+     This page displays a "tag" in storygraf. This component fetches all 
+     items with a primary key of "PTAG<PTAGID>". This will be the data 
+     for the tag in question, all direct child tags, and all direct article
+     children as well as any embedded tags, imported tags, or accumulated 
+     items. It then calls children components to display the information.
+     
+ */
+
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getTag } from "../../../graphql/queries";
 import Tag from "../../shared/Tag";
 import TagInfo from "./TagInfo";
 import TagChildren from "../../shared/TagChildren";
 import TagArticles from "../../shared/TagArticles";
 
-const TagPage = (props) => {
-  const [userData, setUserData] = useState({});
+const TagPage = () => {
   const [thisTag, setThisTag] = useState({});
-  const [numChildren, setNumChildren] = useState(0);
-  const [numArticles, setNumArticles] = useState(0);
-  const [cumulatives, setCumulatives] = useState([]);
+  const [childData, setChildData] = useState([]);
   const params = useParams();
+  const userData = {};
 
-  const getThisTag = async (id) => {
-    /*
-    await API.graphql({
-      query: getTag,
-      variables: { id: id },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => {
-      let tagData = data.data.getTag;
-      tagData.data = JSON.parse(tagData.data);
-      setThisTag(tagData);
+  // Get all tags, articles, and other items for this tag
+  const getTagChildren = (tagId) => {
+    fetch("http://localhost:3080/api/tag_children/PTAG/" + tagId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => setChildData(JSON.parse(data).Items));
+  };
+
+  // Get this tag info (different parent from above)
+  const getTagInfo = (pTagId, tagId) => {
+    fetch("http://localhost:3080/api/tag/" + pTagId + "/" + tagId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => setThisTag(JSON.parse(data)));
+  };
+
+  // Check how many child articles and tags this tag has
+  const checkChildNumbers = () => {
+    setThisTag({
+      ...thisTag,
+      data: {
+        ...thisTag.data,
+        childTags: childData.filter((tag) => tag.type === "TAG").length,
+        childArticles: childData.filter((tag) => tag.type === "ARTICLE").length,
+      },
     });
-    */
   };
 
   useEffect(() => {
-    /*
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-    });
-    getThisTag(params.tagId);
-    */
+    getTagInfo(params.pTagId, params.tagId);
+    getTagChildren(params.tagId);
   }, [params.tagId]);
+
+  useEffect(() => {
+    checkChildNumbers(thisTag);
+  }, [childData.length]);
 
   return (
     <>
@@ -61,13 +90,8 @@ const TagPage = (props) => {
                 </Col>
               </Row>
 
-              <TagInfo
-                tag={thisTag}
-                userData={userData}
-                numArticles={numArticles}
-                numChildren={numChildren}
-                cumulatives={cumulatives}
-              />
+              {/* Display info for the tag */}
+              <TagInfo tag={thisTag} userData={userData || {}} />
 
               <Row className="mt-5">
                 <Col>
@@ -78,16 +102,19 @@ const TagPage = (props) => {
                 <Col>
                   {thisTag && (
                     <>
+                      {/* Display child tags */}
                       <TagChildren
-                        tag={thisTag}
-                        setNumChildren={setNumChildren}
+                        childTags={childData.filter(
+                          (tag) => tag.id !== params.tagId && tag.type === "TAG"
+                        )}
                       />
+                      {/* Display child articles */}
                       <TagArticles
-                        tag={thisTag}
-                        setNumArticles={setNumArticles}
+                        articles={childData.filter(
+                          (tag) =>
+                            tag.id !== params.tagId && tag.type === "ARTICLE"
+                        )}
                         showEdits={true}
-                        cumulatives={thisTag.data.cumulatives}
-                        setCumulatives={setCumulatives}
                       />
                     </>
                   )}

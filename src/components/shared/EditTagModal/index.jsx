@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { updateTag } from "../../../graphql/mutations";
 import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 
 const EditTagModal = (props) => {
-  let [tagName, setTagName] = useState(props.tag.name);
+  let [tagName, setTagName] = useState(props.tag.data.tagName);
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
   };
 
-  let [tagColor, setTagColor] = useState(props.tag.data.color);
+  let [tagColor, setTagColor] = useState(props.tag.data.tagColor);
   const handleChangeTagColor = (event) => {
     setTagColor(event.target.value);
   };
@@ -26,9 +25,10 @@ const EditTagModal = (props) => {
   );
   const handleChangeTagDescription = (event) => {
     setTagDescription(event.target.value);
+    props.setShowDesc(event.target.value);
   };
 
-  let [tagType, setTagType] = useState(props.tag.type);
+  let [tagType, setTagType] = useState(props.tag.data.type);
   const handleChangeTagType = (event) => {
     setTagType(event.target.value);
   };
@@ -50,40 +50,35 @@ const EditTagModal = (props) => {
 
   const handleEditTag = (event) => {
     event.preventDefault();
-    editTag(event).then((data) => {
+    fetch("http://localhost:3080/api/tag", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Item: {
+          ...props.tag,
+          data: {
+            description: tagDescription,
+            tagName: tagName,
+            type: tagType,
+            childTags: props.tag.data.childTags || 0,
+            childArticles: props.tag.data.childArticles || 0,
+            textColor: textColor,
+            tagColor: tagColor,
+          },
+        },
+      }),
+    }).then((response) => {
+      console.log(response);
       props.setshowedittag(false);
     });
-  };
-
-  const editTag = async (event) => {
-    const input = {
-      id: props.tag.id,
-      name: tagName,
-      creatorId: props.userdata.username,
-      data: JSON.stringify({
-        color: tagColor,
-        textcolor: textColor,
-        description: tagDescription,
-        cumulatives: cumulatives,
-      }),
-      frontpage: true,
-      official: true,
-      type: tagType,
-    };
-    /*
-
-    return await API.graphql({
-      query: updateTag,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    */
   };
 
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Tag - {props.tag.name}</Modal.Title>
+        <Modal.Title>Edit Tag - {props.tag.data.tagName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -161,33 +156,17 @@ const EditTagModal = (props) => {
                       <Tag
                         tag={{
                           ...props.tag,
-                          name: tagName,
-                          data: { color: tagColor, textcolor: textColor },
+                          data: {
+                            ...props.tag.data,
+                            tagColor: tagColor,
+                            textColor: textColor,
+                          },
                         }}
                         showAdds={false}
                       />
                     </Col>
                   </Row>
                 )}
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h4>Cumulative Items</h4>
-                {cumulatives.map((cumItem, i) => (
-                  <FormInput
-                    key={`cumulative${i}`}
-                    name={`cumulative${i}`}
-                    icon="Cube"
-                    value={cumItem}
-                    className={"mb-1"}
-                    handleChange={handleCumulativeChange}
-                  />
-                ))}
-                <Button variant={"success"} onClick={handleAddCumulative}>
-                  Add Cumulative
-                </Button>
               </Col>
             </Row>
           </form>

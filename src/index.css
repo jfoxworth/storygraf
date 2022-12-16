@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.titleFont {
+  font-family: "Montserrat";
+  font-weight: 500;
+  color: rgb(63, 65, 58);
+}
+
+.bodyFont {
+  font-family: "PT Serif";
+  font-weight: 400;
+}
+
+.greyText {
+  color: rgb(145, 147, 150);
+}

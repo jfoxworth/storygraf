@@ -1,7 +1,7 @@
 import React from "react";
 
 const DateBlock = ({ dateString }) => {
-  let dayWritten = new Date(dateString);
+  let dayWritten = new Date(dateString * 1000);
   dayWritten.setDate(dayWritten.getDate() + 1);
   let monthArr = [
     "Jan",

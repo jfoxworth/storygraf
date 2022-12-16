@@ -28,20 +28,24 @@ Sleek and Modern
 }
 
 .navbar-color {
+  /*
   background-color: #2f2e33 !important;
   border-bottom: 10px solid #3a5199 !important;
 
   background-color: #1a405f !important;
   border-bottom: 10px solid #337bae !important;
+*/
 
-  background-color: #20232a !important; /* Industrial and in Control */
-  border-bottom: 10px solid #a01d26 !important;
+  /*  background-color: #20232a !important; /* Industrial and in Control */
+  /*  border-bottom: 10px solid #a01d26 !important;
 
   background-color: #2f3131 !important; /* Modern and Urban */
-  border-bottom: 10px solid #426e86 !important;
+  /*  border-bottom: 10px solid #426e86 !important;
 
   background-color: #2f2e33 !important; /* Sleek and Modern */
-  border-bottom: 10px solid #d5d6d2 !important;
+  /*  border-bottom: 10px solid #d5d6d2 !important;
+*/
+  background-color: #3c37f1 !important;
 }
 
 .accent-border {

@@ -13,22 +13,18 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../Forms/FormInput";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
-import { createArticle } from "../../../graphql/mutations";
-import { listSources } from "../../../graphql/queries";
 import ArticleLine from "../ArticleLine";
 import { BsXLg } from "react-icons/bs";
-const axios = require("axios");
+import { useSource } from "../../Contexts/SourceContext";
 
 const CreateArticleModal = (props) => {
-  const [sourcesData, setSourcesData] = useState([]);
+  const sourceData = useSource();
   const [source, setSource] = useState({});
   const [articleLink, setArticleLink] = useState("");
   const [userDescription, setUserDescription] = useState("");
 
   const [article, setArticle] = useState({
     link: "",
-    title: "",
-    dateWritten: new Date(),
     articleDate: new Date(),
     data: {
       description: "",
@@ -40,31 +36,35 @@ const CreateArticleModal = (props) => {
       locale: "",
       site_name: "",
       opinion: false,
+      title: "",
       modified_time: new Date(),
       published_time: new Date(),
       modified: new Date(),
       published: new Date(),
-      type: "article",
-      cumulatives: [],
+      tagId: props.tag.parent_tag_id,
     },
-    approved: false,
-    admin: false,
-    tagId: props.parenttag.id,
-    creatorId: props.userdata.username,
+    creatorId: props.userdata?.username,
     sourceId: "",
   });
 
   const handleChangeLink = (event) => {
+    console.log(event.target.value);
     setArticleSource(event.target.value);
     setArticleLink(event.target.value);
-    try {
-      axios({
-        url: "http://localhost:3001/scrape",
-        method: "post",
-        data: {
-          url: event.target.value,
-        },
-      }).then(({ data }) => {
+    fetch("http://localhost:3001/scrape", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: event.target.value,
+      }),
+      params: JSON.stringify({
+        url: event.target.value,
+      }),
+    })
+      .then((response) => response.text())
+      .then((rawdata) => {
+        const data = JSON.parse(rawdata);
+        console.log(data);
         const url = data.ogUrl ? data.ogUrl : event.target.value;
         const title = data.ogTitle
           ? data.ogTitle
@@ -96,18 +96,18 @@ const CreateArticleModal = (props) => {
         const type = data.ogType ? data.ogType : "";
         const author = data.dcCreator;
         let artSource = "";
-        sourcesData.forEach((source, i) => {
-          if (url.includes(source.sourceUrl)) {
+        sourceData.forEach((source, i) => {
+          if (url.includes(source.data.sourceUrl)) {
             artSource = source;
             setSource(source);
           }
         });
         setArticle({
           ...article,
-          link: url,
-          title: title,
           articleDate: articleDate,
           data: {
+            ...data,
+            title: title,
             description: description,
             title: title,
             url: url,
@@ -119,19 +119,12 @@ const CreateArticleModal = (props) => {
             author: author,
             source: artSource,
             userDescription: "",
-            cumulatives: cumulatives,
-            ...data,
           },
-          tagId: props.parenttag.id,
-          creatorId: props.userdata.username,
-          sourceId: source.id,
-          approved: false,
-          admin: false,
+          parent_tag_id: props.tag.id,
+          creatorId: props.userdata?.username || "Creator ID",
+          sourceId: artSource.id,
         });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleChangeDescription = (event) => {
@@ -149,96 +142,27 @@ const CreateArticleModal = (props) => {
     });
   };
 
-  const getSources = async (id) => {
-    /*
-    await API.graphql({
-      query: listSources,
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => {
-      setSourcesData(data.data.listSources.items);
-    });
-    */
-  };
-
-  let [cumulatives, setCumulatives] = useState([]);
-  const handleAddCumulative = (event) => {
-    setCumulatives(
-      cumulatives.concat([{ text: "Cumulative Property", value: 0 }])
-    );
-  };
-
-  const handleCumulativeChange = (event) => {
-    let temp = [];
-    cumulatives.forEach((cumItem) => {
-      temp.push(cumItem);
-    });
-    if (event.target.name.match("cumulativetext")) {
-      const index = parseInt(event.target.name.replace("cumulativetext", ""));
-      temp[index]["text"] = event.target.value;
-    }
-    if (event.target.name.match("cumulativevalue")) {
-      const index = parseInt(event.target.name.replace("cumulativevalue", ""));
-      temp[index]["value"] = event.target.value;
-    }
-    setCumulatives(temp);
-  };
-  const handleDeleteCumulative = (index) => {
-    let temp = [];
-    cumulatives.forEach((cumItem) => {
-      temp.push(cumItem);
-    });
-    temp.splice(index, 1);
-    setCumulatives(temp);
-  };
-
-  let [keyPoints, setKeyPoints] = useState([]);
-  const handleAddKeyPoint = (event) => {
-    setKeyPoints(keyPoints.concat(["Key Point"]));
-  };
-
-  const handleKeyPointChange = (event) => {
-    let temp = [];
-    keyPoints.forEach((cumItem) => {
-      temp.push(cumItem);
-    });
-    const index = parseInt(event.target.name.replace("keypoint", ""));
-    temp[index] = event.target.value;
-    setKeyPoints(temp);
-  };
-
-  const handleDeleteKeyPoint = (index) => {
-    let temp = [];
-    keyPoints.forEach((kp) => {
-      temp.push(kp);
-    });
-    temp.splice(index, 1);
-    setKeyPoints(temp);
-  };
-
-  useEffect(() => {
-    getSources();
-  }, []);
-
   const addArticle = async (event) => {
-    const input = {
-      ...article,
-      data: JSON.stringify(article.data),
-      sourceId: source.id,
-    };
-    /*
-    return await API.graphql({
-      query: createArticle,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
+    fetch("http://localhost:3080/api/article", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Item: {
+          ...article,
+        },
+      }),
+    }).then((response) => {
+      console.log(response.data);
     });
-    */
   };
 
   const setArticleSource = (url) => {
-    sourcesData.forEach((source, i) => {
-      if (url.includes(source.sourceUrl)) {
+    sourceData.forEach((source, i) => {
+      if (url.includes(source.data.sourceUrl)) {
         setSource(source);
-        setArticle({ ...article, sourceId: source.id });
+        setArticle({ ...article, data: { ...article.data, source: source } });
       }
     });
   };
@@ -246,7 +170,7 @@ const CreateArticleModal = (props) => {
   return (
     <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Article to Tag - {props.parenttag.name}</Modal.Title>
+        <Modal.Title>Add Article to Tag - {props.tag.data.tagName}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -277,7 +201,7 @@ const CreateArticleModal = (props) => {
             {source.id && (
               <Row className="mt-3 margin:auto">
                 <Col xs={"12"} md={{ span: 8, offset: 2 }}>
-                  <ArticleLine article={article} parentTag={props.parenttag} />
+                  <ArticleLine article={article} parentTag={props.tag} />
                 </Col>
               </Row>
             )}
@@ -291,90 +215,9 @@ const CreateArticleModal = (props) => {
                   placeholder="Your description of article"
                   label={`Your description of article`}
                   rows={5}
-                  handleChange={handleChangeDescription}
+                  onChange={handleChangeDescription}
                   value={userDescription}
                 />
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h5 className={"mt-3"}>Key Points</h5>
-                {keyPoints.map((kp, i) => (
-                  <Row className={"p-0 m-0"} key={`keypoint${i}`}>
-                    <Col xs={10}>
-                      <FormInput
-                        name={`keypoint${i}`}
-                        icon="Cube"
-                        value={kp}
-                        className={"m-0 p-0"}
-                        handleChange={handleKeyPointChange}
-                      />
-                    </Col>
-                    <Col xs={2}>
-                      <Button
-                        variant="outline-secondary"
-                        className="icon-button px-0 py-1 mt-4"
-                        onClick={() => handleDeleteKeyPoint(i)}
-                      >
-                        <BsXLg
-                          className="lead"
-                          style={{ position: "relative", top: "-3px" }}
-                        />
-                      </Button>
-                    </Col>
-                  </Row>
-                ))}
-                <Button
-                  variant={"success"}
-                  className={"mb-3"}
-                  onClick={handleAddKeyPoint}
-                >
-                  Add Key Point
-                </Button>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h5 className={"mt-3"}>Cumulative Items</h5>
-                {cumulatives?.map((cumItem, i) => (
-                  <Row key={`cumulativetext${i}`}>
-                    <Col xs={5}>
-                      <FormInput
-                        name={`cumulativetext${i}`}
-                        icon="Cube"
-                        value={cumItem.text}
-                        className={"mb-1"}
-                        handleChange={handleCumulativeChange}
-                      />
-                    </Col>
-                    <Col xs={5}>
-                      <FormInput
-                        name={`cumulativevalue${i}`}
-                        icon="Cube"
-                        value={cumItem.value}
-                        className={"mb-1"}
-                        handleChange={handleCumulativeChange}
-                      />
-                    </Col>
-                    <Col xs={2}>
-                      <Button
-                        variant="outline-secondary"
-                        className="icon-button px-0 py-1 mt-4"
-                        onClick={() => handleDeleteCumulative(i)}
-                      >
-                        <BsXLg
-                          className="lead"
-                          style={{ position: "relative", top: "-3px" }}
-                        />
-                      </Button>
-                    </Col>
-                  </Row>
-                ))}
-                <Button variant={"success"} onClick={handleAddCumulative}>
-                  Add Cumulative
-                </Button>
               </Col>
             </Row>
           </form>

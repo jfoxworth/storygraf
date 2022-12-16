@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { createTag, createTagRelation } from "../../../graphql/mutations";
 import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
 
@@ -49,55 +48,40 @@ const CreateTagModal = (props) => {
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
-      addTagRelation(
-        data.data.createTag.id,
-        props.parenttag ? props.parenttag.id : 0
-      );
       props.setshowcreatetag(false);
     });
   };
 
   const addTag = async (event) => {
-    const input = {
-      name: tagName,
-      creatorId: props.userdata.username,
-      data: JSON.stringify({
-        color: tagColor,
-        textcolor: textColor,
-        description: tagDescription,
-        cumulatives: cumulatives,
+    fetch("http://localhost:3080/api/tag", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Item: {
+          parent_tag_id: props.parenttag.id,
+          followers: 0,
+          imports: 0,
+          embeds: 0,
+          creatorId: "User ID",
+          creatorEmail: "User Email",
+          data: {
+            description: tagDescription,
+            tagName: tagName,
+            color: tagColor,
+            textcolor: textColor,
+            description: tagDescription,
+            type: tagType,
+          },
+        },
       }),
-      frontpage: true,
-      official: true,
-      type: tagType,
-    };
-
+    }).then((response) => {
+      console.log(response.data);
+    });
     setTagName("");
     setTagColor("#898989");
     setTextColor("#FFFFFF");
-
-    /*
-    return await API.graphql({
-      query: createTag,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    */
-  };
-
-  const addTagRelation = async (thisId, parentId) => {
-    const input = {
-      parentId: parentId,
-      childId: thisId,
-      creatorId: props.userdata.username,
-    };
-    /*
-    return await API.graphql({
-      query: createTagRelation,
-      variables: { input: input },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    */
   };
 
   return (
@@ -194,25 +178,6 @@ const CreateTagModal = (props) => {
                     onChange={handleChangeTagDescription}
                   />
                 </Form.Group>{" "}
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h4>Cumulative Items</h4>
-                {cumulatives.map((cumItem, i) => (
-                  <FormInput
-                    key={`cumulative${i}`}
-                    name={`cumulative${i}`}
-                    icon="Cube"
-                    value={cumItem}
-                    className={"mb-1"}
-                    handleChange={handleCumulativeChange}
-                  />
-                ))}
-                <Button variant={"success"} onClick={handleAddCumulative}>
-                  Add Cumulative
-                </Button>
               </Col>
             </Row>
           </form>

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { createPool } from "../shared/utils/cognito";
 
 const UserContext = React.createContext();
 const UserUpdateContext = React.createContext();
@@ -12,7 +13,10 @@ export function useUserUpdate() {
 }
 
 export function UserProvider({ children }) {
-  const [userData, setUserData] = useState({ name: "TheWolf" });
+  const CognitoUserPool = createPool();
+  const [userData, setUserData] = useState(
+    CognitoUserPool.getCurrentUser() || null
+  );
 
   function setUser(thisUser) {
     setUserData(thisUser);

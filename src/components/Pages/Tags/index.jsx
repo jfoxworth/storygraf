@@ -1,52 +1,31 @@
+/*
+*
+    This is a one off page that holds the top level official
+    tags for storygraf. These should be the highest level tags
+    such as "sports" or "US Politics"  
+*
+*/
+
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { listTagRelations } from "../../../graphql/queries";
-import TagGrid from "./TagGrid";
 import TagChildren from "../../shared/TagChildren";
-const axios = require("axios");
 
 const Tags = () => {
-  let [userData, setUserData] = useState({});
-  let [tagRelData, setTagRelData] = useState([]);
+  const [childData, setChildData] = useState([]);
 
-  const unstringData = (items) => {
-    items.forEach((item) => {
-      item.childTag.data = JSON.parse(item.childTag.data);
-    });
-    return items;
-  };
-
-  const getTags = async (event) => {
-    try {
-      axios({
-        url: process.env.REACT_APP_API_GATEWAY + "/tags",
-        method: "GET",
-        data: {},
-      }).then(({ data }) => {
-        console.log(data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    /*
-    await API.graphql({
-      query: listTagRelations,
-      filter: { parentId: { eq: 0 } },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => {
-      setTagRelData(unstringData(data.data.listTagRelations.items));
-    });
-    */
+  const getTagChildren = () => {
+    fetch("http://localhost:3080/api/tag_children/PTAG/" + 0, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => setChildData(JSON.parse(data).Items));
   };
 
   useEffect(() => {
-    getTags();
-    /*
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-      getTags();
-    });
-    */
+    getTagChildren();
   }, []);
 
   return (
@@ -67,7 +46,7 @@ const Tags = () => {
             </Col>
           </Row>
           <Row className={"mt-5"}>
-            <TagChildren tag={{ id: 0 }} setNumChildren={() => {}} />
+            <TagChildren childTags={childData} />
           </Row>
         </Col>
       </Row>

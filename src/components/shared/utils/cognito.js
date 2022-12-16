@@ -3,10 +3,12 @@ import * as AWS from "aws-sdk/global";
 import { useHistory } from "react-router-dom";
 
 const createPool = () => {
+  console.log(process.env);
   const poolData = {
     UserPoolId: process.env.REACT_APP_UserPoolId,
     ClientId: process.env.REACT_APP_UserPoolClientId,
   };
+  console.log(poolData);
   return new AmazonCognitoIdentity.CognitoUserPool(poolData);
 };
 
@@ -53,12 +55,21 @@ const confirmUser = (username, confirmationNumber) => {
         return;
       }
       console.log("call result: " + result);
-      //      history.push("/profile");
     }
   );
 };
 
-const loginUser = (username, password) => {
+const asyncAuthenticateUser = (cognitoUser, cognitoAuthenticationDetails) => {
+  return new Promise(function (resolve, reject) {
+    cognitoUser.authenticateUser(cognitoAuthenticationDetails, {
+      onSuccess: resolve,
+      onFailure: reject,
+      newPasswordRequired: resolve,
+    });
+  });
+};
+
+const loginUser = async (username, password) => {
   var authenticationData = {
     Username: username,
     Password: password,
@@ -72,6 +83,12 @@ const loginUser = (username, password) => {
     Pool: userPool,
   };
   var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+  let result = await asyncAuthenticateUser(cognitoUser, authenticationDetails);
+
+  //This gets me tokens, but what do I do with them?
+
+  /*
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
       var accessToken = result.getAccessToken().getJwtToken();
@@ -80,7 +97,7 @@ const loginUser = (username, password) => {
       AWS.config.region = process.env.REACT_APP_region;
 
       AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: userPool.id, // your identity pool id here
+        IdentityPoolId: userPool.userPoolId, // your identity pool id here
         Logins: {
           // Change the key below according to the specific region your user pool is in.
           "cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>": result
@@ -105,6 +122,7 @@ const loginUser = (username, password) => {
       alert(err.message || JSON.stringify(err));
     },
   });
+  */
 };
 
 export { createPool, signUpUser, loginUser, confirmUser };

@@ -14,7 +14,7 @@ const MainHeader = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/Tags">Tags</Nav.Link>
-            <Nav.Link href="/Profile">{userData.name}</Nav.Link>
+            <Nav.Link href="/Profile">{userData.name || "Profile"}</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

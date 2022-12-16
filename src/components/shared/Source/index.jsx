@@ -6,9 +6,9 @@ const Source = ({ source, size = "small" }) => {
 
   return (
     <img
-      src={`https://storygraf.s3.us-east-2.amazonaws.com/sources/${source?.sourceImage}`}
+      src={`https://storygraf.s3.us-east-2.amazonaws.com/sources/${source?.data?.sourceImage}`}
       height={imageSize[size]}
-      alt={`source image`}
+      alt={source?.data?.sourceName}
     />
   );
 };
