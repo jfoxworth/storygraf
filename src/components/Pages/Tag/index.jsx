@@ -58,10 +58,14 @@ const TagPage = () => {
     });
   };
 
+  const addChildItem = (newItem) => {
+    setChildData([...childData, newItem]);
+  };
+
   useEffect(() => {
     getTagInfo(params.pTagId, params.tagId);
     getTagChildren(params.tagId);
-  }, [params.tagId]);
+  }, []);
 
   useEffect(() => {
     checkChildNumbers(thisTag);
@@ -72,34 +76,17 @@ const TagPage = () => {
       {!!thisTag.id && <Spinner animation="border" variant="primary" />}
       {thisTag.id && (
         <Container>
-          <Row className={"mt-12"}>
+          <Row className={"mt-5"}>
             <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
-              <Row className="mt-5 accent-bottom">
-                <Col xs={{ span: 8 }} md={{ span: 8 }}>
-                  <Tag
-                    tag={thisTag}
-                    handleCreateTagClick={() => {}}
-                    handleCreateArticleClick={() => {}}
-                    showAdds={false}
-                  />
-                </Col>
-                <Col xs={{ span: 4 }} md={{ span: 4 }}>
-                  <div className={"text-right w-full"}>
-                    {userData?.attributes?.email}
-                  </div>
-                </Col>
-              </Row>
-
               {/* Display info for the tag */}
-              <TagInfo tag={thisTag} userData={userData || {}} />
+              <TagInfo
+                tag={thisTag}
+                userData={userData || {}}
+                addChildItem={addChildItem}
+              />
 
-              <Row className="mt-5">
-                <Col>
-                  <h2 className="accent-bottom mb-3 pb-3"></h2>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
+              <Row className="accent-top mt-5 ">
+                <Col className="mt-3">
                   {thisTag && (
                     <>
                       {/* Display child tags */}

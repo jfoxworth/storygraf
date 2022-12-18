@@ -21,24 +21,22 @@ const Tag = ({
   handleCreateArticleClick = () => {},
 }) => {
   return (
-    <Row className="pb-3 ">
-      <Col xs="auto">
-        <LinkContainer to={`/Tag/${tag.parent_tag_id}/${tag.id}`}>
-          <h4>
-            <div
-              className={"sgtag"}
-              style={{
-                backgroundColor: tag.data?.tagColor
-                  ? tag.data?.tagColor
-                  : "#3a5199",
-                color: tag.data?.textColor ? tag.data?.textColor : "#FFF",
-              }}
-            >
-              {tag.data?.tagName}
-            </div>
-          </h4>
-        </LinkContainer>
-      </Col>
+    <>
+      <LinkContainer to={`/Tag/${tag.parent_tag_id}/${tag.id}`}>
+        <h4>
+          <div
+            className={"sgtag"}
+            style={{
+              backgroundColor: tag.data?.tagColor
+                ? tag.data?.tagColor
+                : "#3a5199",
+              color: tag.data?.textColor ? tag.data?.textColor : "#FFF",
+            }}
+          >
+            {tag.data?.tagName}
+          </div>
+        </h4>
+      </LinkContainer>
       {showAdds && (
         <>
           <Col xs="auto">
@@ -67,7 +65,7 @@ const Tag = ({
           </Col>
         </>
       )}
-    </Row>
+    </>
   );
 };
 

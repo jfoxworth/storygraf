@@ -1,0 +1,566 @@
+[
+  {
+    "id": "CNN",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "cnn.com",
+      "sourceImage": "cnn.jpg",
+      "sourceName": "CNN",
+      "description": "This source includes all urls that are based with cnn."
+    }
+  },
+  {
+    "id": "ABCNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "abcnews.go.com",
+      "sourceImage": "abcnews.jpg",
+      "sourceName": "ABC News",
+      "description": ""
+    }
+  },
+  {
+    "id": "AUSTINAMERICANSTATESMAN",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "statesman.com",
+      "sourceImage": "austinamericanstatesman.com",
+      "sourceName": "Austin American Statesman",
+      "description": ""
+    }
+  },
+  {
+    "id": "BBCNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "bbc.com",
+      "sourceImage": "bbc.jpg",
+      "sourceName": "BBC News",
+      "description": ""
+    }
+  },
+  {
+    "id": "BLOOMBERG",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "bloomberg.com",
+      "sourceImage": "bloomberg.jpg",
+      "sourceName": "Bloomberg",
+      "description": ""
+    }
+  },
+  {
+    "id": "BREITBART",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "breitbart.com",
+      "sourceImage": "breitbart.jpg",
+      "sourceName": "Breitbart",
+      "description": ""
+    }
+  },
+  {
+    "id": "BUSINESSINSIDER",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "businessinsider.com",
+      "sourceImage": "businessinsider.jpg",
+      "sourceName": "Business Insider",
+      "description": ""
+    }
+  },
+  {
+    "id": "CHICAGOSUNTIMES",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "chicago.suntimes.com",
+      "sourceImage": "chicagosuntimes.jpg",
+      "sourceName": "Chicago Sun Times",
+      "description": ""
+    }
+  },
+  {
+    "id": "CNBC",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "cnbc.com",
+      "sourceImage": "cnbc.jpg",
+      "sourceName": "CNBC",
+      "description": ""
+    }
+  },
+  {
+    "id": "DAILYMAIL",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "dailymail.co.uk",
+      "sourceImage": "dailymail.jpg",
+      "sourceName": "Daily Mail",
+      "description": ""
+    }
+  },
+  {
+    "id": "DALLASMORNINGNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "dallasnews.com",
+      "sourceImage": "dmn.jpg",
+      "sourceName": "Dallas Morning News",
+      "description": ""
+    }
+  },
+  {
+    "id": "FORBES",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "forbes.com",
+      "sourceImage": "forbes.jpg",
+      "sourceName": "Forbes",
+      "description": ""
+    }
+  },
+  {
+    "id": "FOXNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "foxnews.com",
+      "sourceImage": "foxnews.jpg",
+      "sourceName": "Fox News",
+      "description": ""
+    }
+  },
+  {
+    "id": "GUARDIAN",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "theguardian.com",
+      "sourceImage": "guardian.jpg",
+      "sourceName": "The Guardian",
+      "description": ""
+    }
+  },
+  {
+    "id": "MSN",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "msn.com",
+      "sourceImage": "msn.jpg",
+      "sourceName": "MSN",
+      "description": ""
+    }
+  },
+  {
+    "id": "MSNBC",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "msnbc.com",
+      "sourceImage": "msnbc.jpg",
+      "sourceName": "MSNBC",
+      "description": ""
+    }
+  },
+  {
+    "id": "NPR",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "npr.com",
+      "sourceImage": "npr.jpg",
+      "sourceName": "NPR",
+      "description": ""
+    }
+  },
+  {
+    "id": "NEWYORKTIMES",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "newyorktimes.com",
+      "sourceImage": "newyorktimes.jpg",
+      "sourceName": "The New York Times",
+      "description": ""
+    }
+  },
+  {
+    "id": "REUTERS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "reuters.com",
+      "sourceImage": "reuters.jpg",
+      "sourceName": "Reuters",
+      "description": ""
+    }
+  },
+  {
+    "id": "WALLSTREETJOURNAL",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "wallstreetjournal.com",
+      "sourceImage": "wallstreetjournal.jpg",
+      "sourceName": "The Wall Street Journal",
+      "description": ""
+    }
+  },
+  {
+    "id": "WASHINGTONPOST",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "washingtonpost.com",
+      "sourceImage": "wapo.jpg",
+      "sourceName": "The Washington Post",
+      "description": ""
+    }
+  },
+  {
+    "id": "THEECONOMIST",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "theeconomist.com",
+      "sourceImage": "economist.jpg",
+      "sourceName": "The Economist",
+      "description": ""
+    }
+  },
+  {
+    "id": "POLITICO",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "politico.com",
+      "sourceImage": "politico.jpg",
+      "sourceName": "The Politico",
+      "description": ""
+    }
+  },
+  {
+    "id": "THENEWYORKER",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "newyorker.com",
+      "sourceImage": "newyorker.jpg",
+      "sourceName": "The New Yorker",
+      "description": ""
+    }
+  },
+  {
+    "id": "THEATLANTIC",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "1671119904",
+    "data": {
+      "sourceUrl": "atlantic.com",
+      "sourceImage": "atlantic.jpg",
+      "sourceName": "The Atlantic",
+      "description": ""
+    }
+  },
+  {
+    "id": "CBSNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "cbsnews.com",
+      "sourceImage": "cbsnews.jpg",
+      "sourceName": "CBS News",
+      "description": ""
+    }
+  },
+  {
+    "id": "USATODAY",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "usatoday.com",
+      "sourceImage": "usatoday.jpg",
+      "sourceName": "USA Today",
+      "description": ""
+    }
+  },
+  {
+    "id": "BUZZFEED",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "buzzfeed.com",
+      "sourceImage": "buzzfeed.jpg",
+      "sourceName": "Buzzfeed",
+      "description": ""
+    }
+  },
+  {
+    "id": "CNET",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "cnet.com",
+      "sourceImage": "cnet.jpg",
+      "sourceName": "CNET",
+      "description": ""
+    }
+  },
+  {
+    "id": "NEWYORKDAILYNEWS",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "nydailynews.com",
+      "sourceImage": "nydailynews.jpg",
+      "sourceName": "New York Daily News",
+      "description": ""
+    }
+  },
+  {
+    "id": "LOSANGELESTIMES",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "latimes.com",
+      "sourceImage": "latimes.jpg",
+      "sourceName": "LA Times",
+      "description": ""
+    }
+  },
+  {
+    "id": "NEWYORKPOST",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "nypost.com",
+      "sourceImage": "nypost.jpg",
+      "sourceName": "New York Post",
+      "description": ""
+    }
+  },
+  {
+    "id": "TIME",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "time.com",
+      "sourceImage": "time.jpg",
+      "sourceName": "Time",
+      "description": ""
+    }
+  },
+  {
+    "id": "MASHABLE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "mashable.com",
+      "sourceImage": "mashable.jpg",
+      "sourceName": "Mashable",
+      "description": ""
+    }
+  },
+  {
+    "id": "SFGATE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "sfgate.com",
+      "sourceImage": "sfgate.jpg",
+      "sourceName": "SF Gate",
+      "description": ""
+    }
+  },
+  {
+    "id": "SLATE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "slate.com",
+      "sourceImage": "slate.jpg",
+      "sourceName": "Slate",
+      "description": ""
+    }
+  },
+  {
+    "id": "THEBLAZE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "theblaze.com",
+      "sourceImage": "theblaze.jpg",
+      "sourceName": "The Blaze",
+      "description": ""
+    }
+  },
+  {
+    "id": "Telegraph",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "telegraph.co.uk",
+      "sourceImage": "telegraph.jpg",
+      "sourceName": "Telegraph",
+      "description": ""
+    }
+  },
+  {
+    "id": "US News",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "usnews.com",
+      "sourceImage": "usnews.jpg",
+      "sourceName": "US News",
+      "description": ""
+    }
+  },
+  {
+    "id": "Vice",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "vice.com",
+      "sourceImage": "vice.jpg",
+      "sourceName": "Vice",
+      "description": ""
+    }
+  },
+  {
+    "id": "HOUSTONCHRONICLE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "chron.com",
+      "sourceImage": "chron.jpg",
+      "sourceName": "Houston Chronicle",
+      "description": ""
+    }
+  },
+  {
+    "id": "GAWKER",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "gawker.com",
+      "sourceImage": "gawker.jpg",
+      "sourceName": "Gawker",
+      "description": ""
+    }
+  },
+  {
+    "id": "Examiner",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "examiner.com",
+      "sourceImage": "examiner.jpg",
+      "sourceName": "Examiner",
+      "description": ""
+    }
+  },
+  {
+    "id": "VOX",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "vox.com",
+      "sourceImage": "vox.jpg",
+      "sourceName": "Vox",
+      "description": ""
+    }
+  },
+  {
+    "id": "CHICAGOTRIBUNE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "chicagotribune.com",
+      "sourceImage": "chicagotribune.jpg",
+      "sourceName": "Chicago Tribune",
+      "description": ""
+    }
+  },
+  {
+    "id": "DAILYBEAST",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "thedailybeast.com",
+      "sourceImage": "dailybeast.jpg",
+      "sourceName": "Daily Beast",
+      "description": ""
+    }
+  },
+  {
+    "id": "SALON",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "salon.com",
+      "sourceImage": "salon.jpg",
+      "sourceName": "Salon",
+      "description": ""
+    }
+  }
+]

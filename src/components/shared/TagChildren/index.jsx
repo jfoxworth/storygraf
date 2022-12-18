@@ -18,7 +18,7 @@ const TagChildren = ({ childTags = [] }) => {
                 </Col>
                 <Col xs={{ span: 6 }} md={{ span: 8 }}>
                   <div
-                    className={"text-muted"}
+                    className={"text-muted bodyFont"}
                     style={{ display: "inline-block" }}
                   >
                     {tag.data?.description}

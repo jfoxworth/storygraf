@@ -34,14 +34,18 @@ const Tags = () => {
         <Col xs={{ span: 12 }} md={{ span: 8, offset: 2 }}>
           <Row>
             <Col>
-              <h1 className="accent-bottom text-center mb-3 pb-3">Tags</h1>
+              <h1 className="accent-bottom text-center mb-3 mt-5 pb-3 titleFont">
+                Offical Storygraf Tags
+              </h1>
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col className="bodyFont greyText">
               <p>
-                The tags below are the current top level tags. Click on any tag
-                to see its articles and descendents
+                The tags below are the top level tags for storygraf. Within
+                these tags, subjects are broken down into smaller and smaller
+                tags and then into stories. You can follow a tag, embed it into
+                your own grafs, or import its contents into one of your grafs.
               </p>
             </Col>
           </Row>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { updateArticle } from "../../../graphql/mutations";
 import ArticleLine from "../ArticleLine";
 import { BsXLg } from "react-icons/bs";
 

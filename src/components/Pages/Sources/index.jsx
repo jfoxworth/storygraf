@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Source from "../../shared/Source";
 import { BsFillGrid3X3GapFill, BsList } from "react-icons/bs";

@@ -153,9 +153,9 @@ const CreateArticleModal = (props) => {
           ...article,
         },
       }),
-    }).then((response) => {
-      console.log(response.data);
-    });
+    })
+      .then((response) => response.text())
+      .then((data) => props.addChildItem(JSON.parse(data)));
   };
 
   const setArticleSource = (url) => {

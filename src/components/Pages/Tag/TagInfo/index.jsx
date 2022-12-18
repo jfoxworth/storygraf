@@ -5,8 +5,9 @@ import CreateTagModal from "../../../shared/CreateTagModal";
 import CreateArticleModal from "../../../shared/CreateArticleModal";
 import EditTagModal from "../../../shared/EditTagModal";
 import DateBlock from "../../../shared/DateBlock";
+import Tag from "../../../shared/Tag";
 
-const TagInfo = ({ tag, userData, cumulatives = [] }) => {
+const TagInfo = ({ tag, userData, cumulatives = [], addChildItem }) => {
   const [showCreateTag, setShowCreateTag] = useState(false);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditTag, setShowEditTag] = useState(false);
@@ -21,7 +22,7 @@ const TagInfo = ({ tag, userData, cumulatives = [] }) => {
   };
 
   const handleCreateArticleClick = (tag) => {
-    setShowCreateArticle(true);
+    setShowCreateTag(true);
   };
 
   const tagType = tag?.data?.type || "No Type Set";
@@ -46,6 +47,7 @@ const TagInfo = ({ tag, userData, cumulatives = [] }) => {
           parenttag={tag}
           userdata={userData}
           setshowcreatetag={setShowCreateTag}
+          addChildItem={addChildItem}
         />
       )}
 
@@ -56,12 +58,24 @@ const TagInfo = ({ tag, userData, cumulatives = [] }) => {
           onHide={() => setShowCreateArticle(false)}
           tag={tag}
           userdata={userData}
+          addChildItem={addChildItem}
         />
       )}
 
-      <Row className={"mt-3"}>
+      <Row className={"mt-3 titleFont"}>
         <Col xs={{ order: 1 }} sm={{ order: 1 }}>
-          <div className={"my-3 text-muted"}>{showDesc}</div>
+          <div className={"my-3 text-muted"}>
+            <span>
+              {" "}
+              <Tag
+                tag={tag}
+                handleCreateTagClick={() => {}}
+                handleCreateArticleClick={() => {}}
+                showAdds={false}
+              />
+            </span>
+            {showDesc}
+          </div>
           <Row>
             <div className="mx-3 px-1 mt-3">
               <Row>
@@ -105,23 +119,15 @@ const TagInfo = ({ tag, userData, cumulatives = [] }) => {
                   <div className={"text-muted"}>Add Article</div>
                 </Col>
               </Row>
-              <Row>
-                <h4 className={"mt-5 mb-3"}>Cumulative Items</h4>
-                {!cumulatives?.length && (
-                  <div>There are no cumulative items for his tag.</div>
-                )}
-                {cumulatives?.map((cumItem, i) => (
-                  <div className={"text-muted"} key={`artKeyItem${i}`}>
-                    {cumItem} - {cumulatives[cumItem]}
-                  </div>
-                ))}
-              </Row>
             </div>
           </Row>
         </Col>
         <Col xs={{ order: 2 }} sm={{ order: 2 }}>
           <Row>
             <Col className={"bold right-text"}>
+              <Row className="mt-3">
+                <strong>Tag Owner :</strong>
+              </Row>
               <Row className="mt-3">
                 <strong>Tag Type :</strong>
               </Row>
@@ -135,7 +141,11 @@ const TagInfo = ({ tag, userData, cumulatives = [] }) => {
                 <strong>Child Tags :</strong>
               </Row>
             </Col>
+
             <Col className={"bold left-text"}>
+              <Row className="mt-3">
+                <span>Future Owner Name</span>
+              </Row>
               <Row className="mt-3">
                 <span>{tagType[0].toUpperCase() + tagType.substring(1)}</span>
               </Row>

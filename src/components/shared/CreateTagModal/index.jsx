@@ -69,16 +69,16 @@ const CreateTagModal = (props) => {
           data: {
             description: tagDescription,
             tagName: tagName,
-            color: tagColor,
+            tagColor: tagColor,
             textcolor: textColor,
             description: tagDescription,
             type: tagType,
           },
         },
       }),
-    }).then((response) => {
-      console.log(response.data);
-    });
+    })
+      .then((response) => response.text())
+      .then((data) => props.addChildItem(JSON.parse(data)));
     setTagName("");
     setTagColor("#898989");
     setTextColor("#FFFFFF");

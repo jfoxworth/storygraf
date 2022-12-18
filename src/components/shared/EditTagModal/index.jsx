@@ -33,21 +33,6 @@ const EditTagModal = (props) => {
     setTagType(event.target.value);
   };
 
-  let [cumulatives, setCumulatives] = useState([]);
-  const handleAddCumulative = (event) => {
-    setCumulatives(cumulatives.concat(["Cumulative Property"]));
-  };
-
-  const handleCumulativeChange = (event) => {
-    let temp = [];
-    cumulatives.forEach((cumItem) => {
-      temp.push(cumItem);
-    });
-    const index = parseInt(event.target.name.replace("cumulative", ""));
-    temp[index] = event.target.value;
-    setCumulatives(temp);
-  };
-
   const handleEditTag = (event) => {
     event.preventDefault();
     fetch("http://localhost:3080/api/tag", {

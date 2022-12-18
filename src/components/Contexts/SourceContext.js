@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import hardSources from "../../data/sources.json";
 
 const SourceContext = React.createContext();
 export default SourceContext;
@@ -13,7 +14,7 @@ export function useSourceUpdate() {
 }
 
 export function SourceProvider({ children }) {
-  const [sourceData, setSourceData] = useState([]);
+  const [sourceData, setSourceData] = useState(hardSources);
 
   useEffect(() => {
     console.log("Fetching the sources");
@@ -25,7 +26,9 @@ export function SourceProvider({ children }) {
       },
     })
       .then((response) => response.text())
-      .then((data) => setSourceData(JSON.parse(data).Items));
+      .then((data) =>
+        setSourceData([...hardSources, ...JSON.parse(data).Items])
+      );
   }, []);
 
   function setSources(sources) {
