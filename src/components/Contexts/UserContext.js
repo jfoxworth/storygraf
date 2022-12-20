@@ -1,32 +1,53 @@
-import React, { useContext, useState } from "react";
-import { createPool } from "../shared/utils/cognito";
+/*
+    This context provides checks to see if a user is logged in
+    If so, the storygraf back end is hit to grab the user profile.
+    The session data as well as the profile data are passed
+    as part of the context.
+
+*/
+
+import React, { useContext, useState, useEffect } from "react";
+import { createPool, getSession } from "../shared/utils/cognito";
 
 const UserContext = React.createContext();
-const UserUpdateContext = React.createContext();
 
 export function useUser() {
   return useContext(UserContext);
 }
 
-export function useUserUpdate() {
-  return useContext(UserUpdateContext);
-}
-
 export function UserProvider({ children }) {
   const CognitoUserPool = createPool();
-  const [userData, setUserData] = useState(
+  const [cognitoData, setCognitoData] = useState(
     CognitoUserPool.getCurrentUser() || null
   );
+  const [profileData, setProfileData] = useState({});
 
-  function setUser(thisUser) {
-    setUserData(thisUser);
-  }
+  const getProfileData = (email) => {
+    fetch("http://localhost:3080/api/profile/" + email, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => setProfileData(JSON.parse(data).Items[0]));
+  };
+
+  useEffect(() => {
+    getSession().then((session) => {
+      setCognitoData(session);
+      getProfileData(session?.idToken?.payload?.email);
+    });
+  }, []);
 
   return (
-    <UserContext.Provider value={userData}>
-      <UserUpdateContext.Provider value={setUser}>
-        {children}
-      </UserUpdateContext.Provider>
+    <UserContext.Provider
+      value={{
+        cognitoData: cognitoData,
+        profileData: profileData,
+      }}
+    >
+      {children}
     </UserContext.Provider>
   );
 }

@@ -5,6 +5,8 @@ import "../../../main.css";
 
 const MainHeader = () => {
   const userData = useUser();
+  console.log("In the header");
+  console.log(userData);
 
   return (
     <Navbar fixed="top" className={"navbar-color"} variant="dark" expand="lg">
@@ -14,7 +16,9 @@ const MainHeader = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/Tags">Tags</Nav.Link>
-            <Nav.Link href="/Profile">{userData.name || "Profile"}</Nav.Link>
+            <Nav.Link href="/Profile">
+              {userData?.profileData?.data?.username || "Profile"}
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

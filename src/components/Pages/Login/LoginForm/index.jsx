@@ -5,7 +5,7 @@ import InputWrapper from "../../../shared/Forms/InputWrapper";
 const LoginForm = () => {
   return (
     <Container>
-      <InputWrapper label={"User Name"} name={"username"} required={true} />
+      <InputWrapper label={"email"} name={"username"} required={true} />
       <InputWrapper
         label={"Password"}
         name={"password"}

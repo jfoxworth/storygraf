@@ -3,12 +3,10 @@ import * as AWS from "aws-sdk/global";
 import { useHistory } from "react-router-dom";
 
 const createPool = () => {
-  console.log(process.env);
   const poolData = {
     UserPoolId: process.env.REACT_APP_UserPoolId,
     ClientId: process.env.REACT_APP_UserPoolClientId,
   };
-  console.log(poolData);
   return new AmazonCognitoIdentity.CognitoUserPool(poolData);
 };
 
@@ -24,50 +22,55 @@ const signUpUser = (username, email, password) => {
   attributeList.push(attributeEmail);
   const CognitoUserPool = createPool();
   CognitoUserPool.signUp(
-    username,
+    email,
     password,
     attributeList,
-    {},
+    null,
     function (err, result) {
       if (err) {
         alert(err.message || JSON.stringify(err));
         return;
+      } else {
+        return createDBUserData(username, email);
       }
-      var cognitoUser = result.user;
       //      history.push("/confirm/" + cognitoUser.username);
-    }
+    },
+    null
   );
 };
 
-const confirmUser = (username, confirmationNumber) => {
-  const userPool = createPool();
-  var userData = {
-    Username: username,
-    Pool: userPool,
-  };
-  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-  cognitoUser.confirmRegistration(
-    confirmationNumber,
-    true,
-    function (err, result) {
-      if (err) {
-        alert(err.message || JSON.stringify(err));
-        return;
-      }
-      console.log("call result: " + result);
-    }
-  );
-};
-
-const asyncAuthenticateUser = (cognitoUser, cognitoAuthenticationDetails) => {
-  return new Promise(function (resolve, reject) {
-    cognitoUser.authenticateUser(cognitoAuthenticationDetails, {
-      onSuccess: resolve,
-      onFailure: reject,
-      newPasswordRequired: resolve,
-    });
+// Make call to add user and profile
+const createDBUserData = (username, email) => {
+  fetch("http://localhost:3080/api/addUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+    }),
+  }).then((response) => {
+    return true;
   });
 };
+
+const getSession = async () =>
+  await new Promise((resolve, reject) => {
+    const userPool = createPool();
+    const user = userPool.getCurrentUser();
+    if (user) {
+      user.getSession((err, session) => {
+        if (err) {
+          reject();
+        } else {
+          resolve(session);
+        }
+      });
+    } else {
+      reject();
+    }
+  });
 
 const loginUser = async (username, password) => {
   var authenticationData = {
@@ -83,16 +86,17 @@ const loginUser = async (username, password) => {
     Pool: userPool,
   };
   var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  //  let result = await asyncAuthenticateUser(cognitoUser, authenticationDetails);
 
-  let result = await asyncAuthenticateUser(cognitoUser, authenticationDetails);
-
-  //This gets me tokens, but what do I do with them?
-
-  /*
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
       var accessToken = result.getAccessToken().getJwtToken();
 
+      console.log("The access Token is ...");
+      console.log(accessToken);
+      console.log(result);
+
+      /*
       //POTENTIAL: Region needs to be set if not already set previously elsewhere.
       AWS.config.region = process.env.REACT_APP_region;
 
@@ -116,13 +120,13 @@ const loginUser = async (username, password) => {
           console.log("Successfully logged!");
         }
       });
+*/
     },
 
     onFailure: function (err) {
       alert(err.message || JSON.stringify(err));
     },
   });
-  */
 };
 
-export { createPool, signUpUser, loginUser, confirmUser };
+export { createPool, signUpUser, loginUser, getSession };

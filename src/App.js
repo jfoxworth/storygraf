@@ -19,7 +19,6 @@ import ProfilePage from "./components/Pages/Profile";
 import CreateMainPage from "./components/Pages/CreateMain";
 import RegisterPage from "./components/Pages/Register";
 import LoginPage from "./components/Pages/Login";
-import ConfirmPage from "./components/Pages/Confirm";
 import GoogleFontLoader from "react-google-font-loader";
 
 function App() {
@@ -56,7 +55,6 @@ function App() {
               <Route path="/Profile" element={<ProfilePage />} />
               <Route path="/Register" element={<RegisterPage />} />
               <Route path="/Login" element={<LoginPage />} />
-              <Route path="/Confirm/:username" element={<ConfirmPage />} />
             </Routes>
           </BrowserRouter>
           <MainFooter />
