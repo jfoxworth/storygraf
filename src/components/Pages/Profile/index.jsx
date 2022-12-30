@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import { getUser } from "../../../graphql/queries";
+/*
 
-import ProfileCard from "./ProfileCard";
-import ProfileTags from "./ProfileTags";
+  This page shows the user their profile data, the tags
+  that they follow, and the tags that they have created.
+
+  This is a user viewing their own page. A different page
+  is used to view another user's profile and their tags.
+
+*/
+
+import React, { useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { useUser } from "../../Contexts/UserContext";
+import { useParams } from "react-router-dom";
+
+import MyProfileCard from "./ProfileCard";
+import MyProfileTags from "./ProfileTags";
 
 const ProfilePage = () => {
-  let [userData, setUserData] = useState({});
-  let [profileData, setProfileData] = useState({});
+  const userData = useUser();
   const params = useParams();
 
   const getThisUser = async (id) => {
     if (id) {
-      /*
-      await API.graphql({
-        query: getUser,
-        variables: { id: id },
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      }).then((data) => {
-        console.log("The user is ...");
-        console.log(data);
-        let pData = data.data.getTag;
-        pData.data = JSON.parse(pData.data);
-        setProfileData(pData);
-      });
-      */
     } else {
-      setProfileData({});
     }
   };
 
-  useEffect(() => {
-    /*
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-      console.log(data);
-    });
-    getThisUser(params.userId);
-    */
-  }, [params.userId]);
+  useEffect(() => {}, [params.userId]);
 
   return (
     <Container>
@@ -47,11 +34,11 @@ const ProfilePage = () => {
       <Row>
         <Col sm={{ span: 12, offset: 0 }} md={{ span: 8, offset: 2 }}>
           <Row className={"mt-5"}>
-            <ProfileCard profileData={profileData} />
+            <MyProfileCard userData={userData.profileData} />
           </Row>
 
           <Row className={"mt-3"}>
-            <ProfileTags userData={userData} />
+            <MyProfileTags userData={userData.profileData} />
           </Row>
         </Col>
       </Row>

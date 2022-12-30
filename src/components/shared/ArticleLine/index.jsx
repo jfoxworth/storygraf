@@ -3,47 +3,35 @@ import { Row, Col, Button } from "react-bootstrap";
 import Source from "../Source";
 import "../../../main.css";
 import { BsFillTrashFill, BsGear } from "react-icons/bs";
-import { deleteArticle } from "../../../graphql/mutations";
 import DateBlock from "./dateBlock";
-import EditArticleModal from "../EditArticleModal";
+import Cumulative from "../Cumulative";
+import styled from "styled-components";
 
-const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
+const ArticleLine = ({
+  article,
+  showEdits = false,
+  parentTag = {},
+  variant = "normal",
+  setShowEditArticle = () => {},
+}) => {
   const [as, setAs] = useState(true);
-  const [showEditArticle, setShowEditArticle] = useState(false);
   let artData =
     typeof article.data === "string" ? JSON.parse(article.data) : article.data;
 
-  const deleteThisArticle = async (id) => {
-    /*
-    return await API.graphql({
-      query: deleteArticle,
-      variables: { input: { id: id } },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then(setAs(false));
-    */
-  };
+  const deleteThisArticle = async (id) => {};
 
-  const editThisArticle = async (id) => {
-    /*
-    return await API.graphql({
-      query: deleteArticle,
-      variables: { input: { id: id } },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then(setAs(false));
-    */
+  const matchTagColor = (tag, cumItem) => {
+    let badgeColor = "#CCCCCC";
+    tag?.data?.cumulatives?.forEach((cum) => {
+      if (cum.text === cumItem.text) {
+        badgeColor = cum.color;
+      }
+    });
+    return badgeColor;
   };
 
   return (
     <>
-      <EditArticleModal
-        show={showEditArticle}
-        setshoweditarticle={setShowEditArticle}
-        onHide={() => setShowEditArticle(false)}
-        article={article}
-        userdata={userData}
-        parentTag={tag}
-      />
-
       {as && (
         <Row>
           <Col
@@ -57,24 +45,41 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
               time={artData}
               articleid={article?.id}
             />
-            <div className={"mt-3"}>
-              {article.data?.keyPoints?.map((kp, i) => (
-                <Row key={`keypoint${i}`}>
-                  <div className={"text-muted"} style={{ fontSize: "0.7em" }}>
-                    {kp}
-                  </div>
-                </Row>
-              ))}
+            <div className={"mt-3 text-muted"}>
+              <ul>
+                {article.data?.userPoints?.map((kp, i) => (
+                  <li key={`keypoint${i}`}>
+                    <div className={"text-muted"} style={{ fontSize: "0.7em" }}>
+                      {kp}
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
+            {article.data?.cumulatives?.length > 0 && (
+              <Row className={"my-3"}>
+                <Col>
+                  {article.data?.cumulatives?.map((cumItem, i) => (
+                    <Cumulative
+                      key={`cumulative${i}`}
+                      cumItem={{
+                        ...cumItem,
+                        color: matchTagColor(parentTag, cumItem),
+                      }}
+                    />
+                  ))}
+                </Col>
+              </Row>
+            )}
           </Col>
           <Col xs={{ span: 7 }} lg={{ span: 8 }} className={"pb-3"}>
             <Row className={"mb-3 mx-3"}>
               <Col xs={{ span: 4 }} lg={{ span: 4 }}>
                 <div
                   style={{
-                    minWidth: "100px",
+                    minWidth: variant === "small" ? "50px" : "100px",
                     backgroundImage: "url(" + article?.data?.image?.url + ")",
-                    minHeight: "100px",
+                    minHeight: variant === "small" ? "50px" : "100px",
                     backgroundSize: "cover",
                     borderRadius: "5px 5px 5px 5px",
                   }}
@@ -113,12 +118,12 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
               <Col xs={{ span: 8 }} lg={{ span: 8 }}>
                 <Row className={"mb-3"}>
                   <Col xs={{ span: 10 }} md={{ span: 10 }}>
-                    <div
+                    <StyledTitle
+                      variant={variant}
                       className={"text-weight-bold"}
-                      style={{ fontSize: "0.9em" }}
                     >
                       {article?.data?.title}
-                    </div>
+                    </StyledTitle>
                   </Col>
                   <Col
                     className={"right-text"}
@@ -129,28 +134,12 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
                   </Col>
                 </Row>
                 <Row>
-                  <div className={"text-muted"} style={{ fontSize: "0.7em" }}>
+                  <StyledDescription className={"text-muted"}>
                     {article?.data?.userDescription
                       ? article.data.userDescription
                       : article?.data?.description}
-                  </div>
+                  </StyledDescription>
                 </Row>
-                {article.data?.cumulatives?.length > 0 && (
-                  <Row className={"my-3"}>
-                    <Col>
-                      {article.data?.cumulatives?.map((cumItem, i) => (
-                        <Row key={`cumulative${i}`}>
-                          <div
-                            className={"text-muted"}
-                            style={{ fontSize: "0.7em" }}
-                          >
-                            {cumItem.text} - {cumItem.value}
-                          </div>
-                        </Row>
-                      ))}
-                    </Col>
-                  </Row>
-                )}
               </Col>
             </Row>
           </Col>
@@ -159,5 +148,13 @@ const ArticleLine = ({ article, userData, showEdits = false, tag = {} }) => {
     </>
   );
 };
+
+const StyledTitle = styled.div`
+  font-size: ${(props) => (props.variant == "small" ? "0.6em" : "0.75em")};
+`;
+
+const StyledDescription = styled.div`
+  font-size: ${(props) => (props.variant == "small" ? "0.5em" : "0.6em")};
+`;
 
 export default ArticleLine;

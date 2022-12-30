@@ -11,51 +11,61 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import Tag from "../../shared/Tag";
 import TagInfo from "./TagInfo";
-import TagChildren from "../../shared/TagChildren";
-import TagArticles from "../../shared/TagArticles";
+import TagChildren from "./TagChildren";
+import { useUser } from "../../Contexts/UserContext";
+import {
+  getTagChildren,
+  getTagInfo,
+  updateTag,
+} from "../../shared/utils/api/tag";
 
 const TagPage = () => {
   const [thisTag, setThisTag] = useState({});
   const [childData, setChildData] = useState([]);
   const params = useParams();
-  const userData = {};
+  const userData = useUser();
 
-  // Get all tags, articles, and other items for this tag
-  const getTagChildren = (tagId) => {
-    fetch("http://localhost:3080/api/tag_children/PTAG/" + tagId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((data) => setChildData(JSON.parse(data).Items));
-  };
-
-  // Get this tag info (different parent from above)
-  const getTagInfo = (pTagId, tagId) => {
-    fetch("http://localhost:3080/api/tag/" + pTagId + "/" + tagId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((data) => setThisTag(JSON.parse(data)));
-  };
-
-  // Check how many child articles and tags this tag has
-  const checkChildNumbers = () => {
+  const calculateCumulatives = () => {
+    let tempCumulatives = [];
+    thisTag?.data?.cumulatives?.forEach((thisCum) => {
+      tempCumulatives.push({ ...thisCum, value: 0 });
+    });
+    tempCumulatives.forEach((thisCum, ci) => {
+      childData.forEach((thisChild) => {
+        thisChild.data?.cumulatives?.forEach((thisChildCum) => {
+          if (thisCum.text === thisChildCum.text) {
+            tempCumulatives[ci].value =
+              parseFloat(tempCumulatives[ci].value) +
+              parseFloat(thisChildCum.value);
+          }
+        });
+      });
+    });
+    checkCumulativeValues(tempCumulatives, thisTag);
     setThisTag({
       ...thisTag,
-      data: {
-        ...thisTag.data,
-        childTags: childData.filter((tag) => tag.type === "TAG").length,
-        childArticles: childData.filter((tag) => tag.type === "ARTICLE").length,
-      },
+      data: { ...thisTag.data, cumulatives: tempCumulatives },
     });
+  };
+
+  const checkCumulativeValues = (tempCumulatives, tag) => {
+    let testFlag = false;
+    tempCumulatives.forEach((tempCum, ci) => {
+      tag.data?.cumulatives?.forEach((tagCum) => {
+        if (tempCum.text === tagCum.text) {
+          if (tempCum.value !== tagCum.value) {
+            testFlag = true;
+          }
+        }
+      });
+    });
+    if (testFlag) {
+      updateTag({
+        ...tag,
+        data: { ...tag.data, cumulatives: tempCumulatives },
+      });
+    }
   };
 
   const addChildItem = (newItem) => {
@@ -63,13 +73,17 @@ const TagPage = () => {
   };
 
   useEffect(() => {
-    getTagInfo(params.pTagId, params.tagId);
-    getTagChildren(params.tagId);
-  }, []);
+    getTagInfo(params.pTagId, params.tagId).then((data) =>
+      setThisTag(JSON.parse(data))
+    );
+    getTagChildren(params.tagId).then((data) =>
+      setChildData(JSON.parse(data).Items)
+    );
+  }, [params.pTagId, params.tagId]);
 
   useEffect(() => {
-    checkChildNumbers(thisTag);
-  }, [childData.length]);
+    calculateCumulatives();
+  }, [childData]);
 
   return (
     <>
@@ -78,32 +92,16 @@ const TagPage = () => {
         <Container>
           <Row className={"mt-5"}>
             <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
-              {/* Display info for the tag */}
               <TagInfo
                 tag={thisTag}
                 userData={userData || {}}
                 addChildItem={addChildItem}
               />
 
-              <Row className="accent-top mt-5 ">
+              <Row className="accent-top">
                 <Col className="mt-3">
-                  {thisTag && (
-                    <>
-                      {/* Display child tags */}
-                      <TagChildren
-                        childTags={childData.filter(
-                          (tag) => tag.id !== params.tagId && tag.type === "TAG"
-                        )}
-                      />
-                      {/* Display child articles */}
-                      <TagArticles
-                        articles={childData.filter(
-                          (tag) =>
-                            tag.id !== params.tagId && tag.type === "ARTICLE"
-                        )}
-                        showEdits={true}
-                      />
-                    </>
+                  {childData.length > 0 && (
+                    <TagChildren childData={childData} tag={thisTag} />
                   )}
                 </Col>
               </Row>

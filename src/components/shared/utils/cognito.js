@@ -1,6 +1,4 @@
 import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
-import * as AWS from "aws-sdk/global";
-import { useHistory } from "react-router-dom";
 
 const createPool = () => {
   const poolData = {
@@ -31,16 +29,15 @@ const signUpUser = (username, email, password) => {
         alert(err.message || JSON.stringify(err));
         return;
       } else {
-        return createDBUserData(username, email);
+        return createDBUserData(username, email, result.userSub);
       }
-      //      history.push("/confirm/" + cognitoUser.username);
     },
     null
   );
 };
 
 // Make call to add user and profile
-const createDBUserData = (username, email) => {
+const createDBUserData = (username, email, id) => {
   fetch("http://localhost:3080/api/addUser", {
     method: "POST",
     headers: {
@@ -49,6 +46,7 @@ const createDBUserData = (username, email) => {
     body: JSON.stringify({
       username: username,
       email: email,
+      cognitoId: id,
     }),
   }).then((response) => {
     return true;
@@ -91,10 +89,7 @@ const loginUser = async (username, password) => {
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
       var accessToken = result.getAccessToken().getJwtToken();
-
-      console.log("The access Token is ...");
-      console.log(accessToken);
-      console.log(result);
+      window.location.href = "/MyProfile";
 
       /*
       //POTENTIAL: Region needs to be set if not already set previously elsewhere.
@@ -129,4 +124,12 @@ const loginUser = async (username, password) => {
   });
 };
 
-export { createPool, signUpUser, loginUser, getSession };
+const logoutUser = async () => {
+  var userPool = createPool();
+  const user = userPool.getCurrentUser();
+  if (user) {
+    user.signOut();
+  }
+};
+
+export { createPool, signUpUser, loginUser, logoutUser, getSession };

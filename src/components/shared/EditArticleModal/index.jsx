@@ -92,13 +92,6 @@ const EditArticleModal = (props) => {
     delete tempArt.createdAt;
     delete tempArt.updatedAt;
     tempArt.data = JSON.stringify(article.data);
-    /*
-    return await API.graphql({
-      query: updateArticle,
-      variables: { input: tempArt },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    });
-    */
   };
 
   return (

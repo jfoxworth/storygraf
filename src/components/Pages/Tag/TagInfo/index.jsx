@@ -1,126 +1,38 @@
-import React, { useState } from "react";
-import { Row, Col, Button } from "react-bootstrap";
-import { BsBookmarkPlus, BsFileEarmarkPlus, BsSignpost2 } from "react-icons/bs";
-import CreateTagModal from "../../../shared/CreateTagModal";
-import CreateArticleModal from "../../../shared/CreateArticleModal";
-import EditTagModal from "../../../shared/EditTagModal";
-import DateBlock from "../../../shared/DateBlock";
-import Tag from "../../../shared/Tag";
+/*
+    This component is displayed at the top of the tag page.
+    It shows the tag stack, description, and tag info
+*/
 
-const TagInfo = ({ tag, userData, cumulatives = [], addChildItem }) => {
-  const [showCreateTag, setShowCreateTag] = useState(false);
-  const [showCreateArticle, setShowCreateArticle] = useState(false);
-  const [showEditTag, setShowEditTag] = useState(false);
+import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
+import DateBlock from "../../../shared/DateBlock";
+import TagStack from "../../../shared/TagStack";
+import TagEdit from "../TagEdit";
+import { useUser } from "../../../Contexts/UserContext";
+import Cumulative from "../../../shared/Cumulative";
+
+const TagInfo = ({ tag, addChildItem }) => {
+  const userData = useUser();
   const [showDesc, setShowDesc] = useState(tag.data?.description);
 
-  const handleEditTagClick = (tag) => {
-    setShowEditTag(true);
-  };
-
-  const handleCreateTagClick = (tag) => {
-    setShowCreateTag(true);
-  };
-
-  const handleCreateArticleClick = (tag) => {
-    setShowCreateTag(true);
-  };
+  useEffect(() => {
+    setShowDesc(tag?.data?.description);
+  }, [tag]);
 
   const tagType = tag?.data?.type || "No Type Set";
 
   return (
     <>
-      {tag.id && (
-        <EditTagModal
-          show={showEditTag}
-          onHide={() => setShowEditTag(false)}
-          tag={tag}
-          userdata={userData}
-          setshowedittag={setShowEditTag}
-          setShowDesc={setShowDesc}
-        />
-      )}
-
-      {tag.id && (
-        <CreateTagModal
-          show={showCreateTag}
-          onHide={() => setShowCreateTag(false)}
-          parenttag={tag}
-          userdata={userData}
-          setshowcreatetag={setShowCreateTag}
-          addChildItem={addChildItem}
-        />
-      )}
-
-      {tag.id && (
-        <CreateArticleModal
-          show={showCreateArticle}
-          setshowcreatearticle={setShowCreateArticle}
-          onHide={() => setShowCreateArticle(false)}
-          tag={tag}
-          userdata={userData}
-          addChildItem={addChildItem}
-        />
-      )}
-
       <Row className={"mt-3 titleFont"}>
         <Col xs={{ order: 1 }} sm={{ order: 1 }}>
-          <div className={"my-3 text-muted"}>
-            <span>
-              {" "}
-              <Tag
-                tag={tag}
-                handleCreateTagClick={() => {}}
-                handleCreateArticleClick={() => {}}
-                showAdds={false}
-              />
-            </span>
-            {showDesc}
-          </div>
-          <Row>
-            <div className="mx-3 px-1 mt-3">
-              <Row>
-                <Col className={"text-center"}>
-                  <Button
-                    variant="outline-secondary"
-                    className="icon-button px-0 py-1"
-                    onClick={() => handleEditTagClick(tag)}
-                  >
-                    <BsSignpost2
-                      className="lead"
-                      style={{ position: "relative", top: "-3px" }}
-                    />
-                  </Button>
-                  <div className={"text-muted"}>Edit Tag</div>
-                </Col>
-                <Col className={"text-center"}>
-                  <Button
-                    variant="outline-secondary"
-                    className="icon-button px-0 py-1"
-                    onClick={() => handleCreateTagClick(tag)}
-                  >
-                    <BsBookmarkPlus
-                      className="lead"
-                      style={{ position: "relative", top: "-3px" }}
-                    />
-                  </Button>
-                  <div className={"text-muted"}>Add Child Tag</div>
-                </Col>
-                <Col className={"text-center"}>
-                  <Button
-                    variant="outline-secondary"
-                    className="icon-button px-0 py-1"
-                    onClick={() => handleCreateArticleClick(tag)}
-                  >
-                    <BsFileEarmarkPlus
-                      className="lead"
-                      style={{ position: "relative", top: "-3px" }}
-                    />
-                  </Button>
-                  <div className={"text-muted"}>Add Article</div>
-                </Col>
-              </Row>
-            </div>
-          </Row>
+          <TagStack
+            tagStack={tag.data?.tagTree.concat(tag)}
+            variant={"inline"}
+          />
+          <div className={"my-3 text-muted"}>{showDesc}</div>
+          {tag.data.cumulatives?.map((cum, ci) => (
+            <Cumulative key={`cumulativeItem${ci}`} cumItem={cum} />
+          ))}
         </Col>
         <Col xs={{ order: 2 }} sm={{ order: 2 }}>
           <Row>
@@ -134,17 +46,11 @@ const TagInfo = ({ tag, userData, cumulatives = [], addChildItem }) => {
               <Row className="mt-3">
                 <strong>Created :</strong>
               </Row>
-              <Row className="mt-3">
-                <strong>Articles :</strong>
-              </Row>
-              <Row className="mt-3">
-                <strong>Child Tags :</strong>
-              </Row>
             </Col>
 
             <Col className={"bold left-text"}>
               <Row className="mt-3">
-                <span>Future Owner Name</span>
+                <span>{tag.data.userName}</span>
               </Row>
               <Row className="mt-3">
                 <span>{tagType[0].toUpperCase() + tagType.substring(1)}</span>
@@ -154,14 +60,17 @@ const TagInfo = ({ tag, userData, cumulatives = [], addChildItem }) => {
                   <DateBlock dateString={tag.created_at} />
                 </span>
               </Row>
-              <Row className="mt-3">
-                <span>{tag.data.childArticles}</span>
-              </Row>
-              <Row className="mt-3">
-                <span>{tag.data.childTags}</span>
-              </Row>
             </Col>
           </Row>
+          {tag.creatorId === userData.profileData?.id && (
+            <Row>
+              <TagEdit
+                tag={tag}
+                addChildItem={addChildItem}
+                setShowDesc={setShowDesc}
+              />
+            </Row>
+          )}
         </Col>
       </Row>
     </>

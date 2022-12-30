@@ -26,6 +26,7 @@ const FormDropdown = ({
   error = false,
   errorMessage = "",
   id = "",
+  value = "",
 }) => {
   return (
     <div className="field has-flex-label has-validation">
@@ -33,7 +34,7 @@ const FormDropdown = ({
         {label ? <span>{label}</span> : null}
         {error ? <span className="error">{errorMessage}</span> : null}
       </label>
-      <Form.Select aria-label={label} onChange={handleChange}>
+      <Form.Select aria-label={label} onChange={handleChange} value={value}>
         <option>{placeholder}</option>
         {options.map((option, index) => (
           <option value={option.value} key={`dropdown${index}`}>

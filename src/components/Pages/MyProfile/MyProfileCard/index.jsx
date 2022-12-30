@@ -1,8 +1,8 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import "../../../../main.css";
 
-const ProfileCard = ({ userData }) => {
+const ProfileCard = ({ userData, numTags = 0, handleCreateTagClick }) => {
   return (
     <Row className="">
       <Row>
@@ -11,7 +11,7 @@ const ProfileCard = ({ userData }) => {
         </Col>
       </Row>
       <Row>
-        <Col sm={{ order: 1 }} md={{ order: 1 }}>
+        <Col sm={{ span: 12, order: 1 }} lg={{ span: 6, order: 1 }}>
           <Row>
             <div
               className={
@@ -19,20 +19,41 @@ const ProfileCard = ({ userData }) => {
               }
             ></div>
           </Row>
+        </Col>
+        <Col sm={{ span: 12, order: 2 }} lg={{ span: 6, order: 2 }}>
           <Row className="mt-3">
-            <Col className={"right-text"}>
+            <Col className={""}>
               <strong>Email :</strong>
             </Col>
             <Col>{userData?.data?.email}</Col>
           </Row>
           <Row className="mt-3">
-            <Col className={"bold right-text"}>
+            <Col className={"bold"}>
               <strong>User Name :</strong>
             </Col>
             <Col>{userData?.data?.username}</Col>
           </Row>
+          <Row className="mt-3">
+            <Col className={"bold"}>
+              <strong>User Tags :</strong>
+            </Col>
+            <Col>{numTags}</Col>
+          </Row>
+
+          <Row className="mt-3">
+            <Col>
+              <Button
+                variant="success"
+                onClick={() => handleCreateTagClick("")}
+              >
+                Create New Tag
+              </Button>{" "}
+            </Col>
+          </Row>
         </Col>
-        <Col sm={{ order: 2 }} md={{ order: 2 }}>
+      </Row>
+      <Row className="mt-3">
+        <Col>
           <Row className="mt-3">
             <strong>Bio</strong>
           </Row>

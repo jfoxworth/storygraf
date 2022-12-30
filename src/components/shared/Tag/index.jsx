@@ -10,63 +10,41 @@
 
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Row, Col, Button } from "react-bootstrap";
-import { BsBookmarkPlus, BsFileEarmarkPlus } from "react-icons/bs";
 import "../../../main.css";
+import styled from "styled-components";
 
-const Tag = ({
-  tag = {},
-  showAdds = false,
-  handleCreateTagClick = () => {},
-  handleCreateArticleClick = () => {},
-}) => {
+const Tag = ({ tag = {}, variant = "standard" }) => {
   return (
     <>
       <LinkContainer to={`/Tag/${tag.parent_tag_id}/${tag.id}`}>
-        <h4>
-          <div
-            className={"sgtag"}
-            style={{
-              backgroundColor: tag.data?.tagColor
-                ? tag.data?.tagColor
-                : "#3a5199",
-              color: tag.data?.textColor ? tag.data?.textColor : "#FFF",
-            }}
-          >
+        <TagBlock>
+          <TagInner tag={tag} variant={variant}>
             {tag.data?.tagName}
-          </div>
-        </h4>
+          </TagInner>
+        </TagBlock>
       </LinkContainer>
-      {showAdds && (
-        <>
-          <Col xs="auto">
-            <Button
-              variant="outline-secondary"
-              className="icon-button px-0 py-1"
-              onClick={() => handleCreateTagClick(tag)}
-            >
-              <BsBookmarkPlus
-                className="lead"
-                style={{ position: "relative", top: "-3px" }}
-              />
-            </Button>
-          </Col>
-          <Col xs="auto">
-            <Button
-              variant="outline-secondary"
-              className="icon-button px-0 py-1"
-              onClick={() => handleCreateArticleClick(tag)}
-            >
-              <BsFileEarmarkPlus
-                className="lead"
-                style={{ position: "relative", top: "-3px" }}
-              />
-            </Button>
-          </Col>
-        </>
-      )}
     </>
   );
 };
+
+const TagBlock = styled.div`
+  display: inline-block;
+  line-height: 1.2;
+`;
+
+const TagInner = styled.div`
+  background-color: ${(props) => props.tag.data?.tagColor || "#3a5199"};
+  color: ${(props) => props.tag.data?.textColor || "#FFFFFF"};
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: ${(props) => (props.variant = "inline" ? "0.75em" : "1em")};
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  cursor: pointer;
+`;
 
 export default Tag;

@@ -128,7 +128,7 @@ const RegisterPage = () => {
                   <RegistrationForm disabled={disableButton} />
                 </form>
                 {formStatus && (
-                  <Alert variant={"success"}>
+                  <Alert variant={"success"} className={"mt-5"}>
                     Check your email for a confirmation link!!!
                   </Alert>
                 )}

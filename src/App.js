@@ -1,3 +1,13 @@
+/*
+
+    This page holds a user's profile, the tags that they follow,
+    and their "top level" tags that they have created.
+
+    The PTAGs for a user's top level tags are the phrase "USER#"
+    followed by the user's ID.
+    
+*/
+
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,6 +26,7 @@ import Tags from "./components/Pages/Tags";
 import TagPage from "./components/Pages/Tag";
 import ArticlePage from "./components/Pages/Article";
 import ProfilePage from "./components/Pages/Profile";
+import MyProfilePage from "./components/Pages/MyProfile";
 import CreateMainPage from "./components/Pages/CreateMain";
 import RegisterPage from "./components/Pages/Register";
 import LoginPage from "./components/Pages/Login";
@@ -51,8 +62,8 @@ function App() {
               <Route path="/Tags" element={<Tags />} />
               <Route path="/Tag/:pTagId/:tagId" element={<TagPage />} />
               <Route path="/Article/:articleId" element={<ArticlePage />} />
-              <Route path="/Profile/:userId" element={<TagPage />} />
-              <Route path="/Profile" element={<ProfilePage />} />
+              <Route path="/MyProfile" element={<MyProfilePage />} />
+              <Route path="/Profile/:userId" element={<ProfilePage />} />
               <Route path="/Register" element={<RegisterPage />} />
               <Route path="/Login" element={<LoginPage />} />
             </Routes>

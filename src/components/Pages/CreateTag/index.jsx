@@ -1,8 +1,18 @@
+/*
+
+  This page is only intended to be used by admin. It creates a top level tag
+  that has a 0 top level parent ID
+*/
+
 import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { useUser } from "../../Contexts/UserContext";
+import { createTag } from "../../shared/utils/api/tag";
 
 const CreateTag = () => {
+  const userData = useUser();
+
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
@@ -16,32 +26,30 @@ const CreateTag = () => {
   const handleAddTag = async (event) => {
     event.preventDefault();
 
-    fetch("http://localhost:3080/api/tag", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    createTag({
+      parent_tag_id: "0",
+      followers: 0,
+      imports: 0,
+      embeds: 0,
+      creatorId: userData.profileData.data.id,
+      creatorEmail: userData.profileData.data.email,
+      data: {
+        description: tagDescription,
+        tagName: tagName,
+        tagColor: "#898989",
+        textColor: "#FFFFFF",
+        childTags: 0,
+        articlesList: [],
+        userName: userData.profileData.data.username,
+        tagTree: [],
+        articlesListLimit: 10,
+        cumulatives: [],
+        userPoints: [],
       },
-      body: JSON.stringify({
-        Item: {
-          parent_tag_id: "0",
-          followers: 0,
-          imports: 0,
-          embeds: 0,
-          creatorId: "User ID",
-          creatorEmail: "User Email",
-          data: {
-            description: tagDescription,
-            tagName: tagName,
-            childTags: 0,
-            childArticles: 0,
-          },
-        },
-      }),
-    }).then((response) => {
-      console.log(response.data);
+    }).then((data) => {
+      setTagName("");
+      setTagDescription("");
     });
-    setTagName("");
-    setTagDescription("");
   };
 
   return (

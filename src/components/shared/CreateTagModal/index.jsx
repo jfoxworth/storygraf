@@ -3,8 +3,12 @@ import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import Tag from "../Tag";
 import FormDropdown from "../../shared/Forms/FormDropdown";
+import { useUser } from "../../Contexts/UserContext";
+import { createTag } from "../utils/api/tag";
 
 const CreateTagModal = (props) => {
+  const userData = useUser();
+
   let [tagName, setTagName] = useState("");
   const handleChangeTagName = (event) => {
     setTagName(event.target.value);
@@ -30,21 +34,6 @@ const CreateTagModal = (props) => {
     setTagType(event.target.value);
   };
 
-  let [cumulatives, setCumulatives] = useState([]);
-  const handleAddCumulative = (event) => {
-    setCumulatives(cumulatives.concat(["Cumulative Property"]));
-  };
-
-  const handleCumulativeChange = (event) => {
-    let temp = [];
-    cumulatives.forEach((cumItem) => {
-      temp.push(cumItem);
-    });
-    const index = parseInt(event.target.name.replace("cumulative", ""));
-    temp[index] = event.target.value;
-    setCumulatives(temp);
-  };
-
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
@@ -53,35 +42,37 @@ const CreateTagModal = (props) => {
   };
 
   const addTag = async (event) => {
-    fetch("http://localhost:3080/api/tag", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    createTag({
+      parent_tag_id: props.parenttag.id,
+      followers: 0,
+      imports: 0,
+      embeds: 0,
+      creatorId: userData?.profileData?.id,
+      creatorEmail: userData?.profileData?.data?.email,
+      data: {
+        articlesList: [],
+        userName: userData.profileData.data.username,
+        description: tagDescription,
+        tagName: tagName,
+        tagColor: tagColor,
+        textColor: textColor,
+        type: tagType,
+        userPoints: [],
+        cumulatives: [],
+        tagTree: props.parenttag.data.tagTree.concat({
+          ...props.parenttag,
+          articlesList: [],
+          PK: "",
+          SK: "",
+        }),
       },
-      body: JSON.stringify({
-        Item: {
-          parent_tag_id: props.parenttag.id,
-          followers: 0,
-          imports: 0,
-          embeds: 0,
-          creatorId: "User ID",
-          creatorEmail: "User Email",
-          data: {
-            description: tagDescription,
-            tagName: tagName,
-            tagColor: tagColor,
-            textcolor: textColor,
-            description: tagDescription,
-            type: tagType,
-          },
-        },
-      }),
-    })
-      .then((response) => response.text())
-      .then((data) => props.addChildItem(JSON.parse(data)));
-    setTagName("");
-    setTagColor("#898989");
-    setTextColor("#FFFFFF");
+    }).then((data) => {
+      props.addChildItem(JSON.parse(data));
+      setTagName("");
+      setTagColor("#898989");
+      setTextColor("#FFFFFF");
+      setTagDescription("");
+    });
   };
 
   return (

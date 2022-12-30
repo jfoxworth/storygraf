@@ -22,8 +22,8 @@ export function UserProvider({ children }) {
   );
   const [profileData, setProfileData] = useState({});
 
-  const getProfileData = (email) => {
-    fetch("http://localhost:3080/api/profile/" + email, {
+  const getProfileData = (userId) => {
+    fetch("http://localhost:3080/api/profile/" + userId, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,11 +40,18 @@ export function UserProvider({ children }) {
     });
   }, []);
 
+  useEffect(() => {
+    getSession().then((session) => {
+      getProfileData(session?.idToken?.payload?.email);
+    });
+  }, [cognitoData]);
+
   return (
     <UserContext.Provider
       value={{
         cognitoData: cognitoData,
         profileData: profileData,
+        setCognitoData: setCognitoData,
       }}
     >
       {children}

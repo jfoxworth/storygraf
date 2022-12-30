@@ -9,23 +9,13 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import TagChildren from "../../shared/TagChildren";
+import { getTagChildren } from "../../shared/utils/api/tag";
 
 const Tags = () => {
   const [childData, setChildData] = useState([]);
 
-  const getTagChildren = () => {
-    fetch("http://localhost:3080/api/tag_children/PTAG/" + 0, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.text())
-      .then((data) => setChildData(JSON.parse(data).Items));
-  };
-
   useEffect(() => {
-    getTagChildren();
+    getTagChildren(0).then((data) => setChildData(JSON.parse(data).Items));
   }, []);
 
   return (
