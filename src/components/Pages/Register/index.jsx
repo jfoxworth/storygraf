@@ -97,7 +97,7 @@ const RegisterPage = () => {
       !/[0-9]/.test(values?.password) ||
       !/[A-Z]/.test(values?.password) ||
       !/[a-z]/.test(values?.password) ||
-      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(values?.password)
+      !/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(values?.password)
     ) {
       errors.password =
         "The password must contain a lowercase letter, uppercase letter, a number, and one special character";

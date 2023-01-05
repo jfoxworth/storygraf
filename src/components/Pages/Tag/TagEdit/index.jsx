@@ -13,7 +13,7 @@ import EditTagModal from "../../../shared/EditTagModal";
 import { useUser } from "../../../Contexts/UserContext";
 import styled from "styled-components";
 
-const TagEdit = ({ tag, addChildItem, setShowDesc }) => {
+const TagEdit = ({ tag, setThisTag, addChildItem, setShowDesc }) => {
   const [showCreateTag, setShowCreateTag] = useState(false);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditTag, setShowEditTag] = useState(false);
@@ -43,6 +43,7 @@ const TagEdit = ({ tag, addChildItem, setShowDesc }) => {
           show={showEditTag}
           onHide={() => setShowEditTag(false)}
           tag={tag}
+          setThisTag={setThisTag}
           userdata={userData}
           setshowedittag={setShowEditTag}
           setShowDesc={setShowDesc}

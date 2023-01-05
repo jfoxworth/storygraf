@@ -1,8 +1,10 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import "../../../../main.css";
+import styled from "styled-components";
 
-const ProfileCard = ({ userData, numTags = 0, handleCreateTagClick }) => {
+const ProfileCard = ({ userData, handleCreateTagClick }) => {
   return (
     <Row className="">
       <Row>
@@ -33,16 +35,19 @@ const ProfileCard = ({ userData, numTags = 0, handleCreateTagClick }) => {
             </Col>
             <Col>{userData?.data?.username}</Col>
           </Row>
+
           <Row className="mt-3">
-            <Col className={"bold"}>
-              <strong>User Tags :</strong>
+            <Col className={"text-center"} xs={{ span: 6, offset: 3 }}>
+              <LinkContainer to={`/MyGraf`}>
+                <GrafButton>Go to my graph</GrafButton>
+              </LinkContainer>
             </Col>
-            <Col>{numTags}</Col>
           </Row>
 
           <Row className="mt-3">
-            <Col>
+            <Col className={"text-center"} xs={{ span: 6, offset: 3 }}>
               <Button
+                className={"w-100"}
                 variant="success"
                 onClick={() => handleCreateTagClick("")}
               >
@@ -73,5 +78,15 @@ const ProfileCard = ({ userData, numTags = 0, handleCreateTagClick }) => {
     </Row>
   );
 };
+
+const GrafButton = styled.div`
+  fontsize: 1em;
+  color: #ffffff;
+  cursor: pointer;
+  background-color: #3a5199;
+  border-radius: 5px;
+  width: 100%;
+  padding: 0.35em 0;
+`;
 
 export default ProfileCard;

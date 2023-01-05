@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import Tag from "../Tag";
-import FormDropdown from "../../shared/Forms/FormDropdown";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import Steps from "../Steps";
 import { updateTag } from "../utils/api/tag";
@@ -53,28 +52,32 @@ const EditTagModal = (props) => {
     props.setShowDesc(event.target.value);
   };
 
-  let [tagType, setTagType] = useState(props.tag.data.type);
-  const handleChangeTagType = (event) => {
-    setTagType(event.target.value);
-  };
-
   const handleEditTag = (event) => {
     event.preventDefault();
-    updateTag({
+    const newTag = {
       ...props.tag,
       data: {
         ...props.tag.data,
         description: tagDescription,
         tagName: tagName,
-        type: tagType,
         textColor: textColor,
         tagColor: tagColor,
         cumulatives: cumulatives,
       },
-    }).then(() => {
+    };
+    props.setThisTag(newTag);
+    updateTag(newTag).then(() => {
       props.setshowedittag(false);
     });
   };
+
+  useEffect(() => {
+    setTagName(props.tag.data.tagName);
+    setTagColor(props.tag.data.tagColor);
+    setCumulatives(props.tag.data.cumulatives);
+    setTextColor(props.tag.data.textColor);
+    setTagDescription(props.tag.data.description);
+  }, [props.tag]);
 
   return (
     <Modal {...props} size="lg" centered>
@@ -144,23 +147,6 @@ const EditTagModal = (props) => {
                       value={textColor}
                     />
                   </Col>{" "}
-                </Row>
-                <Row>
-                  <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                    <FormDropdown
-                      handleChange={handleChangeTagType}
-                      value={tagType}
-                      options={[
-                        { value: "event", label: "Event" },
-                        { value: "person", label: "Person" },
-                        { value: "place", label: "Place" },
-                        { value: "thing", label: "Thing" },
-                        { value: "category", label: "Category" },
-                        { value: "opinion", label: "Opinion" },
-                      ]}
-                      label="Select type for tag"
-                    />
-                  </Col>
                 </Row>
               </>
             )}

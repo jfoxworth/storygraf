@@ -7,18 +7,51 @@
 
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useUser } from "../../Contexts/UserContext";
 
+import ProfileCard from "./MyProfileCard";
+import TagChildren from "../../shared/TagChildren";
 import CreateTagModal from "../../shared/CreateTagModal";
+import { getTagChildren } from "../../shared/utils/api/tag";
 
 const ProfilePage = () => {
   const userData = useUser();
   let [showCreateTag, setShowCreateTag] = useState(false);
+  let [childData, setChildData] = useState([]);
+  const [userParentTagMimic, setuptm] = useState({});
+
+  useEffect(() => {
+    setuptm({
+      id: userData?.profileData?.id,
+      type: "TAG",
+      data: {
+        userPoints: [],
+        tagTree: [],
+        type: "user",
+        tagName: userData?.profileData?.data?.username,
+        cumulatives: [],
+        articlesList: [],
+        description: "",
+      },
+    });
+  }, [userData]);
+
+  useEffect(() => {
+    if (userData?.profileData?.id) {
+      getTagChildren(userData.profileData.id).then((data) =>
+        setChildData(JSON.parse(data).Items)
+      );
+    }
+  }, [userData]);
 
   const handleCreateTagClick = () => {
     setShowCreateTag(true);
+  };
+
+  const addChildItem = (newItem) => {
+    setChildData([...childData, newItem]);
   };
 
   return (
@@ -26,17 +59,42 @@ const ProfilePage = () => {
       <CreateTagModal
         show={showCreateTag}
         setshowcreatetag={setShowCreateTag}
-        parenttag={"USER" + userData.profileData.id}
+        parenttag={userParentTagMimic}
         userdata={userData}
+        addChildItem={addChildItem}
       />
 
       <Container>
         <Row className={"mt-5"}></Row>
         <Row>
           <Col sm={{ span: 12, offset: 0 }} md={{ span: 8, offset: 2 }}>
-            <Row className={"mt-5"}></Row>
-
-            <Row className={"mt-3"}></Row>
+            <Row className={"mt-5"}>
+              <ProfileCard
+                userData={userData.profileData}
+                setShowCreateTag={setShowCreateTag}
+                handleCreateTagClick={handleCreateTagClick}
+                addChildItem={addChildItem}
+              />
+            </Row>
+            <Row>
+              <Col>
+                <h2 className="accent-bottom mb-3 pb-3">My Tags</h2>
+              </Col>
+            </Row>
+            {childData.length === 0 && (
+              <Row>
+                <Col>
+                  <div className={"text-center"}>
+                    You have not created any tags
+                  </div>
+                </Col>
+              </Row>
+            )}
+            {childData.length > 0 && (
+              <Row className={"mt-1"}>
+                <TagChildren childTags={childData} />
+              </Row>
+            )}
           </Col>
         </Row>
       </Container>

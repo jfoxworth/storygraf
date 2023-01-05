@@ -14,8 +14,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./components/Contexts/UserContext";
 import { SourceProvider } from "./components/Contexts/SourceContext";
 
-import MainHeader from "./components/shared/MainHeader";
-import Header from "./components/Pages/Landing/Header";
+import HeaderMain from "./components/shared/HeaderMain";
+import HeaderLanding from "./components/shared/HeaderLanding";
 
 import LandingPage from "./components/Pages/Landing";
 import CreateSource from "./components/Pages/CreateSource";
@@ -27,7 +27,7 @@ import TagPage from "./components/Pages/Tag";
 import ArticlePage from "./components/Pages/Article";
 import ProfilePage from "./components/Pages/Profile";
 import MyProfilePage from "./components/Pages/MyProfile";
-import CreateMainPage from "./components/Pages/CreateMain";
+import MyGraf from "./components/Pages/MyGraf";
 import RegisterPage from "./components/Pages/Register";
 import LoginPage from "./components/Pages/Login";
 import GoogleFontLoader from "react-google-font-loader";
@@ -50,12 +50,11 @@ function App() {
       />{" "}
       <UserProvider>
         <SourceProvider>
-          {window.location.pathname !== "/" && <MainHeader />}
-          {window.location.pathname === "/" && <Header />}
+          {window.location.pathname !== "/" && <HeaderMain />}
+          {window.location.pathname === "/" && <HeaderLanding />}
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<LandingPage />} />
-              <Route path="/CreateGraf" element={<CreateMainPage />} />
               <Route path="/createSource" element={<CreateSource />} />
               <Route path="/createTag" element={<CreateTag />} />
               <Route path="/Sources" element={<ListSources />} />
@@ -63,6 +62,7 @@ function App() {
               <Route path="/Tag/:pTagId/:tagId" element={<TagPage />} />
               <Route path="/Article/:articleId" element={<ArticlePage />} />
               <Route path="/MyProfile" element={<MyProfilePage />} />
+              <Route path="/MyGraf" element={<MyGraf />} />
               <Route path="/Profile/:userId" element={<ProfilePage />} />
               <Route path="/Register" element={<RegisterPage />} />
               <Route path="/Login" element={<LoginPage />} />

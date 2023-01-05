@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { listArticles } from "../../../graphql/queries";
+import React from "react";
 import ArticleLine from "../ArticleLine";
-import { UserContext } from "../../../App";
 
-const TagArticles = ({
-  tag,
-  articles,
-  showEdits = false,
-  setNumArticles = () => {},
-  cumulatives = [],
-  setCumulatives = () => {},
-}) => {
+const TagArticles = ({ tag, articles, showEdits = false }) => {
   return (
     <div className={`ml-small pt-3 `}>
       {articles.map((article, i) => (

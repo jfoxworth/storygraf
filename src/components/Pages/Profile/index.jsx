@@ -14,17 +14,10 @@ import { useUser } from "../../Contexts/UserContext";
 import { useParams } from "react-router-dom";
 
 import MyProfileCard from "./ProfileCard";
-import MyProfileTags from "./ProfileTags";
 
 const ProfilePage = () => {
   const userData = useUser();
   const params = useParams();
-
-  const getThisUser = async (id) => {
-    if (id) {
-    } else {
-    }
-  };
 
   useEffect(() => {}, [params.userId]);
 
@@ -35,10 +28,6 @@ const ProfilePage = () => {
         <Col sm={{ span: 12, offset: 0 }} md={{ span: 8, offset: 2 }}>
           <Row className={"mt-5"}>
             <MyProfileCard userData={userData.profileData} />
-          </Row>
-
-          <Row className={"mt-3"}>
-            <MyProfileTags userData={userData.profileData} />
           </Row>
         </Col>
       </Row>

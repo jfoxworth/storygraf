@@ -5,13 +5,17 @@
 
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import DateBlock from "../../../shared/DateBlock";
 import TagStack from "../../../shared/TagStack";
 import TagEdit from "../TagEdit";
-import { useUser } from "../../../Contexts/UserContext";
 import Cumulative from "../../../shared/Cumulative";
+import { useUser } from "../../../Contexts/UserContext";
+import FollowersBlock from "../../../shared/TagInfoItems/Followers";
+import CreatorBlock from "../../../shared/TagInfoItems/CreatorBlock";
+import Date from "../../../shared/TagInfoItems/Date";
+import EmbedsBlock from "../../../shared/TagInfoItems/Embeds";
+import ImportsBlock from "../../../shared/TagInfoItems/Imports";
 
-const TagInfo = ({ tag, addChildItem }) => {
+const TagInfo = ({ tag, setThisTag, addChildItem }) => {
   const userData = useUser();
   const [showDesc, setShowDesc] = useState(tag.data?.description);
 
@@ -19,58 +23,48 @@ const TagInfo = ({ tag, addChildItem }) => {
     setShowDesc(tag?.data?.description);
   }, [tag]);
 
-  const tagType = tag?.data?.type || "No Type Set";
-
   return (
     <>
       <Row className={"mt-3 titleFont"}>
-        <Col xs={{ order: 1 }} sm={{ order: 1 }}>
+        <Col>
           <TagStack
             tagStack={tag.data?.tagTree.concat(tag)}
             variant={"inline"}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={{ order: 1, span: 6 }}>
           <div className={"my-3 text-muted"}>{showDesc}</div>
           {tag.data.cumulatives?.map((cum, ci) => (
             <Cumulative key={`cumulativeItem${ci}`} cumItem={cum} />
           ))}
         </Col>
-        <Col xs={{ order: 2 }} sm={{ order: 2 }}>
+        <Col xs={{ order: 2, span: 5, offset: 1 }}>
           <Row>
-            <Col className={"bold right-text"}>
-              <Row className="mt-3">
-                <strong>Tag Owner :</strong>
-              </Row>
-              <Row className="mt-3">
-                <strong>Tag Type :</strong>
-              </Row>
-              <Row className="mt-3">
-                <strong>Created :</strong>
-              </Row>
+            <Col xs={{ span: 6 }}>
+              <CreatorBlock tag={tag} />
+              <Date dateString={tag.created_at} />
             </Col>
-
-            <Col className={"bold left-text"}>
-              <Row className="mt-3">
-                <span>{tag.data.userName}</span>
-              </Row>
-              <Row className="mt-3">
-                <span>{tagType[0].toUpperCase() + tagType.substring(1)}</span>
-              </Row>
-              <Row className="mt-3">
-                <span>
-                  <DateBlock dateString={tag.created_at} />
-                </span>
-              </Row>
+            <Col xs={{ span: 6 }}>
+              <FollowersBlock
+                numFollowers={tag.followers}
+                tagId={tag.id}
+                parentTagId={tag.parent_tag_id}
+                userId={userData?.profileData?.id}
+              />
+              <EmbedsBlock numEmbeds={tag.embeds} />
+              <ImportsBlock numImports={tag.imports} />
             </Col>
-          </Row>
-          {tag.creatorId === userData.profileData?.id && (
-            <Row>
+            {tag.creatorId === userData.profileData?.id && (
               <TagEdit
                 tag={tag}
+                setThisTag={setThisTag}
                 addChildItem={addChildItem}
                 setShowDesc={setShowDesc}
               />
-            </Row>
-          )}
+            )}
+          </Row>
         </Col>
       </Row>
     </>

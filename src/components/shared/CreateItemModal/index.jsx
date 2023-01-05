@@ -9,7 +9,7 @@ import AddArticle from "./AddArticle";
 import FormDropdown from "../Forms/FormDropdown";
 import { createItem } from "../utils/api/item";
 import { checkTagItemDates } from "../utils/tags";
-import { updateTag } from "../utils/api/tag";
+import { getTagInfo, updateTag } from "../utils/api/tag";
 
 const CreateItemModal = (props) => {
   const [itemType, setItemType] = useState("ARTICLE");
@@ -40,11 +40,10 @@ const CreateItemModal = (props) => {
     createItem(item).then((data) => {
       props.addChildItem(JSON.parse(data));
     });
-    let testTag = checkTagItemDates(props.tag, item);
-    if (testTag) {
-      updateTag(testTag);
-      // This is to now check parent tags
-    }
+
+    // Check this tag and then all parent tags to see if this story
+    // should be in the list of those shown as the most recent.
+    checkTagItemDates(props.tag, item, updateTag, getTagInfo);
   };
 
   return (
@@ -52,7 +51,7 @@ const CreateItemModal = (props) => {
       <Modal.Header closeButton>
         <Modal.Title>Add Item to Tag - {props.tag.data.tagName}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ minHeight: "550px" }}>
         <Container>
           <Row>
             <Col xs={12} xl={{ span: 10, offset: 1 }}>
@@ -77,6 +76,9 @@ const CreateItemModal = (props) => {
                     setSource={setSource}
                   />
                 )}
+                {itemType === "YOUTUBE" && <h2>Coming soon.</h2>}
+                {itemType === "TWITTER" && <h2>Coming soon.</h2>}
+                {itemType === "FACEBOOK" && <h2>Coming soon.</h2>}
               </form>
             </Col>
           </Row>

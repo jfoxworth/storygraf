@@ -6,7 +6,7 @@
 */
 
 const createItem = (item) => {
-  return fetch("http://localhost:3080/api/article", {
+  return fetch("http://localhost:3080/api/item", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,4 +27,18 @@ const updateArticle = (tag) => {
   }).then((response) => response.text());
 };
 
-export { createItem, updateArticle };
+const deleteItem = (parentTagId, itemId, type) => {
+  return fetch("http://localhost:3080/api/item", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      parentTagId,
+      itemId,
+      type,
+    }),
+  }).then((response) => response.text());
+};
+
+export { createItem, updateArticle, deleteItem };

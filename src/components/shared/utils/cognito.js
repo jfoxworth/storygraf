@@ -88,7 +88,7 @@ const loginUser = async (username, password) => {
 
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
-      var accessToken = result.getAccessToken().getJwtToken();
+      //var accessToken = result.getAccessToken().getJwtToken();
       window.location.href = "/MyProfile";
 
       /*

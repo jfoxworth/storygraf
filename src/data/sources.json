@@ -562,5 +562,41 @@
       "sourceName": "Salon",
       "description": ""
     }
+  },
+  {
+    "id": "ESPN",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "espn.com",
+      "sourceImage": "espn.jpg",
+      "sourceName": "ESPN",
+      "description": ""
+    }
+  },
+  {
+    "id": "YOUTUBE",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "youtube.com",
+      "sourceImage": "youtube.jpg",
+      "sourceName": "YouTube",
+      "description": ""
+    }
+  },
+  {
+    "id": "FACEBOOK",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "facebook.com",
+      "sourceImage": "facebook.jpg",
+      "sourceName": "Facebook",
+      "description": ""
+    }
   }
 ]

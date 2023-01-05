@@ -19,6 +19,7 @@ import {
   getTagInfo,
   updateTag,
 } from "../../shared/utils/api/tag";
+import { checkChildTagProperties } from "../../shared/utils/tags";
 
 const TagPage = () => {
   const [thisTag, setThisTag] = useState({});
@@ -73,12 +74,17 @@ const TagPage = () => {
   };
 
   useEffect(() => {
-    getTagInfo(params.pTagId, params.tagId).then((data) =>
-      setThisTag(JSON.parse(data))
-    );
-    getTagChildren(params.tagId).then((data) =>
-      setChildData(JSON.parse(data).Items)
-    );
+    const promise1 = getTagInfo(params.pTagId, params.tagId);
+    const promise2 = getTagChildren(params.tagId);
+    Promise.all([promise1, promise2]).then((values) => {
+      setThisTag(JSON.parse(values[0]));
+      setChildData(JSON.parse(values[1]).Items);
+      checkChildTagProperties(
+        JSON.parse(values[0]),
+        JSON.parse(values[1]).Items,
+        updateTag
+      );
+    });
   }, [params.pTagId, params.tagId]);
 
   useEffect(() => {
@@ -87,13 +93,14 @@ const TagPage = () => {
 
   return (
     <>
-      {!!thisTag.id && <Spinner animation="border" variant="primary" />}
+      {!thisTag.id && <Spinner animation="border" variant="primary" />}
       {thisTag.id && (
         <Container>
-          <Row className={"mt-5"}>
+          <Row>
             <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
               <TagInfo
                 tag={thisTag}
+                setThisTag={setThisTag}
                 userData={userData || {}}
                 addChildItem={addChildItem}
               />
@@ -102,6 +109,11 @@ const TagPage = () => {
                 <Col className="mt-3">
                   {childData.length > 0 && (
                     <TagChildren childData={childData} tag={thisTag} />
+                  )}
+                  {childData.length === 0 && (
+                    <h3 className={"text-center"}>
+                      There are currently no tags or other items in this tag.
+                    </h3>
                   )}
                 </Col>
               </Row>

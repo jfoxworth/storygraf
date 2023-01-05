@@ -27,27 +27,6 @@ Sleek and Modern
   background-color: #ffffff !important;
 }
 
-.navbar-color {
-  /*
-  background-color: #2f2e33 !important;
-  border-bottom: 10px solid #3a5199 !important;
-
-  background-color: #1a405f !important;
-  border-bottom: 10px solid #337bae !important;
-*/
-
-  /*  background-color: #20232a !important; /* Industrial and in Control */
-  /*  border-bottom: 10px solid #a01d26 !important;
-
-  background-color: #2f3131 !important; /* Modern and Urban */
-  /*  border-bottom: 10px solid #426e86 !important;
-
-  background-color: #2f2e33 !important; /* Sleek and Modern */
-  /*  border-bottom: 10px solid #d5d6d2 !important;
-*/
-  background-color: #3c37f1 !important;
-}
-
 .accent-border {
   border: 2px solid #3a5199;
 }
@@ -91,18 +70,6 @@ Sleek and Modern
 
 .grey-font {
   color: #acbebe !important;
-}
-
-.navbar {
-  padding: 1rem 1rem !important;
-}
-
-.navbar::after {
-  border-bottom: 1px solid #a01d26 !important;
-}
-
-.navbar-nav a {
-  color: #fcfcfa !important;
 }
 
 .no-border {
@@ -216,21 +183,6 @@ Sleek and Modern
 
 .hover-me {
   cursor: pointer;
-}
-
-.page-footer {
-  background-color: #20232a !important; /* Industrial and in Control */
-  border-top: 10px solid #a01d26 !important;
-
-  background-color: #2f3131 !important; /* Modern and Urban */
-  border-top: 10px solid #426e86 !important;
-
-  background-color: #2f2e33 !important; /* Sleek and Modern */
-  border-top: 10px solid #d5d6d2 !important;
-
-  color: #acbebe;
-  flex-shrink: none;
-  margin-top: 50px;
 }
 
 .border-left {
@@ -386,6 +338,15 @@ Sleek and Modern
   height: 130px;
   width: 130px;
   zoom: 0.4;
+  -moz-transform: scale(0.4);
+}
+
+.avatars1-image-nav {
+  background-image: url("assets/images/avatars1.png");
+  background-repeat: no-repeat;
+  height: 130px;
+  width: 130px;
+  zoom: 0.2;
   -moz-transform: scale(0.4);
 }
 

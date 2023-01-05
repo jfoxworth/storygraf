@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import Tag from "../Tag";
-import FormDropdown from "../../shared/Forms/FormDropdown";
 import { useUser } from "../../Contexts/UserContext";
 import { createTag } from "../utils/api/tag";
 
@@ -29,11 +28,6 @@ const CreateTagModal = (props) => {
     setTagDescription(event.target.value);
   };
 
-  let [tagType, setTagType] = useState("");
-  const handleChangeTagType = (event) => {
-    setTagType(event.target.value);
-  };
-
   const handleAddTag = (event) => {
     event.preventDefault();
     addTag(event).then((data) => {
@@ -42,6 +36,7 @@ const CreateTagModal = (props) => {
   };
 
   const addTag = async (event) => {
+    const tagTree = props?.parenttag?.data?.tagTree || [];
     createTag({
       parent_tag_id: props.parenttag.id,
       followers: 0,
@@ -51,15 +46,15 @@ const CreateTagModal = (props) => {
       creatorEmail: userData?.profileData?.data?.email,
       data: {
         articlesList: [],
+        articleListLimit: 5,
         userName: userData.profileData.data.username,
         description: tagDescription,
         tagName: tagName,
         tagColor: tagColor,
         textColor: textColor,
-        type: tagType,
         userPoints: [],
         cumulatives: [],
-        tagTree: props.parenttag.data.tagTree.concat({
+        tagTree: tagTree.concat({
           ...props.parenttag,
           articlesList: [],
           PK: "",
@@ -134,29 +129,11 @@ const CreateTagModal = (props) => {
                 <Form.Control
                   type="color"
                   onChange={handleChangeTextColor}
-                  id="tagcolor"
+                  id="textcolor"
                   defaultValue="#FFFFFF"
                   title="Choose the text color"
                 />
               </Col>{" "}
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <FormDropdown
-                  handleChange={handleChangeTagType}
-                  value={tagType}
-                  options={[
-                    { value: "event", label: "Event" },
-                    { value: "person", label: "Person" },
-                    { value: "place", label: "Place" },
-                    { value: "thing", label: "Thing" },
-                    { value: "category", label: "Category" },
-                    { value: "opinion", label: "Opinion" },
-                  ]}
-                  label="Select type for tag"
-                />
-              </Col>
             </Row>
 
             <Row>

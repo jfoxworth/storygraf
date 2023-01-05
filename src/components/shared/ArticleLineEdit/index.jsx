@@ -1,14 +1,26 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import Source from "../Source";
 import "../../../main.css";
+import { BsFillTrashFill, BsGear } from "react-icons/bs";
 import DateBlock from "./dateBlock";
 import Cumulative from "../Cumulative";
 import styled from "styled-components";
+import { deleteItem } from "../utils/api/item";
 
-const ArticleLine = ({ article, parentTag = {}, variant = "normal" }) => {
+const ArticleLine = ({
+  article,
+  showEdits = false,
+  parentTag = {},
+  variant = "normal",
+  setShowEditArticle = () => {},
+}) => {
   let artData =
     typeof article.data === "string" ? JSON.parse(article.data) : article.data;
+
+  const deleteThisArticle = (parentTagId, articleId) => {
+    deleteItem(parentTagId, articleId, "ARTICLE");
+  };
 
   const matchTagColor = (tag, cumItem) => {
     let badgeColor = "#CCCCCC";
@@ -30,7 +42,7 @@ const ArticleLine = ({ article, parentTag = {}, variant = "normal" }) => {
           className={"m-0 pb-2"}
         >
           <DateBlock
-            datestring={article?.itemDate}
+            datestring={article?.data?.published}
             time={artData}
             articleid={article?.id}
           />
@@ -72,7 +84,38 @@ const ArticleLine = ({ article, parentTag = {}, variant = "normal" }) => {
                   backgroundSize: "cover",
                   borderRadius: "5px 5px 5px 5px",
                 }}
-              ></div>
+              >
+                {showEdits && (
+                  <div className={"p-2 d-flex justify-content-between"}>
+                    <Button
+                      variant="outline-secondary"
+                      className="icon-button px-0 py-1 ml-5"
+                      style={{
+                        fontSize: "0.8em",
+                        width: "30px",
+                        height: "30px",
+                      }}
+                      onClick={() =>
+                        deleteThisArticle(article.parent_tag_id, article.id)
+                      }
+                    >
+                      <BsFillTrashFill />
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      className="icon-button px-0 py-1 ml-5"
+                      style={{
+                        fontSize: "0.8em",
+                        width: "30px",
+                        height: "30px",
+                      }}
+                      onClick={() => setShowEditArticle(true)}
+                    >
+                      <BsGear />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </Col>
 
             <Col xs={{ span: 8 }} lg={{ span: 8 }}>

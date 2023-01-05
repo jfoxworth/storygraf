@@ -14,6 +14,8 @@ import { useSource } from "../../../Contexts/SourceContext";
 import { useUser } from "../../../Contexts/UserContext";
 import Steps from "../../Steps";
 import { BsFillPlusCircleFill } from "react-icons/bs";
+import FormDropdown from "../../Forms/FormDropdown";
+import { parseArticleData } from "../../utils/items";
 
 const AddArticle = ({ tag, item, setItem, source, setSource }) => {
   const sourceData = useSource();
@@ -22,15 +24,34 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
   const [userDescription, setUserDescription] = useState("");
   const [userPoints, setUserPoints] = useState(item.data.userPoints);
   const [cumulatives, setCumulatives] = useState(item.data.cumulatives);
+  const [dateArray, setDateArray] = useState([]);
+  const [selectedDate, setSelectedDate] = useState();
+  const [selectedDateType, setSelectedDateType] = useState();
   const [step, setStep] = useState(0);
-  const steps = ["Link", "Description", "Points", "Cumulatives"];
+  const steps = ["Link", "Description", "Date", "Points", "Cumulatives"];
 
   useEffect(() => {
     setItem({ ...item, type: "ARTICLE" });
   }, []);
 
+  const handleTimeSelect = (e) => {
+    setSelectedDateType(e.target.value);
+    if (e.target.value !== "enter") {
+      setSelectedDate(e.target.value);
+      setItem({ ...item, itemDate: e.target.value });
+    }
+  };
+
+  const handleDateEnter = (e) => {
+    setSelectedDate(e.target.value);
+    setItem({
+      ...item,
+      itemDate: e.target.value,
+      data: { ...item.data, dateMethod: e.target.value },
+    });
+  };
+
   const handleChangeLink = (event) => {
-    console.log(event.target.value);
     setArticleSource(event.target.value);
     setArticleLink(event.target.value);
     fetch("http://localhost:3001/scrape", {
@@ -46,67 +67,16 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
       .then((response) => response.text())
       .then((rawdata) => {
         const data = JSON.parse(rawdata);
-        console.log(data);
-        const url = data.ogUrl ? data.ogUrl : event.target.value;
-        const title = data.ogTitle
-          ? data.ogTitle
-          : data.dcTitle
-          ? data.dcTitle
-          : data.twitterTitle
-          ? data.twitterTitle
-          : "";
-        const articleDate = data.articlePublishedTime
-          ? new Date(data.articlePublishedTime)
-          : data.ogDate
-          ? new Date(data.ogDate)
-          : data.dcDate
-          ? new Date(data.dcDate)
-          : new Date();
-        const description = data.ogDescription
-          ? data.ogDescription
-          : data.dcDescription
-          ? data.dcDescription
-          : "";
-        const image = data.ogImage;
-        const site_name = data.ogSiteName
-          ? data.ogSiteName
-          : data.dcPublisher
-          ? data.dcPublisher
-          : data.dcSource
-          ? data.dcSource
-          : "";
-        const type = data.ogType ? data.ogType : "";
-        const author = data.dcCreator;
-        let artSource = "";
-        sourceData.forEach((source, i) => {
-          if (url.includes(source.data.sourceUrl)) {
-            artSource = source;
-            setSource(source);
-          }
-        });
-        setItem({
-          ...item,
-          type: "ARTICLE",
-          itemDate: articleDate,
-          data: {
-            ...data,
-            title: title,
-            description: description,
-            title: title,
-            url: url,
-            image: image,
-            site_name: site_name,
-            modified: articleDate,
-            published: articleDate,
-            type: type,
-            author: author,
-            source: artSource,
-            userDescription: "",
-          },
-          parent_tag_id: tag.id,
-          creatorId: userData?.username || "Creator ID",
-          sourceId: artSource.id,
-        });
+        parseArticleData(
+          { ...data, eURL: event.target.value },
+          setDateArray,
+          item,
+          setItem,
+          tag,
+          sourceData,
+          setSource,
+          userData
+        );
       });
   };
 
@@ -169,7 +139,7 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
       )}
 
       {source.id && (
-        <Row className="mt-3 margin:auto">
+        <Row className="mt-5 margin:auto">
           <Col>
             <ArticleLine variant={"small"} article={item} parentTag={tag} />
           </Col>
@@ -211,6 +181,29 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
       )}
 
       {step === 2 && (
+        <Row className={"mt-5"}>
+          <Col>
+            <FormDropdown
+              handleChange={handleTimeSelect}
+              options={dateArray}
+              label="Select which of the dates is the correct publication date, or
+              enter the correct one."
+              value={selectedDateType}
+            />
+            {selectedDateType === "enter" && (
+              <div className={"mt-3"}>
+                <Form.Control
+                  type="date"
+                  name="date_of_birth"
+                  onChange={handleDateEnter}
+                />
+              </div>
+            )}
+          </Col>
+        </Row>
+      )}
+
+      {step === 3 && (
         <Row>
           <Col>
             <Form.Label className="mt-3">
@@ -239,7 +232,7 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
         </Row>
       )}
 
-      {step === 3 && (
+      {step === 4 && (
         <>
           <Row>
             <Col>

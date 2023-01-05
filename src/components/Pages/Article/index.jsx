@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getArticle } from "../../../graphql/queries";
 import EditArticleModal from "../../shared/EditArticleModal";
-import ArticleLine from "../../shared/ArticleLine";
+import ArticleLine from "../../shared/ArticleLineEdit";
 
 const ArticlePage = (props) => {
   let [article, setThisArticle] = useState({});
