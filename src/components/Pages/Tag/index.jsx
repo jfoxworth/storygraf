@@ -81,7 +81,7 @@ const TagPage = () => {
       setChildData(JSON.parse(values[1]).Items);
       checkChildTagProperties(
         JSON.parse(values[0]),
-        JSON.parse(values[1]).Items,
+        JSON.parse(values[1]).Items.filter((item) => item.type === "TAG"),
         updateTag
       );
     });

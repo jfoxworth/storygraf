@@ -56,6 +56,7 @@ const StyledDateWrapper = styled.div`
 const StyledDateIcon = styled.div`
   font-size: 1em;
   text-align: center;
+  margin: auto;
 `;
 
 const StyledDateText = styled.div`

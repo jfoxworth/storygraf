@@ -153,9 +153,11 @@ const CreateTagModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={() => props.setshowcreatetag(false)}>Close</Button>
-        <Button variant="success" onClick={handleAddTag}>
-          Create Tag
-        </Button>
+        {userData?.profileData?.id && (
+          <Button variant="success" onClick={handleAddTag}>
+            Create Tag
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

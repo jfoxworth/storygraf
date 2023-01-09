@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ArticleLine from "../ArticleLine";
 
 const TagArticles = ({ tag, articles, showEdits = false }) => {
+  const [orderedArticles, setOrderedArticles] = useState(articles);
+
+  const orderArticles = () => {
+    setOrderedArticles(
+      orderedArticles.sort((a, b) => {
+        return new Date(b.itemDate) - new Date(a.itemDate);
+      })
+    );
+  };
+
+  useEffect(() => {
+    orderArticles();
+  }, []);
+
   return (
-    <div className={`ml-small pt-3 `}>
-      {articles.map((article, i) => (
+    <div>
+      {orderedArticles.map((article, i) => (
         <ArticleLine
           article={article}
           key={`${i}${article.id}`}

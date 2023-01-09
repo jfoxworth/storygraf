@@ -30,7 +30,7 @@ const FormInput = ({
   id = "",
 }) => {
   return (
-    <div className="field has-flex-label has-validation">
+    <div className="field has-flex-label has-validation text-muted small">
       <label>
         {label ? <span>{label}</span> : null}
         {error ? <span className="error">{errorMessage}</span> : null}

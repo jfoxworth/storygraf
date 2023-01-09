@@ -12,7 +12,7 @@ const Cumulative = ({ cumItem }) => {
     <CumulativeDiv bgcolor={cumItem.color}>
       <CumulativeText>{cumItem.text}</CumulativeText>
       <Badge pill bg="secondary">
-        {cumItem.value || 0}
+        <BadgeText>{cumItem.value || 0}</BadgeText>
       </Badge>
     </CumulativeDiv>
   );
@@ -35,10 +35,14 @@ const CumulativeText = styled.div`
   margin-right: 0.5em;
   display: inline-block;
   position: relative;
-  top: 0px;
+  top: -1px;
   color: #ffffff;
-  font-size: 0.75em;
+  font-size: 0.6em;
   letter-spacing: 0.09em;
+`;
+
+const BadgeText = styled.div`
+  font-size: 0.9em;
 `;
 
 export default Cumulative;

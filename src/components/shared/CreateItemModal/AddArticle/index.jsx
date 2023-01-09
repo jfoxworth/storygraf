@@ -2,7 +2,7 @@
     This is the content that lets a user add an article to a tag.
     It steps the user through the 4 steps needed.
     1. add a link
-    2. add a description
+    2. add a date
     3. add any salient points
     4. add any cumulatives
 */
@@ -21,14 +21,13 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
   const sourceData = useSource();
   const userData = useUser();
   const [articleLink, setArticleLink] = useState("");
-  const [userDescription, setUserDescription] = useState("");
   const [userPoints, setUserPoints] = useState(item.data.userPoints);
   const [cumulatives, setCumulatives] = useState(item.data.cumulatives);
   const [dateArray, setDateArray] = useState([]);
   const [selectedDate, setSelectedDate] = useState();
   const [selectedDateType, setSelectedDateType] = useState();
   const [step, setStep] = useState(0);
-  const steps = ["Link", "Description", "Date", "Points", "Cumulatives"];
+  const steps = ["Link", "Date", "Points", "Cumulatives"];
 
   useEffect(() => {
     setItem({ ...item, type: "ARTICLE" });
@@ -78,15 +77,6 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
           userData
         );
       });
-  };
-
-  const handleChangeDescription = (event) => {
-    setUserDescription(event.target.value);
-    setItem({
-      ...item,
-      type: "ARTICLE",
-      data: { ...item.data, userDescription: event.target.value },
-    });
   };
 
   const handlePointMade = (index) => (e) => {
@@ -164,30 +154,17 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
       )}
 
       {step === 1 && (
-        <Row>
-          <Col>
-            <Form.Label className="mt-3">Description of Article</Form.Label>
-            <Form.Control
-              as="textarea"
-              name={"userDescription"}
-              placeholder="Your description of article"
-              label={`Your description of article`}
-              rows={5}
-              onChange={handleChangeDescription}
-              value={userDescription}
-            />
-          </Col>
-        </Row>
-      )}
-
-      {step === 2 && (
         <Row className={"mt-5"}>
           <Col>
+            <div className={"mb-3"}>
+              Meta data for articles can store the publication date in different
+              properties. Below, we give the user the chance to select the
+              proper date or enter it.
+            </div>
             <FormDropdown
               handleChange={handleTimeSelect}
               options={dateArray}
-              label="Select which of the dates is the correct publication date, or
-              enter the correct one."
+              label="Select the correct date of publication or enter the correct one."
               value={selectedDateType}
             />
             {selectedDateType === "enter" && (
@@ -203,9 +180,14 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
         </Row>
       )}
 
-      {step === 3 && (
+      {step === 2 && (
         <Row>
           <Col>
+            <div className={"mb-3"}>
+              This list summarizes in bullets the salient points within the
+              article/post. These points will appear next to the item in the
+              timeline.
+            </div>
             <Form.Label className="mt-3">
               Points made by article
               <BsFillPlusCircleFill
@@ -232,10 +214,16 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
         </Row>
       )}
 
-      {step === 4 && (
+      {step === 3 && (
         <>
           <Row>
             <Col>
+              <div className={"mb-3"}>
+                A tag can contain cummulative data, such as number of goals
+                scored by a player. The cumulative data within the article is
+                stored in the list below, matched by name, and carried over into
+                higher tags.
+              </div>
               <Form.Label className="mt-3">
                 Cumulative items in the article
                 <BsFillPlusCircleFill

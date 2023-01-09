@@ -55,7 +55,7 @@ const FollowersBlock = ({ parentTagId, tagId, userId, numFollowers }) => {
           {followStatus && (
             <>
               <StyledFollowerText
-                onClick={handleFollowClick}
+                onClick={handleUnfollowClick}
                 onMouseEnter={() => setButtonText("Click to unFollow")}
                 onMouseLeave={() => setButtonText(`${numFollowers} Followers`)}
               >
@@ -66,7 +66,7 @@ const FollowersBlock = ({ parentTagId, tagId, userId, numFollowers }) => {
           {!followStatus && (
             <>
               <StyledFollowerText
-                onClick={handleUnfollowClick}
+                onClick={handleFollowClick}
                 onMouseEnter={() => setButtonText("Click to Follow")}
                 onMouseLeave={() => setButtonText(`${numFollowers} Followers`)}
               >

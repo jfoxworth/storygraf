@@ -18,7 +18,15 @@ const CreateItemModal = (props) => {
   const [item, setItem] = useState({
     type: "",
     itemDate: new Date(),
-    data: { userPoints: [], cumulatives: [] },
+    data: {
+      userPoints: [],
+      cumulatives: [],
+      tag: {
+        tagName: props.tag.data.tagName,
+        tagColor: props.tag.data.tagColor,
+        textColor: props.tag.data.textColor,
+      },
+    },
     creatorId: "",
     sourceId: "",
   });

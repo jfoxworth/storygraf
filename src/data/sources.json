@@ -598,5 +598,29 @@
       "sourceName": "Facebook",
       "description": ""
     }
+  },
+  {
+    "id": "TECHCRUNCH",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "techcrunch.com",
+      "sourceImage": "techcrunch.jpg",
+      "sourceName": "TechCrunch",
+      "description": ""
+    }
+  },
+  {
+    "id": "YCOMBINATOR",
+    "type": "SOURCE",
+    "sourceType": "hard",
+    "created_at": "",
+    "data": {
+      "sourceUrl": "ycombinator.com",
+      "sourceImage": "ycombinator.jpg",
+      "sourceName": "YCombinator",
+      "description": ""
+    }
   }
 ]
