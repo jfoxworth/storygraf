@@ -14,7 +14,7 @@ const TagArticles = ({ tag, articles, showEdits = false }) => {
 
   useEffect(() => {
     orderArticles();
-  }, []);
+  }, [articles]);
 
   return (
     <div>

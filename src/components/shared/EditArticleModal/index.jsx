@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import FormInput from "../Forms/FormInput";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Row, Col, Form, Button, Modal } from "react-bootstrap";
 import ArticleLine from "../ArticleLine";
-import { BsXLg } from "react-icons/bs";
+import Steps from "../Steps";
+import { BsXLg, BsFillPlusCircleFill } from "react-icons/bs";
+import { updateArticle } from "../utils/api/item";
 
 const EditArticleModal = (props) => {
   let [article, setArticle] = useState(props.article);
-
-  const handleChangeArticleDesc = (event) => {
-    setArticle({
-      ...article,
-      data: { ...article.data, userDescription: event.target.value },
-    });
-  };
+  const [step, setStep] = useState(0);
+  const steps = ["Date", "Points", "Cumulatives"];
 
   const handleAddCumulative = (event) => {
     let temp = article.data.cumulatives ? article.data.cumulatives : [];
@@ -80,7 +77,7 @@ const EditArticleModal = (props) => {
 
   const handleEditArticle = (event) => {
     event.preventDefault();
-    editArticle(event).then((data) => {
+    updateArticle(article).then((data) => {
       props.setshoweditarticle(false);
     });
   };
@@ -95,48 +92,35 @@ const EditArticleModal = (props) => {
   };
 
   return (
-    <Modal {...props} size="lg" centered>
+    <Modal {...props} size="xl" centered>
       <Modal.Header closeButton>
         <Modal.Title>Edit Article</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Container>
-          <form onSubmit={handleEditArticle}>
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <h3>Link to Article</h3>
-                <div className={"my-3"}>{article.data.url}</div>
-              </Col>
-            </Row>
+        <form onSubmit={handleEditArticle}>
+          <Row>
+            <Col xs={12} lg={{ span: 8, offset: 2 }}>
+              <h3>Link to Article</h3>
+              <div className={"my-3"}>{article.data.url}</div>
+            </Col>
+          </Row>
 
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }}>
-                <ArticleLine
-                  article={article}
-                  showEdits={false}
-                  parentTag={props.tag}
-                />
-              </Col>
-            </Row>
+          <Row>
+            <Col xs={12} lg={{ span: 8, offset: 2 }}>
+              <ArticleLine
+                article={article}
+                showEdits={false}
+                parentTag={props.tag}
+              />
+            </Col>
+          </Row>
 
+          <Steps step={step} setStep={setStep} steps={steps} />
+          {step == 1 && (
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <Form.Group className="mb-3" controlId="artDesc">
-                  <Form.Label>Description of Article</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    onChange={handleChangeArticleDesc}
-                    value={article.data.userDescription}
-                  />
-                </Form.Group>{" "}
-              </Col>
-            </Row>
-
-            <Row>
-              <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
-                <h5 className={"mt-3"}>Key Points</h5>
-                {article.data.keyPoints?.map((kp, i) => (
+                <h5 className={"mt-3"}>User Points</h5>
+                {article.data.userPoints?.map((kp, i) => (
                   <Row className={"p-0 m-0"} key={`keypoint${i}`}>
                     <Col xs={10}>
                       <FormInput
@@ -170,7 +154,9 @@ const EditArticleModal = (props) => {
                 </Button>
               </Col>
             </Row>
+          )}
 
+          {step == 2 && (
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 <h4>Cumulative Items</h4>
@@ -213,8 +199,8 @@ const EditArticleModal = (props) => {
                 </Button>
               </Col>
             </Row>
-          </form>
-        </Container>
+          )}
+        </form>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={() => props.setshoweditarticle(false)}>Close</Button>

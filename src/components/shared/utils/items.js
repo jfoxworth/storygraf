@@ -111,7 +111,6 @@ const parseArticleData = (
       userDescription: "",
     },
     parent_tag_id: tag.id,
-    creatorId: userData?.username || "Creator ID",
     sourceId: artSource.id,
   });
 };

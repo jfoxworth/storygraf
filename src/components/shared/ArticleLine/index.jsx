@@ -1,14 +1,20 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
+import { BsFillTrashFill, BsGear } from "react-icons/bs";
 import Source from "../Source";
 import "../../../main.css";
 import DateBlock from "./dateBlock";
 import Cumulative from "../Cumulative";
 import styled from "styled-components";
+import { deleteItem } from "../utils/api/item";
 
 const ArticleLine = ({ article, parentTag = {}, variant = "left" }) => {
   let artData =
     typeof article.data === "string" ? JSON.parse(article.data) : article.data;
+
+  const deleteThisArticle = (parentTagId, articleId) => {
+    deleteItem(parentTagId, articleId, "ARTICLE");
+  };
 
   const matchTagColor = (tag, cumItem) => {
     let badgeColor = "#CCCCCC";
@@ -93,22 +99,18 @@ const StyledWrapper = styled.div`
   border-top: 1px solid #ddd;
   border-radius: 0px 15px 15px 0px;
   padding: 5px 0px;
-  height: 100%;
 `;
 
 const StyledPoints = styled.div`
   font-size: 0.75em;
-  height: 100%;
 `;
 
 const StyledTitle = styled.div`
   font-size: 0.75em;
-  height: 100%;
 `;
 
 const StyledDescription = styled.div`
   font-size: 0.75em;
-  height: 100%;
 `;
 
 export default ArticleLine;

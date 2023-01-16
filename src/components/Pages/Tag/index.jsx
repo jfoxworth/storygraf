@@ -20,8 +20,13 @@ import {
   updateTag,
 } from "../../shared/utils/api/tag";
 import { checkChildTagProperties } from "../../shared/utils/tags";
+import EditArticleModal from "../../shared/EditArticleModal";
+import DeleteItemModal from "../../shared/DeleteItemModal";
 
 const TagPage = () => {
+  const [showEditArticle, setShowEditArticle] = useState(false);
+  const [showDeleteItem, setShowDeleteItem] = useState(false);
+  const [currentArticle, setCurrentArticle] = useState(null);
   const [thisTag, setThisTag] = useState({});
   const [childData, setChildData] = useState([]);
   const params = useParams();
@@ -91,8 +96,37 @@ const TagPage = () => {
     calculateCumulatives();
   }, [childData]);
 
+  const handleShowEditArticle = (status, newArticle) => {
+    setCurrentArticle(newArticle);
+    setShowEditArticle(status);
+  };
+
+  const handleShowDeleteItem = (status, item) => {
+    setCurrentArticle(item);
+    setShowDeleteItem(status);
+  };
+
   return (
     <>
+      {showEditArticle && (
+        <EditArticleModal
+          show={showEditArticle}
+          setshoweditarticle={handleShowEditArticle}
+          onHide={() => handleShowEditArticle(false)}
+          article={currentArticle}
+          userdata={userData}
+        />
+      )}
+
+      {showDeleteItem && (
+        <DeleteItemModal
+          show={showDeleteItem}
+          setshowdeleteitem={handleShowDeleteItem}
+          onHide={() => handleShowDeleteItem(false)}
+          item={currentArticle}
+        />
+      )}
+
       {!thisTag.id && <Spinner animation="border" variant="primary" />}
       {thisTag.id && (
         <Container>
@@ -108,7 +142,12 @@ const TagPage = () => {
               <Row className="accent-top">
                 <Col className="mt-3">
                   {childData.length > 0 && (
-                    <TagChildren childData={childData} tag={thisTag} />
+                    <TagChildren
+                      childData={childData}
+                      tag={thisTag}
+                      handleShowEditArticle={handleShowEditArticle}
+                      handleShowDeleteItem={handleShowDeleteItem}
+                    />
                   )}
                   {childData.length === 0 && (
                     <h3 className={"text-center"}>

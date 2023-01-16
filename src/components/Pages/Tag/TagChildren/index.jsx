@@ -4,10 +4,19 @@
 */
 
 import React from "react";
-import TagArticles from "../../../shared/TagArticles";
 import TagChildrenTags from "../../../shared/TagChildrenTags";
+import ArticleLine from "../../../shared/ArticleLine";
+import ArticleLineEdit from "../../../shared/ArticleLineEdit";
+import { useUser } from "../../../Contexts/UserContext";
 
-const TagChildren = ({ tag, childData }) => {
+const TagChildren = ({
+  tag,
+  childData,
+  handleShowEditArticle,
+  handleShowDeleteItem,
+}) => {
+  const userData = useUser();
+
   return (
     <>
       {/* Display child tags */}
@@ -15,11 +24,37 @@ const TagChildren = ({ tag, childData }) => {
         childTags={childData.filter((tag) => tag.type === "TAG")}
       />
       {/* Display child articles */}
-      <TagArticles
-        articles={childData.filter((tag) => tag.type === "ARTICLE")}
-        showEdits={true}
-        tag={tag}
-      />
+      {userData.profileData.id === tag.creatorId &&
+        childData
+          .filter((tag) => tag.type === "ARTICLE")
+          .sort((a, b) => {
+            return new Date(b.itemDate) - new Date(a.itemDate);
+          })
+          .map((article, i) => (
+            <ArticleLineEdit
+              article={article}
+              parentTag={tag}
+              key={`article${i}`}
+              handleShowEditArticle={handleShowEditArticle}
+              handleShowDeleteItem={handleShowDeleteItem}
+            />
+          ))}
+      {userData.profileData.id !== tag.creatorId &&
+        childData
+          .filter((tag) => tag.type === "ARTICLE")
+          .sort((a, b) => {
+            return new Date(b.itemDate) - new Date(a.itemDate);
+          })
+          .map((article, i) => (
+            <>
+              <ArticleLine
+                article={article}
+                parentTag={tag}
+                key={`article${i}`}
+                handleShowEditArticle={handleShowEditArticle}
+              />
+            </>
+          ))}
     </>
   );
 };

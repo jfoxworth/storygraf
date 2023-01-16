@@ -10,10 +10,12 @@ import FormDropdown from "../Forms/FormDropdown";
 import { createItem } from "../utils/api/item";
 import { checkTagItemDates } from "../utils/tags";
 import { getTagInfo, updateTag } from "../utils/api/tag";
+import { useUser } from "../../Contexts/UserContext";
 
 const CreateItemModal = (props) => {
   const [itemType, setItemType] = useState("ARTICLE");
   const [source, setSource] = useState({});
+  const userData = useUser();
 
   const [item, setItem] = useState({
     type: "",
@@ -27,7 +29,7 @@ const CreateItemModal = (props) => {
         textColor: props.tag.data.textColor,
       },
     },
-    creatorId: "",
+    creatorId: userData.profileData.id,
     sourceId: "",
   });
 
