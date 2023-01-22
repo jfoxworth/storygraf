@@ -1,5 +1,4 @@
 # https://medium.com/@jeffreyrussom/react-continuous-deployments-with-aws-codepipeline-f5034129ff0e
-#test
 
 AWSTemplateFormatVersion: 2010-09-09
 Parameters: 
@@ -194,16 +193,13 @@ Resources:
     Properties: {}
   DeployBucket:
     Type: 'AWS::S3::Bucket'
-    Properties:
-      WebsiteConfiguration:
-        IndexDocument: index.html
   Distribution:
     Type: "AWS::CloudFront::Distribution"
     Properties:
       DistributionConfig:
         Origins:
           - 
-            DomainName: !GetAtt DeployBucket.DomainName
+            DomainName: !GetAtt DeployBucket.RegionalDomainName
             Id: !Ref DeployBucket
             S3OriginConfig:
               OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
