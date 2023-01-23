@@ -1,10 +1,31 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+
+  pre_build:
+    commands:
+      # install dependencies
+      - echo installing dependencies...
+      - yarn install
+
   build:
     commands:
-      - npm run build
+      # run build script
+      - echo Build started on `date`
+      - echo Building React Application...
+      - yarn build
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
 
 artifacts:
+  # include all files required to run application
+  # we include only the static build files
   files:
-    - "build/**/*"
+    - "**/*"
+    # reference directory where build file is located
+  base-directory: "build"
