@@ -5,6 +5,16 @@
 
 */
 
+// Get the article children for a tag.
+const getChildArticles = (tagId) => {
+  return fetch("http://localhost:3080/api/article_children/PTAG/" + tagId, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.text());
+};
+
 const createItem = (item) => {
   return fetch("http://localhost:3080/api/item", {
     method: "POST",
@@ -27,18 +37,18 @@ const updateArticle = (tag) => {
   }).then((response) => response.text());
 };
 
-const deleteItem = (parentTagId, itemId, type) => {
+const deleteItem = (item) => {
   return fetch("http://localhost:3080/api/item", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      parentTagId,
-      itemId,
-      type,
+      parentTagId: item.parent_tag_id,
+      itemId: item.id,
+      type: item.type,
     }),
   }).then((response) => response.text());
 };
 
-export { createItem, updateArticle, deleteItem };
+export { getChildArticles, createItem, updateArticle, deleteItem };

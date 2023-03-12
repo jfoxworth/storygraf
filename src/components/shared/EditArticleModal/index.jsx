@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import FormInput from "../Forms/FormInput";
-import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import ArticleLine from "../ArticleLine";
+import { Row, Col, Button, Modal } from "react-bootstrap";
+import ArticleLine from "../ArticleLineEdit";
 import Steps from "../Steps";
-import { BsXLg, BsFillPlusCircleFill } from "react-icons/bs";
+import { BsXLg } from "react-icons/bs";
 import { updateArticle } from "../utils/api/item";
 
 const EditArticleModal = (props) => {
@@ -82,15 +82,6 @@ const EditArticleModal = (props) => {
     });
   };
 
-  const editArticle = async (event) => {
-    const tempArt = { ...article };
-    delete tempArt.creator;
-    delete tempArt.source;
-    delete tempArt.createdAt;
-    delete tempArt.updatedAt;
-    tempArt.data = JSON.stringify(article.data);
-  };
-
   return (
     <Modal {...props} size="xl" centered>
       <Modal.Header closeButton>
@@ -116,7 +107,7 @@ const EditArticleModal = (props) => {
           </Row>
 
           <Steps step={step} setStep={setStep} steps={steps} />
-          {step == 1 && (
+          {step === 1 && (
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 <h5 className={"mt-3"}>User Points</h5>
@@ -156,7 +147,7 @@ const EditArticleModal = (props) => {
             </Row>
           )}
 
-          {step == 2 && (
+          {step === 2 && (
             <Row>
               <Col xs={12} lg={{ span: 8, offset: 2 }} className={"mt-3"}>
                 <h4>Cumulative Items</h4>

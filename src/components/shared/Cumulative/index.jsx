@@ -6,21 +6,39 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
 import styled from "styled-components";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 
-const Cumulative = ({ cumItem }) => {
+const Cumulative = ({ cumItem, showText = true }) => {
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Body>{cumItem.text}</Popover.Body>
+    </Popover>
+  );
+
   return (
     <CumulativeDiv bgcolor={cumItem.color}>
-      <CumulativeText>{cumItem.text}</CumulativeText>
-      <Badge pill bg="secondary">
-        <BadgeText>{cumItem.value || 0}</BadgeText>
-      </Badge>
+      {showText && (
+        <>
+          <CumulativeText>{cumItem.text}</CumulativeText>
+          <Badge pill bg="secondary">
+            <BadgeText>{cumItem.value || 0}</BadgeText>
+          </Badge>
+        </>
+      )}
+      {!showText && (
+        <>
+          <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+            <CumulativeText>{cumItem.value || 0}</CumulativeText>
+          </OverlayTrigger>
+        </>
+      )}
     </CumulativeDiv>
   );
 };
 
 const CumulativeDiv = styled.div`
   background-color: ${(props) => props.bgcolor};
-  margin-right: 0.5em;
   display: inline-block;
   font-weight: 700;
   line-height: 1;
@@ -28,17 +46,16 @@ const CumulativeDiv = styled.div`
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
-  padding: 0em 0.65em;
+  padding: 0em 0.65em 0.15em;
 `;
 
 const CumulativeText = styled.div`
-  margin-right: 0.5em;
+  margin: 0.2em 0.3em;
   display: inline-block;
-  position: relative;
-  top: -1px;
   color: #ffffff;
-  font-size: 0.6em;
+  font-size: 0.7em;
   letter-spacing: 0.09em;
+  cursor: pointer;
 `;
 
 const BadgeText = styled.div`

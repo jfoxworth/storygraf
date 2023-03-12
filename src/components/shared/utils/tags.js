@@ -59,10 +59,10 @@ const checkTagItemDates = (tag, item, updateTag, getTagInfo) => {
 // any changes to propagate up and down. The code steps through all children and
 // compares the name, color, and text color of the items within the tag stacks.
 // If the updated date is later the older item is updated with the new changes.
+// Note that this is not checking the cumulative data. It is only a check on the
+// properties for the tag
 
 const checkChildTagProperties = (parentTag, childTags, updateTag) => {
-  console.log(parentTag);
-  console.log(childTags);
   let parentFlag = false;
   let flagArray = [];
   childTags.forEach((childTag, i) => {
@@ -106,11 +106,127 @@ const checkChildTagProperties = (parentTag, childTags, updateTag) => {
     }
   });
   if (parentFlag) {
-    console.log("Updating parent");
-    console.log(parentTag);
     updateTag(parentTag);
   }
   return childTags;
 };
 
-export { checkTagItemDates, checkChildTagProperties };
+/*
+    This function responds to changes to a cumulatives name, color, or other property
+    that is stored and edited as a tag property but needs to be updated on the 
+    cumulative item in response to changes there. 
+*/
+const syncCumulativeProperties = (thisTag, cumulatives, updateCumulative) => {
+  thisTag.data.cumulatives.forEach((tagCum) => {
+    cumulatives.forEach((cumItem, cii) => {
+      if (tagCum.cumId === cumItem.id) {
+        updateCumulative({
+          ...cumItem,
+          data: { ...cumItem.data, text: tagCum.text, color: tagCum.color },
+        });
+      }
+    });
+  });
+};
+
+/*
+    This function takes in the child tags and child articles for a given tag as well as
+    the cumulative items for a tag. It checks the entries for each article within the
+    cumulative item and keeps a running total. At the end, it updates the tag value.
+*/
+const syncCumulativeValues = (
+  thisTag,
+  childTags,
+  childArticles,
+  cumulatives,
+  updateTag,
+  updateCumulative
+) => {
+  console.log("In check cumulative values");
+  console.log(cumulatives);
+  const tempCumulatives = [];
+  cumulatives.forEach((cumItem, cii) => {
+    console.log("The cumItem is ...");
+    console.log(cumItem);
+    const cumulativeItem = {
+      ...cumItem,
+    };
+    var changeFlag = false;
+    childTags.forEach((tag, ti) => {
+      // Add cumlative item for this tag
+    });
+    childArticles.forEach((art, ai) => {
+      art.data?.cumulatives?.forEach((artCumItem) => {
+        if (cumItem.data.text === artCumItem.text) {
+          if (cumulativeItem.data.numData[art.id] !== artCumItem.value) {
+            cumulativeItem.data.numData[art.id] = parseFloat(artCumItem.value);
+            changeFlag = true;
+          }
+        }
+      });
+    });
+    if (changeFlag) {
+      var thisTotal = 0;
+      for (const [key, value] of Object.entries(cumulativeItem.data.numData)) {
+        thisTotal = thisTotal + value;
+      }
+      updateCumulative({
+        ...cumulativeItem,
+        data: { ...cumulativeItem.data, value: thisTotal },
+      });
+    }
+    console.log("The cumulativeItem is ...");
+    console.log(cumulativeItem);
+    tempCumulatives.push(cumulativeItem);
+  });
+
+  console.log(tempCumulatives);
+
+  let testFlag = false;
+  let tempTagCumulatives = [];
+  tempCumulatives.forEach((tempCum, ci) => {
+    thisTag.data?.cumulatives?.forEach((tagCum) => {
+      console.log(tempCum.data.text + " === " + tagCum.text);
+      if (tempCum.data.text === tagCum.text) {
+        console.log(
+          tempCum.data.text +
+            " - " +
+            tempCum.data.value +
+            " : " +
+            tagCum.text +
+            " - " +
+            tagCum.value
+        );
+        if (tempCum.data.value !== tagCum.value) {
+          testFlag = true;
+        }
+      }
+    });
+    console.log("------------------------------");
+    console.log(tempCum);
+    tempTagCumulatives.push({
+      text: tempCum.data.text,
+      color: tempCum.data.color,
+      value: tempCum.data.value,
+      cumId: tempCum.id,
+    });
+  });
+  if (testFlag) {
+    console.log("Updating tag");
+    console.log({
+      ...thisTag,
+      data: { ...thisTag.data, cumulatives: tempTagCumulatives },
+    });
+    updateTag({
+      ...thisTag,
+      data: { ...thisTag.data, cumulatives: tempTagCumulatives },
+    });
+  }
+};
+
+export {
+  checkTagItemDates,
+  checkChildTagProperties,
+  syncCumulativeValues,
+  syncCumulativeProperties,
+};

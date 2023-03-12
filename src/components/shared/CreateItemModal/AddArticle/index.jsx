@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from "react";
 import FormInput from "../../Forms/FormInput";
 import { Row, Col, Form } from "react-bootstrap";
-import ArticleLine from "../../ArticleLine";
+import ArticleLine from "../../ArticleLineEdit";
 import { useSource } from "../../../Contexts/SourceContext";
 import { useUser } from "../../../Contexts/UserContext";
 import Steps from "../../Steps";

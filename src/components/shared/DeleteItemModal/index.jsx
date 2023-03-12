@@ -1,6 +1,6 @@
 import React from "react";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import ArticleLine from "../ArticleLine";
+import { Container, Row, Button, Modal } from "react-bootstrap";
+import ArticleLine from "../ArticleLineEdit";
 import { useUser } from "../../Contexts/UserContext";
 import { deleteItem } from "../utils/api/item";
 

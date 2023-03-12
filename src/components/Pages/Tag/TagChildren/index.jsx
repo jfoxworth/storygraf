@@ -58,5 +58,3 @@ const TagChildren = ({
     </>
   );
 };
-
-export default TagChildren;

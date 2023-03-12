@@ -3,34 +3,20 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import EditArticleModal from "../../shared/EditArticleModal";
 import ArticleLine from "../../shared/ArticleLineEdit";
+import { useUser } from "../../Contexts/UserContext";
 
 const ArticlePage = (props) => {
   let [article, setThisArticle] = useState({});
-  let [userData, setUserData] = useState({});
   let [showEditArticle, setShowEditArticle] = useState(false);
   const params = useParams();
+  const userData = useUser();
 
   const getThisArticle = async (id) => {
-    /*
-    await API.graphql({
-      query: getArticle,
-      variables: { id: id },
-      authMode: "AMAZON_COGNITO_USER_POOLS",
-    }).then((data) => {
-      let articleData = data.data.getArticle;
-      articleData.data = JSON.parse(articleData.data);
-      setThisArticle(articleData);
-    });
-    */
+    setThisArticle({});
   };
 
   useEffect(() => {
-    /*
-    Auth.currentAuthenticatedUser({ bypassCache: true }).then((data) => {
-      setUserData(data);
-    });
     getThisArticle(params.articleId);
-    */
   }, [params.articleId, showEditArticle]);
 
   return (

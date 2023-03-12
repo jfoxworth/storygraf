@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import FormInput from "../../shared/Forms/FormInput";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import Tag from "../Tag";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import { BsFillPlusCircleFill, BsTrash } from "react-icons/bs";
 import Steps from "../Steps";
 import { updateTag } from "../utils/api/tag";
+import {
+  createCumulative,
+  updateCumulative,
+  deleteCumulative,
+} from "../utils/api/cumulative";
 
 const EditTagModal = (props) => {
   const [step, setStep] = useState(0);
@@ -14,15 +19,32 @@ const EditTagModal = (props) => {
     props.tag.data.cumulatives || []
   );
   const addCumulative = (e) => {
-    const temp = [...cumulatives];
-    temp.push({ text: "", color: "#CCCCCC" });
-    setCumulatives(temp);
+    const temp = {
+      data: {
+        parent_tag_id: props.tag.id,
+        text: "New Cumulative",
+        color: "#CCCCCC",
+        geoData: {},
+        numData: {},
+        value: 0,
+      },
+    };
+    createCumulative(temp).then((newItem) => {
+      console.log(newItem);
+      setCumulatives([...cumulatives, newItem]);
+    });
   };
+  const deleteCumulative = (ci) => {
+    deleteCumulative(ci).then(() => {});
+  };
+
   const handleCumulativeTextChange = (index) => (e) => {
     const temp = [...cumulatives];
     temp[index].text = e.target.value;
+    temp[index].changed = true;
     setCumulatives(temp);
   };
+
   const handleChangeCumColor = (index) => (e) => {
     const temp = [...cumulatives];
     temp[index].color = e.target.value;
@@ -66,6 +88,15 @@ const EditTagModal = (props) => {
       },
     };
     props.setThisTag(newTag);
+
+    cumulatives.forEach((cum) => {
+      if (cum.changed) {
+        const temp = { ...cum };
+        delete temp.changed;
+        updateCumulative(temp);
+      }
+    });
+
     updateTag(newTag).then(() => {
       props.setshowedittag(false);
     });
@@ -177,14 +208,17 @@ const EditTagModal = (props) => {
                       Cumulative items in the article
                       <BsFillPlusCircleFill
                         onClick={() => addCumulative()}
-                        style={{ marginLeft: "1em" }}
+                        style={{ marginLeft: "1em", cursor: "pointer" }}
                       />
                     </Form.Label>
                   </Col>
                 </Row>
+                <Row>
+                  <div>{JSON.stringify(cumulatives)}</div>
+                </Row>
                 {cumulatives.map((cumulative, ci) => (
                   <Row key={`cumulativeSet ${ci}`}>
-                    <Col xs={10} lg={{ span: 6, offset: 2 }}>
+                    <Col xs={9} lg={{ span: 5, offset: 2 }}>
                       <FormInput
                         key={`CumulativeTextInput${ci}`}
                         className=""
@@ -202,6 +236,12 @@ const EditTagModal = (props) => {
                         id="cumColor"
                         title="Choose your color"
                         value={cumulatives[ci].color}
+                      />
+                    </Col>
+                    <Col xs={1} className={"mt-4"}>
+                      <BsTrash
+                        onClick={() => deleteCumulative(ci)}
+                        style={{ marginLeft: "1em", cursor: "pointer" }}
                       />
                     </Col>
                   </Row>

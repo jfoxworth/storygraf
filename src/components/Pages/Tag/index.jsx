@@ -12,14 +12,23 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import TagInfo from "./TagInfo";
-import TagChildren from "./TagChildren";
+import ArticleLine from "../../shared/ArticleLineEdit";
+import TagChildrenTags from "../../shared/TagChildrenTags";
 import { useUser } from "../../Contexts/UserContext";
 import {
   getTagChildren,
   getTagInfo,
   updateTag,
 } from "../../shared/utils/api/tag";
-import { checkChildTagProperties } from "../../shared/utils/tags";
+import {
+  getCumulatives,
+  updateCumulative,
+} from "../../shared/utils/api/cumulative";
+import { getChildArticles } from "../../shared/utils/api/item";
+import {
+  checkChildTagProperties,
+  syncCumulativeValues,
+} from "../../shared/utils/tags";
 import EditArticleModal from "../../shared/EditArticleModal";
 import DeleteItemModal from "../../shared/DeleteItemModal";
 
@@ -28,73 +37,49 @@ const TagPage = () => {
   const [showDeleteItem, setShowDeleteItem] = useState(false);
   const [currentArticle, setCurrentArticle] = useState(null);
   const [thisTag, setThisTag] = useState({});
-  const [childData, setChildData] = useState([]);
+  const [childTags, setChildTags] = useState([]);
+  const [childArticles, setChildArticles] = useState([]);
+  const [cumulatives, setCumulatives] = useState([]);
+  const [ready, setReady] = useState(false);
   const params = useParams();
   const userData = useUser();
 
-  const calculateCumulatives = () => {
-    let tempCumulatives = [];
-    thisTag?.data?.cumulatives?.forEach((thisCum) => {
-      tempCumulatives.push({ ...thisCum, value: 0 });
-    });
-    tempCumulatives.forEach((thisCum, ci) => {
-      childData.forEach((thisChild) => {
-        thisChild.data?.cumulatives?.forEach((thisChildCum) => {
-          if (thisCum.text === thisChildCum.text) {
-            tempCumulatives[ci].value =
-              parseFloat(tempCumulatives[ci].value) +
-              parseFloat(thisChildCum.value);
-          }
-        });
-      });
-    });
-    checkCumulativeValues(tempCumulatives, thisTag);
-    setThisTag({
-      ...thisTag,
-      data: { ...thisTag.data, cumulatives: tempCumulatives },
-    });
-  };
-
-  const checkCumulativeValues = (tempCumulatives, tag) => {
-    let testFlag = false;
-    tempCumulatives.forEach((tempCum, ci) => {
-      tag.data?.cumulatives?.forEach((tagCum) => {
-        if (tempCum.text === tagCum.text) {
-          if (tempCum.value !== tagCum.value) {
-            testFlag = true;
-          }
-        }
-      });
-    });
-    if (testFlag) {
-      updateTag({
-        ...tag,
-        data: { ...tag.data, cumulatives: tempCumulatives },
-      });
-    }
-  };
-
-  const addChildItem = (newItem) => {
-    setChildData([...childData, newItem]);
-  };
-
+  // On page load, fetch the data
   useEffect(() => {
     const promise1 = getTagInfo(params.pTagId, params.tagId);
     const promise2 = getTagChildren(params.tagId);
-    Promise.all([promise1, promise2]).then((values) => {
+    const promise3 = getChildArticles(params.tagId);
+    const promise4 = getCumulatives(params.tagId);
+    Promise.all([promise1, promise2, promise3, promise4]).then((values) => {
       setThisTag(JSON.parse(values[0]));
-      setChildData(JSON.parse(values[1]).Items);
+      setChildTags(JSON.parse(values[1]).Items);
+      setChildArticles(JSON.parse(values[2]).Items);
+      setCumulatives(JSON.parse(values[3]).Items);
       checkChildTagProperties(
         JSON.parse(values[0]),
-        JSON.parse(values[1]).Items.filter((item) => item.type === "TAG"),
+        JSON.parse(values[1]).Items,
         updateTag
       );
+      setReady(true);
     });
   }, [params.pTagId, params.tagId]);
 
+  // When the article data changes, check that data against the cumulative data,
+  // and update the cumulative and the tag where necessary
   useEffect(() => {
-    calculateCumulatives();
-  }, [childData]);
+    syncCumulativeValues(
+      thisTag,
+      childTags,
+      childArticles,
+      cumulatives,
+      updateTag,
+      updateCumulative
+    );
+  }, [childArticles, childTags, cumulatives, syncCumulativeValues]);
+
+  const addChildItem = (newItem) => {
+    setChildTags([...childTags, newItem]);
+  };
 
   const handleShowEditArticle = (status, newArticle) => {
     setCurrentArticle(newArticle);
@@ -127,13 +112,18 @@ const TagPage = () => {
         />
       )}
 
-      {!thisTag.id && <Spinner animation="border" variant="primary" />}
-      {thisTag.id && (
+      {!ready && <Spinner animation="border" variant="primary" />}
+      {ready && (
         <Container>
+          <Row>{JSON.stringify(cumulatives)}</Row>
+          <Row>---------------</Row>
+          <Row>{JSON.stringify(thisTag.data.cumulatives)}</Row>
           <Row>
             <Col xs={{ span: 12 }} md={{ span: 10, offset: 1 }}>
               <TagInfo
                 tag={thisTag}
+                cumulatives={cumulatives}
+                setCumulatives={setCumulatives}
                 setThisTag={setThisTag}
                 userData={userData || {}}
                 addChildItem={addChildItem}
@@ -141,19 +131,30 @@ const TagPage = () => {
 
               <Row className="accent-top">
                 <Col className="mt-3">
-                  {childData.length > 0 && (
-                    <TagChildren
-                      childData={childData}
-                      tag={thisTag}
-                      handleShowEditArticle={handleShowEditArticle}
-                      handleShowDeleteItem={handleShowDeleteItem}
-                    />
+                  {childTags.length > 0 && (
+                    <TagChildrenTags childTags={childTags} />
                   )}
-                  {childData.length === 0 && (
-                    <h3 className={"text-center"}>
-                      There are currently no tags or other items in this tag.
-                    </h3>
-                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col className="mt-3">
+                  {childArticles
+                    .sort((a, b) =>
+                      a.itemDate < b.item_date
+                        ? 1
+                        : b.itemDate < a.itemDate
+                        ? -1
+                        : 0
+                    )
+                    .map((article, i) => (
+                      <ArticleLine
+                        article={article}
+                        parentTag={thisTag}
+                        key={`article${i}`}
+                        handleShowEditArticle={handleShowEditArticle}
+                        handleShowDeleteItem={handleShowDeleteItem}
+                      />
+                    ))}
                 </Col>
               </Row>
             </Col>

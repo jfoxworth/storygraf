@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ArticleLine from "../ArticleLine";
+import ArticleLine from "../ArticleLineEdit";
 
 const TagArticles = ({ tag, articles, showEdits = false }) => {
   const [orderedArticles, setOrderedArticles] = useState(articles);

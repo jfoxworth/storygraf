@@ -15,7 +15,13 @@ import Date from "../../../shared/TagInfoItems/Date";
 import EmbedsBlock from "../../../shared/TagInfoItems/Embeds";
 import ImportsBlock from "../../../shared/TagInfoItems/Imports";
 
-const TagInfo = ({ tag, setThisTag, addChildItem }) => {
+const TagInfo = ({
+  tag,
+  setThisTag,
+  addChildItem,
+  cumulatives,
+  setCumulatives,
+}) => {
   const userData = useUser();
   const [showDesc, setShowDesc] = useState(tag.data?.description);
 
@@ -25,7 +31,7 @@ const TagInfo = ({ tag, setThisTag, addChildItem }) => {
 
   return (
     <>
-      <Row className={"mt-3 titleFont"}>
+      <Row className={"my-3 titleFont"}>
         <Col>
           <TagStack
             tagStack={tag.data?.tagTree.concat(tag)}
@@ -37,7 +43,7 @@ const TagInfo = ({ tag, setThisTag, addChildItem }) => {
         <Col xs={{ order: 1, span: 6 }}>
           <div className={"my-3 text-muted"}>{showDesc}</div>
           {tag.data.cumulatives?.map((cum, ci) => (
-            <Cumulative key={`cumulativeItem${ci}`} cumItem={cum} />
+            <Cumulative key={`cumulativeItem${ci}`} cumItem={{ ...cum }} />
           ))}
         </Col>
         <Col xs={{ order: 2, span: 5, offset: 1 }}>
@@ -62,6 +68,8 @@ const TagInfo = ({ tag, setThisTag, addChildItem }) => {
                 setThisTag={setThisTag}
                 addChildItem={addChildItem}
                 setShowDesc={setShowDesc}
+                cumulatives={cumulatives}
+                setCumulatives={setCumulatives}
               />
             )}
           </Row>

@@ -13,7 +13,14 @@ import EditTagModal from "../../../shared/EditTagModal";
 import { useUser } from "../../../Contexts/UserContext";
 import styled from "styled-components";
 
-const TagEdit = ({ tag, setThisTag, addChildItem, setShowDesc }) => {
+const TagEdit = ({
+  tag,
+  cumulatives,
+  setCumulatives,
+  setThisTag,
+  addChildItem,
+  setShowDesc,
+}) => {
   const [showCreateTag, setShowCreateTag] = useState(false);
   const [showCreateArticle, setShowCreateArticle] = useState(false);
   const [showEditTag, setShowEditTag] = useState(false);
@@ -34,7 +41,7 @@ const TagEdit = ({ tag, setThisTag, addChildItem, setShowDesc }) => {
 
   useEffect(() => {
     setShowDesc(tag?.data?.description);
-  }, [tag]);
+  }, [tag, setShowDesc]);
 
   return (
     <>
@@ -47,6 +54,8 @@ const TagEdit = ({ tag, setThisTag, addChildItem, setShowDesc }) => {
           userdata={userData}
           setshowedittag={setShowEditTag}
           setShowDesc={setShowDesc}
+          cumulatives={cumulatives}
+          setCumulatives={setCumulatives}
         />
       )}
 
