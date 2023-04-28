@@ -1,0 +1,30 @@
+.CumulativeDiv {
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  padding: 0em 0.25em;
+  margin: 0 1em 0 0;
+  width: auto;
+  height: auto;
+}
+
+.CumulativeText {
+  margin: 0.2em 0.3em;
+  display: inline-block;
+  color: #ffffff;
+  font-size: 0.7em;
+  letter-spacing: 0.09em;
+  cursor: pointer;
+  width: auto;
+}
+
+.BadgeText {
+  font-size: 0.9em;
+}
+
+.pointer {
+  cursor: pointer;
+}

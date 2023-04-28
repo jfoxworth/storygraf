@@ -1,4 +1,6 @@
-# Storygraf
+{/* Introduction.mdx */}
+
+# Introduction to storygraf
 
 Storygraf is a next/react app with an AWS DynamoDB back end. Styling was originally handled through styled components but this conflicted with server side rendering in next, so it was reverted to modules. React bootstrap is used for baseline components.
 
@@ -18,26 +20,16 @@ Users can go to the base graf and see the latest stories for each of the officia
 
 Within any tag, the articles will appear as a timeline. Sometimes, users want to show data instead of just showing a timeline. In this case, users can establish a cumulative for a tag. Cumulatives can then be set for each article. For example, in [this tag](http://localhost:3000/Tag/01GP2JCWM8CDN6GV06BAEJTNBY/01GP4MTAZ5VD19GR60F031YGR7) we show the total number of startups funded by YCombinator. The number in each cycle is shown and the article in question provides this information.
 
-## Running locally
+## Organization
 
-To run this code locally, use the following commands:
+There are 4 sections to the storybook for this repo. The first is called "Simple". These are the simplest components - the ones used to build the remainder of the site. These usually consist of one or two divs that may depend upon some inputs and the user.
 
-```
-  npm i
-  npm run dev
-```
+The second is called "Compound". These are components that are built using the simpler components and React Bootstrap. These are usually combined to make the pages.
 
-To do this, the back end must be running locally as well.
+The third section are the form elements.
 
-## CI/CD
+The final section consists of the complete pages.
 
-Pushing this code to the main branch on github will prompt a build and deploy cycle.
+## Mocking the data
 
-## Running StoryBook
-
-I am using Storybook to aid in documentation and development. I don't have all of the components built out yet. To run the storybook locally, run the following command:
-
-```
-npm i
-npm run storybook
-```
+Right now, I am just pasting some request data into the stories. I don't like this and I need to figure out a way to change it so that the stories are not crowded.

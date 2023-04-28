@@ -3,11 +3,35 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@storybook/cli": "^7.0.6",
+    "amazon-cognito-identity-js": "^6.1.2",
+    "bootstrap": "^5.2.3",
+    "final-form": "^4.20.9",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-bootstrap": "^2.7.2",
+    "react-dom": "18.2.0",
+    "react-final-form": "^6.5.9",
+    "react-icons": "^4.8.0",
+    "storybook": "^7.0.6"
+  },
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-interactions": "^7.0.6",
+    "@storybook/addon-links": "^7.0.6",
+    "@storybook/addon-styling": "^1.0.1",
+    "@storybook/blocks": "^7.0.6",
+    "@storybook/react": "^7.0.6",
+    "@storybook/react-webpack5": "^7.0.6",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "prop-types": "^15.8.1"
   }
 }

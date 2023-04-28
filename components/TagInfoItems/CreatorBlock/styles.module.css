@@ -1,0 +1,17 @@
+.styledUserWrapper {
+  font-size: 1em;
+  color: #9fa6b2;
+  width: 100%;
+  padding: 0px 0px 3px 0px;
+  border-bottom: 1px solid #9fa6b2;
+  margin-bottom: 0.75em;
+}
+
+.styledUserIcon {
+  font-size: 1em;
+  text-align: center;
+}
+
+.styledUserText {
+  display: inline-block;
+}

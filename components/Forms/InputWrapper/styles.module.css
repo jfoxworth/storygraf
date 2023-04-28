@@ -1,0 +1,24 @@
+.FieldWrapper {
+  display: block;
+  margin: 1em auto;
+}
+
+.InputLabel {
+  display: block;
+  margin: 0.2em auto;
+  color: #808080;
+}
+
+.InputClass {
+  border: 1px solid #bcbcbc;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 8px;
+}
+
+.ErrorBox {
+  display: block;
+  margin: 0.2em 0.2em;
+  color: red;
+  font-size: 0.7em;
+}

@@ -1,0 +1,26 @@
+{/* ArticleLine.mdx */}
+
+import {
+  Canvas,
+  Meta,
+  Primary,
+  Controls,
+  Story,
+  Stories,
+} from "@storybook/blocks";
+
+import * as ArticleLine from "./ArticleLine.stories";
+
+<Meta of={ArticleLine} />
+
+# ArticleLine
+
+An "ArticleLine" is a component made of several simpler components. The ArticleLine represents one article in a tag. Each article gets a "line" in the timeline. The line contains the date/time, the users inputs, and the title and the description. The cumulatives are also listed.
+
+The ArticleLine is the base unit componet within Storygraf. It is also the most fluid component and has / will change often. We don't have separate storybook pages for each of the components used in an article line because viewing those components outside of the ArticleLine component is meaningless.
+
+If a user is viewing a tag / article which they can edit, they will see buttons allowing them to open the edit modal. This is shown in the second line.
+
+<Primary />
+<Controls />
+<Stories />

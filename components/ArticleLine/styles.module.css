@@ -1,0 +1,12 @@
+.StyledWrapper {
+  padding: 0px;
+}
+
+.StyledTitle {
+  font-size: 1em;
+  padding: 0 0 0.3em;
+}
+
+.StyledDescription {
+  font-size: 0.75em;
+}

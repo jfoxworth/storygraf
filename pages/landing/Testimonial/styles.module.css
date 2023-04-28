@@ -1,0 +1,40 @@
+.slopedContainer {
+  clip-path: polygon(0 6vh, 100% 0, 100% calc(100% - 6vw), 0 100%);
+  background-image: linear-gradient(
+    0deg,
+    rgba(220, 220, 220, 1),
+    rgba(220, 220, 220, 1)
+  );
+  background-size: cover;
+  min-height: 500px;
+  color: #000;
+  padding: 2em 0 2em 0;
+  margin: 4em 0;
+}
+
+.initialText {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.7em;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
+.quoteText {
+  font-size: 4em;
+  text-align: center;
+  font-style: italic;
+}
+
+.quotedText {
+  font-size: 2em;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.sourceText {
+  font-size: 1em;
+  text-align: center;
+  letter-spacing: 0.1em;
+}

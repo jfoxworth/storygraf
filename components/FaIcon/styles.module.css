@@ -1,0 +1,11 @@
+.circleOutline {
+  padding: 0%;
+  border: 1px solid;
+  border-radius: 50%;
+}
+
+.squareOutline {
+  padding: 1%;
+  border: 1px solid;
+  border-radius: 25%;
+}
