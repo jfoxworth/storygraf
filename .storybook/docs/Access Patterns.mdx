@@ -1,0 +1,13 @@
+{/* Access Patterns.mdx */}
+
+# Access Patterns in Storygraf
+
+The back end for Storygraf is built with an API Gateway and lambda to an AWS DynammoDB table. I use a single table structure.
+
+Being Dynammo, the primary concern is establishing our access patterns and setting up the primary and secondary keys accordingly. Pretty much everything in Storygraf is built around tags and the items within those tags - articles, videos, facebook posts, etc. The table below shows the items that exist within the DynammoDB table as well as their primary and secondary keys. I explain those items in detail later.
+
+| Item     |         PK         |                SK | Access Pattern    |
+| -------- | :----------------: | ----------------: | ----------------- |
+| Tag      | PTAG#<ParentTagID> | TAG#<ActualTagID> | Pull Tag          |
+| Tag      | PTAG#<ParentTagID> |                NA | Pull Tag Children |
+| TagStack |  TAGSTACK#<TagID>  |   TAGSTACK#<TagID | Pull Tag Stack    |
