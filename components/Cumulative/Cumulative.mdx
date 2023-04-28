@@ -1,0 +1,33 @@
+{/* Cumulative.mdx */}
+
+import {
+  Canvas,
+  Meta,
+  Primary,
+  Controls,
+  Story,
+  Stories,
+} from "@storybook/blocks";
+
+import * as Cumulative from "./Cumulative.stories";
+
+<Meta of={Cumulative} />
+
+# Cumulative
+
+A cumulative is one of the base items in storygraf. Cumulatives are created in tags and a single tag
+can have as many cumulatives as desired. The user then adds articles to that tag and each article can
+have one or more of the cumulatives attached to the tag. The article represents a given number for a
+cumulative and the total of those items is shown for the tag.
+
+For example, a user can have murders for a year as a tag and then cite multiple articles that each add
+a given number of murders. The cumulative total would then be at the top.
+
+The numbers for articles are shown simply as numbers. At the top of the tag, the name of the cumulative
+and its total are shown.
+
+The cumulative takes in text for the name of the cumulative, a number, and a color for the background.
+
+<Primary />
+<Controls />
+<Stories />

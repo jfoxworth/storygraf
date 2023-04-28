@@ -1,0 +1,13 @@
+.StyledMonthDay {
+  color: "#555555";
+  font-size: 0.7em;
+  text-align: left;
+  padding: 0.5em 0;
+  margin: 0 1em 0 0;
+}
+
+.StyledTime {
+  color: "#555555";
+  font-size: 0.5em;
+  text-align: left;
+}

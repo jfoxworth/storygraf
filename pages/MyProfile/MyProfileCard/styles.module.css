@@ -1,0 +1,9 @@
+.grafButton {
+  font-size: 1em;
+  color: #ffffff;
+  cursor: pointer;
+  background-color: #3a5199;
+  border-radius: 5px;
+  width: 100%;
+  padding: 0.35em 0;
+}

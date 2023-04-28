@@ -1,0 +1,7 @@
+.vertLine {
+  background-image: linear-gradient(#ccc, #ccc);
+  background-size: 3px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 30px;
+}

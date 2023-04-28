@@ -1,0 +1,24 @@
+{/* ItemList.mdx */}
+
+import {
+  Canvas,
+  Meta,
+  Primary,
+  Controls,
+  Story,
+  Stories,
+} from "@storybook/blocks";
+
+import * as ItemList from "./ItemList.stories";
+
+<Meta of={ItemList} />
+
+# ItemList
+
+There are two "things" that are displayed in list on storygraf. One is a list of tags. This is handled in a separate component. The second is a list of all other items. An item is usually an article, but it can also be a facebook post, twitter post, youtube video, etc.
+
+This component takes in a list of items. It sorts those items by date and then calls the ArticleLine component for articles, YouTubeLine for videos, etc.
+
+<Primary />
+<Controls />
+<Stories />

@@ -1,0 +1,24 @@
+{/* InputWrapper.mdx */}
+
+import {
+  Canvas,
+  Meta,
+  Primary,
+  Controls,
+  Story,
+  Stories,
+} from "@storybook/blocks";
+
+import * as InputWrapper from "./InputWrapper.stories";
+
+<Meta of={InputWrapper} />
+
+# InputWrapper
+
+Storygraf uses react-final-form as a builder for forms. For inputs, selects, etc, we have wrappers that handle errors, labels, etc so that all form elements have the same appearance throughout the site.
+
+The input component has a label that appears above the input, placeholder text, and errors that appear below the input when the meta has errors. I am still working on a method of showing those errors.
+
+<Primary />
+<Controls />
+<Stories />

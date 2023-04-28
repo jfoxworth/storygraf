@@ -1,0 +1,18 @@
+.styledImportWrapper {
+  font-size: 1em;
+  color: #426e86;
+  width: 100%;
+  padding: 0px 0px 3px 0px;
+  border-bottom: 1px solid #426e86;
+  margin-bottom: 0.75em;
+}
+
+.styledImportIcon {
+  font-size: 1em;
+  text-align: center;
+}
+
+.styledImportText {
+  display: inline-block;
+  cursor: pointer;
+}

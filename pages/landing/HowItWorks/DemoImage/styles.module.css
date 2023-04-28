@@ -1,0 +1,10 @@
+.pageWrapper {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.titleText {
+  color: rgb(145, 147, 150);
+  font-size: 0.8em;
+  text-align: center;
+}

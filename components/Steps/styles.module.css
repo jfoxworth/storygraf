@@ -1,0 +1,17 @@
+.StepNumber {
+  text-align: center;
+  margin: auto;
+  font-size: 0.85em;
+  color: #ffffff;
+  border-radius: 15px;
+  padding: 5px 2px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-color: #cccccc;
+}
+
+.StepText {
+  text-align: center;
+  font-size: 0.85em;
+}

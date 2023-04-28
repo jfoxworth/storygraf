@@ -1,65 +1,37 @@
 {
-  "name": "storygraf",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@aws-amplify/ui-react": "^2.1.5",
-    "@aws-sdk/client-cognito-identity-provider": "^3.231.0",
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
-    "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "amazon-cognito-identity-js": "^5.2.10",
-    "aws-sdk": "^2.1185.0",
-    "axios": "^0.21.4",
-    "body-parser": "^1.19.1",
-    "bootstrap": "^5.1.3",
-    "cors": "^2.8.5",
-    "express": "^4.17.2",
-    "final-form": "^4.20.7",
-    "font-awesome": "^4.7.0",
-    "open-graph-scraper": "^4.11.1",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.0.2",
-    "react-bootstrap-time-picker": "^2.0.1",
-    "react-dom": "^17.0.2",
-    "react-final-form": "^6.5.9",
-    "react-google-font-loader": "^1.1.0",
-    "react-icons": "^4.3.1",
-    "react-router": "^6.0.2",
-    "react-router-bootstrap": "^0.26.0",
-    "react-router-dom": "^6.0.2",
-    "react-scripts": "4.0.3",
-    "styled-components": "^5.3.5",
-    "web-vitals": "^1.1.2",
-    "xmldom": "^0.6.0",
-    "xpath": "^0.0.32"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "@storybook/cli": "^7.0.6",
+    "amazon-cognito-identity-js": "^6.1.2",
+    "bootstrap": "^5.2.3",
+    "final-form": "^4.20.9",
+    "next": "latest",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.2",
+    "react-dom": "18.2.0",
+    "react-final-form": "^6.5.9",
+    "react-icons": "^4.8.0",
+    "storybook": "^7.0.6"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.0.6",
+    "@storybook/addon-interactions": "^7.0.6",
+    "@storybook/addon-links": "^7.0.6",
+    "@storybook/addon-styling": "^1.0.1",
+    "@storybook/blocks": "^7.0.6",
+    "@storybook/react": "^7.0.6",
+    "@storybook/react-webpack5": "^7.0.6",
+    "@storybook/testing-library": "^0.0.14-next.2",
+    "prop-types": "^15.8.1"
   }
 }

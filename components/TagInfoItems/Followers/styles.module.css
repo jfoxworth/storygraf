@@ -1,0 +1,18 @@
+.styledFollowWrapper {
+  font-size: 1em;
+  color: #14a44d;
+  width: 100%;
+  padding: 0px 0px 3px 0px;
+  border-bottom: 1px solid #14a44d;
+  margin-bottom: 0.75em;
+}
+
+.styledFollowerIcon {
+  font-size: 1em;
+  text-align: center;
+}
+
+.styledFollowerText {
+  display: inline-block;
+  cursor: pointer;
+}

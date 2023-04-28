@@ -1,0 +1,18 @@
+.styledEmbedWrapper {
+  font-size: 1em;
+  color: #2f2e33;
+  width: 100%;
+  padding: 0px 0px 3px 0px;
+  border-bottom: 1px solid #2f2e33;
+  margin-bottom: 0.75em;
+}
+
+.styledEmbedIcon {
+  font-size: 1em;
+  text-align: center;
+}
+
+.styledEmbedText {
+  display: inline-block;
+  cursor: pointer;
+}
