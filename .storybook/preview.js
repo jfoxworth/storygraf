@@ -19,7 +19,7 @@ export default preview;
 
 export const decorators = [
   (Story) => (
-    <UserProvider initialValue={{ name: "test" }}>
+    <UserProvider initialValue={{}}>
       <Story />
     </UserProvider>
   ),

@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 const InputWrapper = ({
   label,
   placeholder = null,
-  required,
+  required = false,
   displayValue = "",
   name,
   type = "text",
@@ -17,7 +17,8 @@ const InputWrapper = ({
     <div className={styles.FieldWrapper}>
       <Field name={name}>
         {({ input, meta }) => {
-          const isError = meta.touched && meta.invalid;
+          const isError =
+            (meta.touched && meta.invalid) || (meta.touched && meta.error);
 
           return (
             <>

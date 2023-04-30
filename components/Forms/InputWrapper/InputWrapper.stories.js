@@ -45,7 +45,7 @@ export const InputRequired = {
     label: "Label for input",
     placeholder: "Placeholder text",
     required: true,
-    name: "Input name",
+    name: "Input name2",
     type: "text",
   },
 };

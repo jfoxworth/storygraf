@@ -20,6 +20,17 @@ const LoginPage = () => {
     loginUser(values.username, values.password);
   };
 
+  const validate = (values) => {
+    const errors = {};
+    if (values?.username?.length < 3) {
+      errors.username = "User names must be a least 3 characters in length";
+    }
+    if (values?.password?.length < 3) {
+      errors.username = "Passwords must be a least 3 characters in length";
+    }
+    return errors;
+  };
+
   return (
     <Container>
       <div className={styles.LoginContainer}>
@@ -27,6 +38,7 @@ const LoginPage = () => {
         {!userData?.profileData?.data?.username && (
           <Form
             onSubmit={onFormSubmit}
+            validate={validate}
             render={({ handleSubmit }) => {
               return (
                 <form onSubmit={handleSubmit}>

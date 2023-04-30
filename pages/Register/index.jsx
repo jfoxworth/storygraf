@@ -29,8 +29,11 @@ import { Form } from "react-final-form";
 // Storygraf Items
 import { signUpUser } from "../../utils/cognito";
 import InputWrapper from "../../components/Forms/InputWrapper";
+import { useUser } from "../../Contexts/UserContext";
 
+// Styles
 import styles from "./styles.module.css";
+
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [usernameExists, setUsernameExists] = useState(false);
@@ -39,6 +42,7 @@ const RegisterPage = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [disableButton, setDisabled] = useState(true);
   const [formStatus, setFormStatus] = useState(false);
+  const userData = useUser();
 
   const onFormSubmit = (e) => {
     signUpUser(username, email, password);
@@ -124,60 +128,68 @@ const RegisterPage = () => {
 
   return (
     <Container>
-      <div className={styles.RegisterContainer}>
-        <h1 className="mb-4">Register</h1>
-        <Form
-          onSubmit={onFormSubmit}
-          validate={validate}
-          render={({ handleSubmit }) => {
-            return (
-              <>
-                <form onSubmit={handleSubmit}>
-                  <Container>
-                    <InputWrapper
-                      label={"User Name"}
-                      name={"username"}
-                      required={true}
-                    />
-                    <InputWrapper
-                      label={"email"}
-                      name={"email"}
-                      required={true}
-                    />
-                    <InputWrapper
-                      label={"Password"}
-                      name={"password"}
-                      type={"password"}
-                      required={true}
-                    />
-                    <InputWrapper
-                      label={"Repeat Password"}
-                      name={"repeatPassword"}
-                      type={"password"}
-                      required={true}
-                    />
+      {userData?.profileData?.username && (
+        <div>
+          You are currently logged in as : {userData.profileData.username}
+        </div>
+      )}
 
-                    <p className="forgot-password text-right">
-                      Already registered? <Link href="/Login">Login</Link>
-                    </p>
+      {!userData?.profileData?.username && (
+        <div className={styles.RegisterContainer}>
+          <h1 className="mb-4">Register</h1>
+          <Form
+            onSubmit={onFormSubmit}
+            validate={validate}
+            render={({ handleSubmit }) => {
+              return (
+                <>
+                  <form onSubmit={handleSubmit}>
+                    <Container>
+                      <InputWrapper
+                        label={"User Name"}
+                        name={"username"}
+                        required={true}
+                      />
+                      <InputWrapper
+                        label={"email"}
+                        name={"email"}
+                        required={true}
+                      />
+                      <InputWrapper
+                        label={"Password"}
+                        name={"password"}
+                        type={"password"}
+                        required={true}
+                      />
+                      <InputWrapper
+                        label={"Repeat Password"}
+                        name={"repeatPassword"}
+                        type={"password"}
+                        required={true}
+                      />
 
-                    {disableButton && (
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    )}
-                  </Container>{" "}
-                </form>
-                {formStatus && (
-                  <Alert variant={"success"} className={"mt-5"}>
-                    Check your email for a confirmation link!!!
-                  </Alert>
-                )}
-              </>
-            );
-          }}
-        />
-      </div>
+                      <p className="forgot-password text-right">
+                        Already registered? <Link href="/Login">Login</Link>
+                      </p>
+
+                      {disableButton && (
+                        <Button variant="primary" type="submit">
+                          Submit
+                        </Button>
+                      )}
+                    </Container>{" "}
+                  </form>
+                  {formStatus && (
+                    <Alert variant={"success"} className={"mt-5"}>
+                      Check your email for a confirmation link!!!
+                    </Alert>
+                  )}
+                </>
+              );
+            }}
+          />
+        </div>
+      )}
     </Container>
   );
 };

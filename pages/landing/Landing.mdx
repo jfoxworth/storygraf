@@ -1,0 +1,24 @@
+{/* Landing.mdx */}
+
+import {
+  Canvas,
+  Meta,
+  Primary,
+  Controls,
+  Story,
+  Stories,
+} from "@storybook/blocks";
+
+import * as Landing from "./Landing.stories";
+
+<Meta of={Landing} />
+
+# Landing
+
+This is the Landing page for the site. It is very simple and is intended to be that way. It simply displays the username and password with a button to enter that data. There is also a link to the registration page.
+
+Forms on storygraf are built with react-final-form. This form will show errors if the user name or password is not correct.
+
+<Primary />
+<Controls />
+<Stories />
