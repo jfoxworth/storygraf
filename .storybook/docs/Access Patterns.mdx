@@ -6,4 +6,180 @@ The back end for Storygraf is built with an API Gateway and lambda to an AWS Dyn
 
 Being Dynammo, the primary concern is establishing our access patterns and setting up the primary and secondary keys accordingly. Pretty much everything in Storygraf is built around tags and the items within those tags - articles, videos, facebook posts, etc. The table below shows the items that exist within the DynammoDB table as well as their primary and secondary keys. I explain those items in detail later.
 
-Tag
+```
+Tag - PTag#<ParentTagID> - TAG#<TagID> - Used to pull a tag
+Tag - PTag#<ParentTagID> - TAG#... - Used to pull child tags
+Tag - PTag#<ParentTagID> - ITEM#... - Used to pull child items
+Item - PTag#<ParentTagID> - ITEM#<ItemID - Used to pull or update a specific item
+
+Users - USER#<UserName> USER#<UserName> - Pulls a user account
+Users - USER#<UserEmail> USER#<UserEmail> - Pulls a user email
+Profiles - PROFILE#<UserID> PROFILE#<UserID> - Pull, update a user's profile
+
+StoryGraf - SG#<TagID> - Pull/update a storygraf
+
+Followed Tags - FTAG#<UserID> - Pull all tags a user is following
+Followed Tags - FTAG#<UserID> TAG#<TagID> - Pull/Enter/Update/Delete a follow
+
+Embedded Tags - PTAG#<TagID> ETAG... - Pull all embedded Tags
+Embedded Tags - PTAG#<TagID> ETAG#<ParentTagID>#<TagID> - add/edit/delete an embedded tag
+
+Imported Tags - PTAG#<TagID> ETAG... - Pull all embedded Tags
+Imported Tags - PTAG#<TagID> ITAG#<ParentTagID>#<TagID> - add/edit/delete an imported tag
+
+Data Items - PTAG#<TagID> DI#... - pull all data items for a tag
+Data Items - PTAG#<TagID> DI#<ItemID> - add/update/delete a data item for a tag
+
+Sources - SOURCE SOURCE#<SourceID>
+
+```
+
+## Tags and Items
+
+Tags and items are what makes up storygraf. A tag represents a topic. Some tags have nothing but children tags. Other tags have nothing but articles and other items. This is deliberate. It isn't really expected that there will be a lot of tags with both as tags are intended to either be folders or events.
+
+The primary keys for a tag is actually its parent tag. This is due to the folder like nature of the tags and to make it easier to pull all children. The secondary key is the actual tag ID. This means that to properly set or acquire a tag, you need both the tag ID and its parent ID.
+
+### Pulling a tag
+
+Tags are accessed in three ways. The first of these is to use the parent ID as well as the tag ID. This will return the tag itself.
+
+```
+PK - PTAG#<ParentTagID>
+SK - TAG#<TagID>
+```
+
+This returns the tag object. The tag object contains a total of cumulative items, a tag stack, and other things.
+
+### Pulling all child tags
+
+When looking at the tag page, the child tags are pulled and displayed. This is done using the parent tag primary key and returning all items with a sort key starting with "TAG#". This returns an array of all tags that are direct children of the one for that page. The reason there are separate access patterns for tags versus children is because child tags are viewed at the top of a tags display. We don't want a child tag to not appear because it is not within the most recent X items.
+
+```
+PK - PTAG#<ParentTagID>
+SK - TAG#...
+```
+
+### Pulling child items.
+
+Child items are articles, videos, social media posts, and other items. The code queries with a primary key of the parent tag and all items whose sort keys begin with "ITEM#". This returns an array of those items.
+
+```
+PK - PTAG#<ParentTagID>
+SK - ITEM#...
+```
+
+### Pulling, adding, updating, and deleting one item
+
+To add, update, or delete a specific item, we use the same parent tag primary key as with other items, but with the sort key filled with the item in question.
+
+```
+PK - PTag#<ParentTagID>
+SK - ITEM#<ItemID>
+```
+
+## Users and profiles
+
+Users are stored in cognito and that is what we use to log in and out. On the Storygraf database, we hold separate entries that just has a users name and a user's email. This is done solely to let us check a if an account exists with that email or if a user name already exists. We have a separate profile entry where we store info about the user.
+
+### Pulling a single user based on username
+
+As stated, this is only necessary so that we can check if a user name exists.
+
+```
+Users - USER#<UserName> USER#<UserName>
+```
+
+### Pulling a single user based on email
+
+This is how I check if an account for a user exists. The log in and everything else is handled via cognito, but I need a way to check if an account exists.
+
+```
+Users - USER#<UserEmail> USER#<UserEmail> - Pulls a user email
+```
+
+### Pulling, creating, or updating profile data
+
+User profiles are data about the user that they enter on this site. It could be a bio, an image, etc. The pattern above lets the user pull data or update it.
+
+```
+Profiles - PROFILE#<UserID> PROFILE#<UserID>
+```
+
+## StoryGrafs
+
+Storygrafs are the last 5 articles for a tag. As a user enters an article, if the date of the article is one of the most recent 5, it is inserted into this tag's StoryGraf. If that is the case, the parent tag is called and if the story is one of the latest, it is placed there. This continues to the top level.
+
+In this way, the graf for any tag shows the most recent 5 stories for all tags beneath it.
+
+This is not included as part of the tag because it isn't always needed and it can be a lot of info.
+
+### Pulling, creating, or updating a graf
+
+```
+StoryGraf - SG#<TagID>SG#<TagID>
+```
+
+## Followed Tags
+
+Users can follow tags. When they do, the graf for that tag is shown as part of their profile. This entry simply records that a user follows a tag. It is also used to display whether or not a user is following a tag when they are looking at it and for the count of users following a tag.
+
+### Pulling the tags a user follows
+
+This can be necessary when on the user's profile page. It shows the user all the tags that they follow.
+
+```
+Followed Tags - FTAG#<UserID>
+```
+
+### Check to see if a user follows a specific tag
+
+This is done when the user is on that tag page.
+
+```
+Followed Tags - FTAG#<UserID> TAG#<TagID>
+```
+
+## Embedded Tags
+
+Users can embed tags into other tags. What this means is that the embedded tag will appear as a child of that tag even though its position has not changed. This is a way of importing a related tag that may reside somewhere else into a desired location. This also brings in the cumulatives and other properties.
+
+```
+Embedded Tags - PTAG#<TagID> ETAG#<ParentTagID>#<TagID>
+```
+
+## Imported Tags
+
+```
+Imported Tags - PTAG#<TagID> ITAG#<ParentTagID>#<TagID>
+```
+
+Imported tags are similar to embedded tags. When a user imports a tag, all of the child items from a tag will appear as part of the parent tag's items. This isn't fully implemented and I am not sure that I want to keep it.
+
+## Data Items
+
+There are several types of data items. One of them is a cumulative item. Cumulatives are established for each tag. Each child article can have a value for that cumulative and they are then summed over the entire tag.
+
+There are also simple text items. These are to be used as entries for graphs and for other areas. For example, if you are graphing a number of people like victims, the name of the victim can be that data item.
+
+There is a type property that tells if the item is a cumulative or something else.
+
+### Pulling all data items from a tag
+
+```
+Data Items - PTAG#<TagID>
+```
+
+### Creating, updating, deleting a specific data item
+
+```
+Data Items - PTAG#<TagID> DI#<ItemID>
+```
+
+## Sources
+
+Sources are hard coded as part of the storygraf download. I am not sure if I am going to let users download or set additional sources. Right now, this is not used.
+
+```
+Sources - SOURCE SOURCE#<SourceID>
+```

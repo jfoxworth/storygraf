@@ -602,23 +602,26 @@ const parentTag = {
   type: "TAG",
 };
 
+const Story = {
+  title: "Compound/ArticleLine",
+  component: ArticleLine,
+};
+
+const Template = (args) => <ArticleLine {...args} />;
+
 export default {
   title: "Compound/ArticleLine",
   component: ArticleLine,
 };
 
-export const ArticleLineWithImage = {
-  args: {
-    article: articleWithImage,
-    parentTag: parentTag,
-  },
+export const ArticleLineWithImage = Template.bind({});
+ArticleLineWithImage.args = {
+  article: articleWithImage,
+  parentTag: parentTag,
 };
 
-export const ArticleLineNoImage = {
-  args: {
-    article: article,
-    parentTag: parentTag,
-  },
+export const ArticleLineNoImage = Template.bind({});
+ArticleLineNoImage.args = {
+  article: article,
+  parentTag: parentTag,
 };
-
-//export { article, parentTag };

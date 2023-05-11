@@ -1,0 +1,15 @@
+# Objects in Storygraf
+
+This document lays out the objects that make up Storygraf. The back end is a single table DynammoDB instance. All items are stored on that table with most of them having the same structure of a primary key, secondary key, a type, and a data object. The contents of that data object is what makes up the different objects in Storygraf.
+
+- Primary key (PK)
+- Secondary key (SK)
+- cognitoId (used for profiles)
+- created_at
+- updated_at
+- creatorEmail
+- creatorId
+- type
+- embeds
+- followers
+- imports
