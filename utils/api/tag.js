@@ -11,6 +11,7 @@ import { getChildArticles } from "./item";
 // Get the children for a tag. It takes the ID of the tag to be
 // fetched
 const getTagChildren = (tagId) => {
+  console.log("In get tag children");
   return fetch("http://localhost:3080/api/tag_children/PTAG/" + tagId, {
     method: "GET",
     headers: {

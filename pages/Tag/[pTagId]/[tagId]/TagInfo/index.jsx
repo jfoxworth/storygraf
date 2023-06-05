@@ -51,7 +51,7 @@ const TagInfo = ({
       <Row>
         <Col xs={{ order: 1, span: 6 }}>
           <div className={"my-3 text-muted"}>{showDesc}</div>
-          {tag?.data.cumulatives?.map((cum, ci) => (
+          {tag?.data?.cumulatives?.map((cum, ci) => (
             <Cumulative key={`cumulativeItem${ci}`} cumItem={{ ...cum }} />
           ))}
         </Col>
@@ -69,7 +69,6 @@ const TagInfo = ({
                 userId={userData?.profileData?.id}
               />
               <EmbedsBlock numEmbeds={tag?.embeds} />
-              <ImportsBlock numImports={tag?.imports} />
             </Col>
             {tag?.creatorId === userData?.profileData?.id && (
               <TagEdit

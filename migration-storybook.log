@@ -1,0 +1,81 @@
+🔎 checking possible migrations..
+
+⚠️  failed to check fix new-frameworks
+
+TypeError: Cannot read properties of null (reading 'version')
+    at Object.check (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/cli/dist/generate.js:184:7513)
+    at async runFixes (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/cli/dist/generate.js:361:1154)
+    at async automigrate (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/cli/dist/generate.js:358:676)
+    at async doUpgrade (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/cli/dist/generate.js:390:3418)
+    at async withTelemetry (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/core-server/dist/index.js:35:3620)
+    at async upgrade (/Users/jfoxworth/.npm/_npx/7870b4b551bffaf6/node_modules/@storybook/cli/dist/generate.js:390:3864)
+
+🔎 found a 'github-flavored-markdown-mdx' migration:
+╭ Automigration detected ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                │
+│   In MDX1 you had the option of using GitHub flavored markdown.                                                                                │
+│                                                                                                                                                │
+│   Storybook 7.0 uses MDX2 for compiling MDX, and thus no longer supports GFM out of the box.                                                   │
+│   Because of this you need to explicitly add the GFM plugin in the addon-docs options:                                                         │
+│   https://storybook.js.org/docs/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm                                                    │
+│                                                                                                                                                │
+│   We recommend you follow the guide on the link above, however we can add a temporary storybook addon that helps make this migration easier.   │
+│   We'll install the addon and add it to your storybook config.                                                                                 │
+│                                                                                                                                                │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'github-flavored-markdown-mdx' migration on your project? › (Y/n)✔ Do you want to run the 'github-flavored-markdown-mdx' migration on your project? … yes
+✅ Adding "@storybook/addon-mdx-gfm" addon
+✅ ran github-flavored-markdown-mdx migration
+
+🔎 found a 'missing-babelrc' migration:
+╭ Automigration detected ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                                                                     │
+│   We detected that your project does not have a babel configuration (.babelrc, babel.config.js, etc.).                                                                                              │
+│                                                                                                                                                                                                     │
+│   In version 6.x, Storybook provided its own babel settings out of the box. Now, Storybook re-uses your project's babel configuration, with small, incremental updates from Storybook addons.       │
+│                                                                                                                                                                                                     │
+│   If your project does not have a babel configuration file, we can generate one that's equivalent to the 6.x defaults for you. Keep in mind that this can affect your project if it uses babel,     │
+│   and you may need to make additional changes based on your projects needs.                                                                                                                         │
+│                                                                                                                                                                                                     │
+│   We can create a .babelrc.json file with some basic configuration and add any necessary package devDependencies.                                                                                   │
+│                                                                                                                                                                                                     │
+│   Note: After installing the necessary presets, if it does not work in a monorepo, see the babel documentation for reference:                                                                       │
+│   https://babeljs.io/docs                                                                                                                                                                           │
+│                                                                                                                                                                                                     │
+│   Please see the migration guide for more information:                                                                                                                                              │
+│   https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#babel-mode-v7-exclusively                                                                                                         │
+│                                                                                                                                                                                                     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+? Do you want to run the 'missing-babelrc' migration on your project? › (Y/n)✔ Do you want to run the 'missing-babelrc' migration on your project? … yes
+
+info Generating the Storybook default babel config at /Users/jfoxworth/sites/storygraf/storygraf
+? Do you want to add the TypeScript preset? › (y/N)✔ Do you want to add the TypeScript preset? … no
+? Do you want to add the React preset? › (y/N)✔ Do you want to add the React preset? … yes
+info Writing file to /Users/jfoxworth/sites/storygraf/storygraf/.babelrc.json
+info Installing dependencies (@babel/preset-env, @babel/preset-react)
+✅ ran missing-babelrc migration
+
+╭ Migration check ran with failures ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                               │
+│   Successful migrations:                                                                                                                                      │
+│                                                                                                                                                               │
+│   github-flavored-markdown-mdx, missing-babelrc                                                                                                               │
+│                                                                                                                                                               │
+│   Failed migrations:                                                                                                                                          │
+│                                                                                                                                                               │
+│   new-frameworks:                                                                                                                                             │
+│   Cannot read properties of null (reading 'version')                                                                                                          │
+│                                                                                                                                                               │
+│   You can find the full logs in /Users/jfoxworth/sites/storygraf/storygraf/migration-storybook.log                                                            │
+│                                                                                                                                                               │
+│   ─────────────────────────────────────────────────                                                                                                           │
+│                                                                                                                                                               │
+│   If you'd like to run the migrations again, you can do so by running 'npx storybook@next automigrate'                                                        │
+│                                                                                                                                                               │
+│   The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.   │
+│                                                                                                                                                               │
+│   Please check the changelog and migration guide for manual migrations and more information: https://storybook.js.org/migration-guides/7.0                    │
+│   And reach out on Discord if you need help: https://discord.gg/storybook                                                                                     │
+│                                                                                                                                                               │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

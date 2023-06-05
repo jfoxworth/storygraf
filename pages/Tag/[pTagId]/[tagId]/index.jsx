@@ -31,7 +31,6 @@ const Tag = ({ thisTag, childTags, childItems, cumulatives }) => {
   const [stateTags, setStateTags] = useState(childTags);
   const [stateItems, setStateItems] = useState(childItems);
   const [stateCumulatives, setStateCumulatives] = useState(cumulatives);
-  console.log(JSON.stringify(stateItems[0]));
 
   const addChildItem = (newItem) => {
     setStateItems([...stateItems, newItem]);
@@ -48,7 +47,6 @@ const Tag = ({ thisTag, childTags, childItems, cumulatives }) => {
 
   // When the page loads, run code to check the child tag properties
   useEffect(() => {
-    console.log("I am in a use effect");
     checkChildTagProperties(stateTag, stateTags, updateTag);
     syncCumulativeValues(
       stateTag,
@@ -81,7 +79,7 @@ const Tag = ({ thisTag, childTags, childItems, cumulatives }) => {
               setThisTag={setStateTag}
             />
 
-            <Row className="accent-top">
+            <Row className="accent-top mt-3">
               <Col className="mt-3">
                 {stateTags.length > 0 && <TagList tags={stateTags} />}
               </Col>

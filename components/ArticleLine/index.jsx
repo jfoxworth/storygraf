@@ -48,12 +48,12 @@ const ArticleLine = ({
         </Col>
         <Col xs={{ span: 0 }} xl={{ span: 4 }} className="d-none d-xl-block">
           <Row>
-            {!article.data?.userPoints.length && (
+            {!article.data?.userPoints?.length && (
               <div className={`${styles.StyledDescription} text-muted`}>
                 {`${article?.data?.description?.substring(0, 50)} ...`}
               </div>
             )}
-            {article.data?.userPoints.length && (
+            {article.data?.userPoints?.length && (
               <UserPoints userPoints={article.data?.userPoints} />
             )}
           </Row>

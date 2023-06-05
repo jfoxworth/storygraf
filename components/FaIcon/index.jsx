@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import React, { useState } from "react";
 
 // The icons needed
 import {
@@ -54,13 +55,19 @@ import {
   FaTimesCircle,
   FaBars,
   FaCopy,
+  FaFacebookF,
+  FaFacebook,
+  FaFacebookSquare,
+  FaTwitter,
+  FaRedditAlien,
 } from "react-icons/fa";
 
 const FaIcon = ({
-  icon = "Tag",
+  icon = "QuestionCircle",
   color = "#000000",
   outlineType = null,
   size = "md",
+  hoverColor,
 }) => {
   let tagSize = size;
   if (size) {
@@ -74,7 +81,8 @@ const FaIcon = ({
     };
     tagSize = tagSizes[size] || size;
   }
-  const tagProps = { color: color, size: tagSize };
+  const [iconColor, setIconColor] = useState(color);
+  const tagProps = { color: iconColor, size: tagSize };
 
   const outlineTypes = {
     circle: "50%",
@@ -82,6 +90,11 @@ const FaIcon = ({
   };
 
   const IconComponents = {
+    FacebookF: FaFacebookF,
+    Facebook: FaFacebook,
+    FacebookSquare: FaFacebookSquare,
+    Twitter: FaTwitter,
+    RedditAlien: FaRedditAlien,
     Tag: FaTag,
     FileDownload: FaFileDownload,
     Download: FaDownload,
@@ -140,15 +153,27 @@ const FaIcon = ({
 
   const ThisIcon = IconComponents[icon];
 
+  const handleMouseEnter = () => {
+    setIconColor(hoverColor ? hoverColor : color);
+  };
+
+  const handleMouseLeave = () => {
+    setIconColor(color);
+  };
+
   return (
     <>
       {outlineType && (
         <div
           style={{
-            border: "1px solid " + color,
+            border: "1px solid " + iconColor,
             width: tagSize,
+            minWidth: tagSize,
             borderRadius: outlineTypes[outlineType] || "0px",
+            padding: 0,
           }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <ThisIcon {...tagProps} style={{ padding: "20%" }} />
         </div>

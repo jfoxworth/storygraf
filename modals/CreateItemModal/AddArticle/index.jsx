@@ -53,30 +53,35 @@ const AddArticle = ({ tag, item, setItem, source, setSource }) => {
   const handleChangeLink = (event) => {
     setArticleSource(event.target.value);
     setArticleLink(event.target.value);
-    fetch("http://localhost:3001/scrape", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: event.target.value,
-      }),
-      params: JSON.stringify({
-        url: event.target.value,
-      }),
-    })
-      .then((response) => response.text())
-      .then((rawdata) => {
-        const data = JSON.parse(rawdata);
-        parseArticleData(
-          { ...data, eURL: event.target.value },
-          setDateArray,
-          item,
-          setItem,
-          tag,
-          sourceData,
-          setSource,
-          userData
-        );
-      });
+    try {
+      fetch("http://localhost:3001/scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: event.target.value,
+        }),
+        params: JSON.stringify({
+          url: event.target.value,
+        }),
+      })
+        .then((response) => response.text())
+        .then((rawdata) => {
+          console.log(rawdata);
+          const data = JSON.parse(rawdata);
+          parseArticleData(
+            { ...data, eURL: event.target.value },
+            setDateArray,
+            item,
+            setItem,
+            tag,
+            sourceData,
+            setSource,
+            userData
+          );
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePointMade = (index) => (e) => {

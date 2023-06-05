@@ -1,0 +1,43 @@
+.footerBlock {
+  color: #ccc;
+  background-color: #222;
+  border-top: 5px solid #a01d26;
+  width: 100%;
+  margin: 3em 0em 0em 0em;
+  padding: 3em 0em 3em 0em;
+}
+
+.footerSocial {
+  display: inline-block;
+  width: 30px;
+  min-width: 30px;
+  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+}
+
+.footerLink {
+  display: inline-block;
+  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+  text-decoration: none;
+  color: #ccc;
+}
+
+.footerLink:hover {
+  display: inline-block;
+  text-decoration: underline;
+  color: #ccc;
+}
+
+.footerCopyright {
+  display: inline-block;
+  cursor: pointer;
+  margin: 1em 0em 0em;
+  padding: 0px;
+  text-align: center;
+  width: 100%;
+  font-size: 0.7em;
+}

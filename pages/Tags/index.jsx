@@ -53,6 +53,9 @@ const Tags = ({ childData }) => {
 // as well as one that does not change
 export async function getServerSideProps() {
   const response = await getTagChildren(0);
+  console.log("-------------------------------");
+  console.log(response);
+  console.log("-------------------------------");
   const childData = await response.json();
   return {
     props: {

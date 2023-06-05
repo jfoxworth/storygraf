@@ -13,11 +13,23 @@ app.post("/scrape", (req, res) => {
   const { body } = req;
   const { url } = body;
   const options = { url: url };
-  ogs(options).then((data) => {
-    const { error, result, response } = data;
-    console.log("result:", result); // This contains all of the Open Graph results
-    res.status(200).json({ ...result });
-  });
+  console.log(options);
+  try {
+    console.log("Here 1");
+    ogs(options).then((data) => {
+      try {
+        const { error, html, result, response } = data;
+        console.log(error);
+        console.log("result:", result); // This contains all of the Open Graph results
+        res.status(200).json({ ...result });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  } catch (error) {
+    console.log("Here");
+    console.log(error);
+  }
 });
 
 app.listen(3001, () => console.log("OG Scraper Listening..."));

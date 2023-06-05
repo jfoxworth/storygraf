@@ -20,7 +20,7 @@
 */
 
 import { useEffect, useRef, useReducer } from "react";
-import { getCumulatives } from "../utils/api/cumulative";
+import { getCumulatives } from "../../../utils/api/cumulative";
 
 export const useCumulative = (parentId) => {
   const cache = useRef({});

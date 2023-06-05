@@ -16,6 +16,8 @@ export function useSourceUpdate() {
 export function SourceProvider({ children }) {
   const [sourceData, setSourceData] = useState(hardSources);
 
+  /*
+  Eventually, this may call other sources. For now they are all hard coded
   useEffect(() => {
     fetch("http://localhost:3080/api/sources", {
       method: "GET",
@@ -28,6 +30,7 @@ export function SourceProvider({ children }) {
         setSourceData([...hardSources, ...JSON.parse(data).Items])
       );
   }, []);
+  */
 
   function setSources(sources) {
     setSourceData(sources);

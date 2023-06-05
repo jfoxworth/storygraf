@@ -15,9 +15,6 @@ import { BsArrowRightCircle } from "react-icons/bs";
 const TagStack = ({ tagStack = [] }) => {
   let tags = tagStack;
 
-  console.log("The tag stack is ...");
-  console.log(JSON.stringify(tagStack));
-
   return (
     <Row>
       <Col>

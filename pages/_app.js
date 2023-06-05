@@ -3,6 +3,7 @@ import { UserProvider } from "../Contexts/UserContext";
 import { SourceProvider } from "../Contexts/SourceContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
           <Navbar />
           <div style={{ height: "80px" }} />
           <Component {...pageProps} />
+          <Footer />
         </SourceProvider>
       </UserProvider>
     </>
