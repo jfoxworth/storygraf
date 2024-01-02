@@ -10,7 +10,7 @@ const themeConfig = {
   layout: 'horizontal' /* vertical | horizontal */,
   mode: 'dark' /* light | dark | semi-dark /*! Note: semi-dark value will only work for Vertical Layout */,
   direction: 'ltr' /* ltr | rtl */,
-  skin: 'bordered' /* default | bordered */,
+  skin: 'default' /* default | bordered */,
   contentWidth: 'boxed' /* full | boxed */,
   footer: 'static' /* fixed | static | hidden */,
   // ** Routing Configs

@@ -31,7 +31,7 @@ const createItem = item => {
   }).then(response => response.text())
 }
 
-const updateArticle = tag => {
+const updateItem = tag => {
   return fetch('http://localhost:3080/api/tag', {
     method: 'PATCH',
     headers: {
@@ -55,4 +55,4 @@ const deleteItem = item => {
   }).then(response => response.text())
 }
 
-export { getChildArticles, createItem, updateArticle, deleteItem }
+export { getChildArticles, createItem, updateItem, deleteItem }

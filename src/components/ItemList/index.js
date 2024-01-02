@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 import Link from 'next/link'
 
+// ** My imports
 import CumulativeBadge from '../CumulativeBadge'
 
 // ** Util Imports
@@ -28,9 +29,12 @@ const Timeline = styled(MuiTimeline)({
   }
 })
 
-const colorList = ['warning', 'success', 'error', 'info', 'primary', 'grey']
+const ItemList = ({ Items, Cumulatives, TagCumulatives, setCurrentArticle, setShowEditArticle }) => {
+  const handleEditArticleClick = thisArticle => {
+    setCurrentArticle(thisArticle)
+    setShowEditArticle(true)
+  }
 
-const ItemList = ({ Items, Cumulatives, TagCumulatives, TagColor }) => {
   return (
     <Timeline sx={{ my: 0, py: 0 }}>
       {Items.map((item, ii) => (
@@ -41,15 +45,23 @@ const ItemList = ({ Items, Cumulatives, TagCumulatives, TagColor }) => {
               flexWrap: 'wrap',
               ml: '1em',
               mr: '1em',
-              mt: '1em'
+              mt: '0.5em'
             }}
           >
+            <Typography sx={{ mb: 2, color: 'text.secondary' }}>
+              <Icon
+                icon={'material-symbols-light:settings'}
+                style={{ cursor: 'pointer' }}
+                sx={{ marginTop: 0, marginTop: 0 }}
+                onClick={() => handleEditArticleClick(item)}
+              />
+            </Typography>
             <Typography variant='body2' sx={{ color: 'text.disabled' }}>
               {dateToLongDateTime(item.data.articlePublishedTime || item.data.articleDate)}
             </Typography>
           </Box>
-          <TimelineSeparator sx={{ pt: '0.5em' }}>
-            <TimelineDot color={colorList[ii % colorList.length]} />
+          <TimelineSeparator sx={{ pt: 0 }}>
+            <TimelineDot color={'grey'} />
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent sx={{ mt: '0em', mb: theme => `${theme.spacing(2)} !important` }}>
@@ -58,7 +70,6 @@ const ItemList = ({ Items, Cumulatives, TagCumulatives, TagColor }) => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 alignItems: 'center',
-                justifyContent: 'space-between',
                 mt: '0em'
               }}
             >
@@ -69,7 +80,6 @@ const ItemList = ({ Items, Cumulatives, TagCumulatives, TagColor }) => {
                 sx={{ fontWeight: 600, textDecoration: 'none' }}
               >
                 {`${item.data.title}`}
-                <Icon icon={'material-symbols-light:link'} sx={{ paddingTop: 0, marginTop: 0 }} />
               </Typography>
             </Box>
             <Typography sx={{ mb: 2, color: 'text.secondary' }}>{`${item.data.userPoints[0]}`}</Typography>
@@ -78,7 +88,7 @@ const ItemList = ({ Items, Cumulatives, TagCumulatives, TagColor }) => {
                 <CumulativeBadge
                   color={tc.color}
                   key={`cumBardge${ti}`}
-                  number={Cumulatives.filter(ci => ci.id === tc.cumId)[0].data?.numData[item.id]}
+                  number={Cumulatives?.filter(ci => ci.id === tc.cumId)[0]?.data?.numData[item.id]}
                 />
               ))}
             </Typography>
