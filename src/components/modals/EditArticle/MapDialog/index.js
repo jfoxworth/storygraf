@@ -1,3 +1,6 @@
+// ** Map Package
+// https://visgl.github.io/react-google-maps/docs/get-started
+
 // ** React Imports
 import { useState, useEffect, useRef } from 'react'
 import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps'
