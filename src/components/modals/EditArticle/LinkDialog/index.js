@@ -51,6 +51,7 @@ const LinkDialog = ({ currentItem, setCurrentItem }) => {
         sx={{ mb: 4, mt: 4 }}
         label='Article Link'
         placeholder={'Enter link here'}
+        defaultValue={currentItem?.data?.url}
         onChange={event => handleChangeLink(event)}
       />
       <Box sx={{ mb: 8 }}>

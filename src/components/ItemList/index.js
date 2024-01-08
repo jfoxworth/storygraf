@@ -88,7 +88,8 @@ const ItemList = ({ Items, Cumulatives, TagCumulatives, setCurrentArticle, setSh
                 <CumulativeBadge
                   color={tc.color}
                   key={`cumBardge${ti}`}
-                  number={Cumulatives?.filter(ci => ci.id === tc.cumId)[0]?.data?.numData[item.id]}
+                  number={item.data.cumulatives?.filter(ci => ci.text === tc.text)[0]?.value}
+                  //number={Cumulatives?.filter(ci => ci.id === tc.cumId)[0]?.data?.numData[item.id]}
                 />
               ))}
             </Typography>

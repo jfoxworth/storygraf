@@ -11,6 +11,8 @@ const UserPointsDialog = ({ currentItem, setCurrentItem }) => {
   const [userText, setUserText] = useState(currentItem?.data?.userDescription)
 
   const handleChange = event => {
+    console.log('Setting to ')
+    console.log(event.target.value)
     setUserText(event.target.value)
   }
 

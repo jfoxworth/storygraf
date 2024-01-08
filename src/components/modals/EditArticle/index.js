@@ -28,6 +28,7 @@ import LinkDialog from './LinkDialog'
 import CumulativeDialog from './CumulativeDialog'
 import UserPointsDialog from './UserPointsDialog'
 import LinkTypeDialog from './LinkTypeDialog'
+import MapDialog from './MapDialog'
 import ItemList from 'src/components/ItemList'
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -59,7 +60,7 @@ const TabLabel = props => {
     </div>
   )
 }
-const tabsArr = ['linkTypeTab', 'linkTab', 'UserPointsTab', 'paymentTab', 'submitTab']
+const tabsArr = ['linkTypeTab', 'linkTab', 'UserPointsTab', 'cumulativeTab', 'mapTab', 'submitTab']
 
 const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges = () => {} }) => {
   // ** States
@@ -94,13 +95,18 @@ const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges =
   const nextArrow = direction === 'ltr' ? 'mdi:arrow-right' : 'mdi:arrow-left'
   const previousArrow = direction === 'ltr' ? 'mdi:arrow-left' : 'mdi:arrow-right'
   const renderTabFooter = currentItem => {
-    console.log('In the footer with ...')
-    console.log(currentItem)
     const prevTab = tabsArr[tabsArr.indexOf(activeTab) - 1]
     const nextTab = tabsArr[tabsArr.indexOf(activeTab) + 1]
 
     return (
-      <Box sx={{ mt: 8.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box
+        sx={{
+          mt: 8.5,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
         <Button
           variant='outlined'
           color='secondary'
@@ -141,6 +147,7 @@ const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges =
       >
         <DialogContent
           sx={{
+            height: '650px',
             position: 'relative',
             pr: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
             pl: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(11)} !important`],
@@ -167,7 +174,7 @@ const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges =
                 onChange={(e, newValue) => setActiveTab(newValue)}
                 sx={{
                   border: 0,
-                  minWidth: 200,
+                  minWidth: 220,
                   '& .MuiTabs-indicator': { display: 'none' },
                   '& .MuiTabs-flexContainer': {
                     alignItems: 'flex-start',
@@ -216,13 +223,25 @@ const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges =
                 />
                 <Tab
                   disableRipple
-                  value='paymentTab'
+                  value='cumulativeTab'
                   label={
                     <TabLabel
                       title='Cumulatives'
-                      active={activeTab === 'paymentTab'}
+                      active={activeTab === 'cumulativeTab'}
                       subtitle='Set cumulative items'
                       icon={<Icon icon='mdi:add' />}
+                    />
+                  }
+                />
+                <Tab
+                  disableRipple
+                  value='mapTab'
+                  label={
+                    <TabLabel
+                      title='Map Location'
+                      active={activeTab === 'mapTab'}
+                      subtitle='Set Location'
+                      icon={<Icon icon='mdi:map' />}
                     />
                   }
                 />
@@ -251,8 +270,12 @@ const DialogCreateApp = ({ show, setShow, currentArticle, thisTag, saveChanges =
                 <UserPointsDialog currentItem={currentItem} setCurrentItem={setCurrentItem} />
                 {renderTabFooter(currentItem)}
               </TabPanel>
-              <TabPanel value='paymentTab' sx={{ flexGrow: 1, p: '0 !important' }}>
+              <TabPanel value='cumulativeTab' sx={{ flexGrow: 1, p: '0 !important' }}>
                 <CumulativeDialog currentItem={currentItem} setCurrentItem={setCurrentItem} thisTag={thisTag} />
+                {renderTabFooter(currentItem)}
+              </TabPanel>
+              <TabPanel value='mapTab' sx={{ flexGrow: 1, p: '0 !important' }}>
+                <MapDialog currentItem={currentItem} setCurrentItem={setCurrentItem} thisTag={thisTag} />
                 {renderTabFooter(currentItem)}
               </TabPanel>
               <TabPanel value='submitTab' sx={{ flexGrow: 1, p: '0 !important' }}>
