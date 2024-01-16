@@ -47,5 +47,5 @@ const Home = () => {
     </Grid>
   )
 }
-
+Home.guestGuard = true
 export default Home

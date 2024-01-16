@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 
 // ** Context
-import { useAuth } from 'src/hooks/useAuth'
+import { signOut } from 'next-auth/react'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -70,7 +70,9 @@ const UserDropdown = props => {
   }
 
   const handleLogout = () => {
-    logout()
+    signOut({ callbackUrl: '/', redirect: false }).then(() => {
+      router.asPath = '/'
+    })
     handleDropdownClose()
   }
 

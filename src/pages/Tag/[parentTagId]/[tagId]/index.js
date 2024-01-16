@@ -109,4 +109,5 @@ export async function getServerSideProps(context) {
   }
 }
 
+TagsPage.guestGuard = true
 export default TagsPage

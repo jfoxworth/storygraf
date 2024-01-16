@@ -31,9 +31,11 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // ** Hooks
-import { useAuth } from 'src/hooks/useAuth'
+import { useSession } from 'next-auth/react'
 import useBgColor from 'src/@core/hooks/useBgColor'
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
@@ -109,7 +111,8 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   // ** Hooks
-  const auth = useAuth()
+  const session = useSession()
+  const router = useRouter()
   const theme = useTheme()
   const bgColors = useBgColor()
   const { settings } = useSettings()
@@ -131,11 +134,18 @@ const LoginPage = () => {
 
   const onSubmit = data => {
     const { email, password } = data
-    auth.login({ email, password, rememberMe }, () => {
-      setError('email', {
-        type: 'manual',
-        message: 'Email or Password is invalid'
-      })
+    signIn('credentials', { email, password, redirect: false }).then(res => {
+      if (res && res.ok) {
+        const returnUrl = router.query.returnUrl
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+
+        router.replace(redirectURL)
+      } else {
+        setError('email', {
+          type: 'manual',
+          message: 'Email or Password is invalid'
+        })
+      }
     })
   }
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
