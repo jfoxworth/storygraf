@@ -87,13 +87,9 @@ const App = props => {
   const getLayout =
     Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
   const setConfig = Component.setConfig ?? undefined
-  const authGuard = Component.authGuard ?? true
+  const authGuard = Component.authGuard ?? false // no login required by default
   const guestGuard = Component.guestGuard ?? false
   const aclAbilities = Component.acl ?? defaultACLObj
-
-  console.log('The guest guard for the component is ...')
-  console.log(Component.guestGuard)
-  console.log(guestGuard)
 
   return (
     <CacheProvider value={emotionCache}>

@@ -1,6 +1,14 @@
 // ** Third Party Imports
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import CognitoProvider from 'next-auth/providers/cognito'
+import GitHubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
+import FacebookProvider from 'next-auth/providers/facebook'
+import TwitterProvider from 'next-auth/providers/twitter'
+
+// ** API to send login info
+import { userLoggedIn } from 'src/utils/api/user'
 
 /*
  * As we do not have backend server, the refresh token feature has not been incorporated into the template.
@@ -11,6 +19,79 @@ export const authOptions = {
   // ** Configure one or more authentication providers
   // ** Please refer to https://next-auth.js.org/configuration/options#providers for more `providers` options
   providers: [
+    GitHubProvider({
+      profile(profile) {
+        console.log('Profile Github: ', profile)
+
+        let userRole = 'client'
+        if (profile?.email == 'jfoxworth@cadwolf.com') {
+          userRole = 'admin'
+        }
+
+        // Record that the user logged in with this email
+        // and make sure that the user has a profile
+        console.log('Should be calling userLoggedIn')
+        userLoggedIn('github', profile.email, profile.name, profile.avatar_url)
+
+        return {
+          ...profile,
+          role: userRole,
+          image: profile.avatar_url
+        }
+      },
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_Secret
+    }),
+    GoogleProvider({
+      profile(profile) {
+        console.log('Profile Google: ', profile)
+
+        // Record that the user logged in with this email
+        // and make sure that the user has a profile
+        console.log('Should be calling userLoggedIn')
+        userLoggedIn('google', profile.email, profile.name, profile.picture)
+
+        return {
+          ...profile,
+          id: profile.sub,
+          role: 'client',
+          image: profile.picture
+        }
+      },
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_Secret
+    }),
+    TwitterProvider({
+      profile(profile) {
+        console.log('Profile Twitter: ', profile)
+
+        return {
+          ...profile,
+          role: 'client'
+        }
+      },
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_Secret
+    }),
+    FacebookProvider({
+      profile(profile) {
+        console.log('Profile Facebook: ', profile)
+
+        return {
+          ...profile,
+          role: 'client',
+          image: profile.picture.data.url
+        }
+      },
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_Secret
+    }),
+    CognitoProvider({
+      clientId: process.env.COGNITO_CLIENT_ID,
+      clientSecret: process.env.COGNITO_CLIENT_SECRET,
+      issuer: 'https://cognito-idp.' + process.env.AWS_REGION + '.amazonaws.com/' + process.env.COGNITO_POOL_ID
+    }),
+
     CredentialsProvider({
       // ** The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
@@ -99,7 +180,6 @@ export const authOptions = {
         token.role = user.role
         token.fullName = user.fullName
       }
-
       return token
     },
     async session({ session, token }) {

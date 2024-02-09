@@ -31,7 +31,6 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // ** Hooks
-import { useSession } from 'next-auth/react'
 import useBgColor from 'src/@core/hooks/useBgColor'
 import { useSettings } from 'src/@core/hooks/useSettings'
 import { useRouter } from 'next/router'
@@ -111,7 +110,6 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   // ** Hooks
-  const session = useSession()
   const router = useRouter()
   const theme = useTheme()
   const bgColors = useBgColor()
@@ -263,6 +261,7 @@ const LoginPage = () => {
               <TypographyStyled variant='h5'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</TypographyStyled>
               <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
             </Box>
+            {/*
             <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
               <Typography variant='caption' sx={{ mb: 2, display: 'block', color: 'primary.main' }}>
                 Admin: <strong>admin@materialize.com</strong> / Pass: <strong>admin</strong>
@@ -354,6 +353,52 @@ const LoginPage = () => {
                 </Typography>
               </Box>
             </form>
+            <Button
+              fullWidth
+              size='large'
+              sx={{ mb: 7 }}
+              variant='contained'
+              onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/api/auth/callback/google' })}
+            >
+              Login with google
+            </Button>
+            <Button fullWidth size='large' sx={{ mb: 7 }} variant='contained' onClick={() => signIn('github')}>
+              Login with github
+            </Button>
+                */}
+            <Divider
+              sx={{
+                '& .MuiDivider-wrapper': { px: 4 },
+                mt: theme => `${theme.spacing(5)} !important`,
+                mb: theme => `${theme.spacing(7.5)} !important`
+              }}
+            >
+              Log in with these providers
+            </Divider>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <IconButton
+                href='/'
+                component={Link}
+                sx={{ color: '#497ce2' }}
+                onClick={() => signIn('facebook', { callback: 'http://localhost:3000/api/auth/callback/facebook' })}
+              >
+                <Icon icon='mdi:facebook' />
+              </IconButton>
+              <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => signIn('twitter')}>
+                <Icon icon='mdi:twitter' />
+              </IconButton>
+              <IconButton
+                href='/'
+                component={Link}
+                onClick={() => signIn('github')}
+                sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
+              >
+                <Icon icon='mdi:github' />
+              </IconButton>
+              <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={() => signIn('google')}>
+                <Icon icon='mdi:google' />
+              </IconButton>
+            </Box>
           </BoxWrapper>
         </Box>
       </RightWrapper>

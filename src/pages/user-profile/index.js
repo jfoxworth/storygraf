@@ -26,6 +26,9 @@ import Projects from 'src/pages/user-profile/projects'
 import Connections from 'src/pages/user-profile/connections'
 import UserProfileHeader from 'src/pages/user-profile/UserProfileHeader'
 
+// ** Session
+import { useSession } from 'next-auth/react'
+
 const TabList = styled(MuiTabList)(({ theme }) => ({
   '& .MuiTabs-indicator': {
     display: 'none'
@@ -52,6 +55,7 @@ const UserProfile = ({ tab, data }) => {
   // ** Hooks
   const router = useRouter()
   const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
+  const session = useSession()
 
   const handleChange = (event, value) => {
     setIsLoading(true)
@@ -84,7 +88,7 @@ const UserProfile = ({ tab, data }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <UserProfileHeader />
+        <UserProfileHeader userData={session?.data?.user} />
       </Grid>
       {activeTab === undefined ? null : (
         <Grid item xs={12}>
