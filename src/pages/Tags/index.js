@@ -52,5 +52,5 @@ export async function getServerSideProps() {
     }
   }
 }
-
+TagsPage.guestGuard = false
 export default TagsPage

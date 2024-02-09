@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
+import { useSession } from 'next-auth/react'
 
 const styles = {
   heroContainer: {
@@ -13,6 +14,10 @@ const styles = {
 }
 
 const Home = () => {
+  const { data: session } = useSession()
+  console.log('The session is ..')
+  console.log(session)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -47,5 +52,4 @@ const Home = () => {
     </Grid>
   )
 }
-
 export default Home
