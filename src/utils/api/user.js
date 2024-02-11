@@ -5,7 +5,18 @@
 
 */
 
+const getProfileFromEmail = email => {
+  return fetch('http://localhost:3080/api/profile/' + email, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.text())
+}
+
 const getUser = userId => {
+  console.log('The user id in get user is ...')
+  console.log(userId)
   return fetch('http://localhost:3080/api/user/' + userId, {
     method: 'GET',
     headers: {
@@ -28,4 +39,15 @@ const userLoggedIn = (provider, email, name, image) => {
   }).then(response => response.text())
 }
 
-export { getUser, userLoggedIn }
+// Update a users profile
+const updateProfile = profile => {
+  return fetch('http://localhost:3080/api/updateProfile', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(profile)
+  }).then(response => response.text())
+}
+
+export { getProfileFromEmail, getUser, userLoggedIn, updateProfile }

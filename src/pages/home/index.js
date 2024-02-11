@@ -20,11 +20,7 @@ const Home = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Typography>
-          <h1 sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>News ... Redefined</h1>
-        </Typography>
-      </Grid>
+      <Grid item xs={12}></Grid>
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Kick start your project 🚀'></CardHeader>
