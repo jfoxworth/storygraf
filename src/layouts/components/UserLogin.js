@@ -3,7 +3,6 @@ import { useState, Fragment } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -13,13 +12,16 @@ import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
+import { IconButton } from '@mui/material'
+
+// ** Next Imports
+import Link from 'next/link'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Context
-import { signOut } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -30,7 +32,7 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
   boxShadow: `0 0 0 2px ${theme.palette.background.paper}`
 }))
 
-const UserDropdown = props => {
+const UserLogin = props => {
   // ** Props
   const { settings } = props
 
@@ -43,10 +45,6 @@ const UserDropdown = props => {
 
   // ** Vars
   const { direction } = settings
-
-  const session = useSession()
-  console.log('The session in the dropdown is ...')
-  console.log(session)
 
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
@@ -74,13 +72,6 @@ const UserDropdown = props => {
     }
   }
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: '/', redirect: false }).then(() => {
-      router.asPath = '/'
-    })
-    handleDropdownClose()
-  }
-
   return (
     <Fragment>
       <Badge
@@ -93,12 +84,7 @@ const UserDropdown = props => {
           horizontal: 'right'
         }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src={session?.data?.user?.image}
-        />
+        <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} />
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -109,48 +95,36 @@ const UserDropdown = props => {
         transformOrigin={{ vertical: 'top', horizontal: direction === 'ltr' ? 'right' : 'left' }}
       >
         <Box sx={{ pt: 2, pb: 3, px: 4 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Badge
-              overlap='circular'
-              badgeContent={<BadgeContentSpan />}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <IconButton
+              href='/'
+              component={Link}
+              sx={{ color: '#497ce2' }}
+              onClick={() => signIn('facebook', { callback: 'http://localhost:3000/api/auth/callback/facebook' })}
             >
-              <Avatar alt='John Doe' src={session?.data?.user?.image} sx={{ width: '2.5rem', height: '2.5rem' }} />
-            </Badge>
-            <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>{session?.data?.user?.name}</Typography>
-            </Box>
+              <Icon icon='mdi:facebook' />
+            </IconButton>
+            <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => signIn('twitter')}>
+              <Icon icon='mdi:twitter' />
+            </IconButton>
+            <IconButton
+              href='/'
+              component={Link}
+              onClick={() => signIn('github')}
+              sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
+            >
+              <Icon icon='mdi:github' />
+            </IconButton>
+            <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={() => signIn('google')}>
+              <Icon icon='mdi:google' />
+            </IconButton>
           </Box>
         </Box>
-        <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/user-profile')}>
-          <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />
-            Profile
-          </Box>
-        </MenuItem>
-        {/*
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:email-outline' />
-            Inbox
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:message-outline' />
-            Chat
-          </Box>
-        </MenuItem>
-            */}
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='mdi:cog-outline' />
-            Settings
+            What is Storygraf
           </Box>
         </MenuItem>
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
@@ -165,17 +139,9 @@ const UserDropdown = props => {
             FAQ
           </Box>
         </MenuItem>
-        <Divider />
-        <MenuItem
-          onClick={handleLogout}
-          sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
-        >
-          <Icon icon='mdi:logout-variant' />
-          Logout
-        </MenuItem>
       </Menu>
     </Fragment>
   )
 }
 
-export default UserDropdown
+export default UserLogin

@@ -84,9 +84,6 @@ const UserProfileHeader = ({ userData }) => {
               </Box>
             </Box>
           </Box>
-          <Button variant='contained' startIcon={<Icon icon='mdi:account-check-outline' fontSize={20} />}>
-            Connected
-          </Button>
         </Box>
       </CardContent>
     </Card>

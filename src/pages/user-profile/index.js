@@ -1,161 +1,124 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 
-// ** Next Import
-import { useRouter } from 'next/router'
-
 // ** MUI Components
-import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
 import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import MuiTabList from '@mui/lab/TabList'
-import CircularProgress from '@mui/material/CircularProgress'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Demo Components
-import Teams from 'src/pages/user-profile/teams'
-import Profile from 'src/pages/user-profile/profile'
-import Projects from 'src/pages/user-profile/projects'
-import Connections from 'src/pages/user-profile/connections'
+// ** Components
 import UserProfileHeader from 'src/pages/user-profile/UserProfileHeader'
+import DialogEditProfile from 'src/components/modals/EditProfile'
 
 // ** Session
 import { useSession } from 'next-auth/react'
+import { getProfileFromEmail } from 'src/utils/api/user'
 
-const TabList = styled(MuiTabList)(({ theme }) => ({
-  '& .MuiTabs-indicator': {
-    display: 'none'
-  },
-  '& .Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
-    color: `${theme.palette.common.white} !important`
-  },
-  '& .MuiTab-root': {
-    minWidth: 65,
-    minHeight: 38,
-    borderRadius: theme.shape.borderRadius,
-    [theme.breakpoints.up('sm')]: {
-      minWidth: 130
-    }
+// ** Profile APIs
+import { updateProfile } from 'src/utils/api/user'
+
+// Will return the list of items
+const renderList = (arr, profile) => {
+  if (arr && arr.length) {
+    return arr.map((item, index) => {
+      return (
+        <Box
+          key={index}
+          sx={{
+            display: 'flex',
+            '&:not(:last-of-type)': { mb: 4 },
+            '& svg': { color: 'text.secondary' }
+          }}
+        >
+          <Box sx={{ display: 'flex', mr: 2 }}>
+            <Icon icon={item.icon} />
+          </Box>
+
+          <Box sx={{ columnGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+            <Typography sx={{ fontWeight: 600, color: 'text.secondary' }}>{`${item?.label}:`}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>{profile[item?.prop]}</Typography>
+          </Box>
+        </Box>
+      )
+    })
+  } else {
+    return null
   }
-}))
+}
 
-const UserProfile = ({ tab, data }) => {
+const UserProfile = () => {
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
-  const [isLoading, setIsLoading] = useState(true)
+  const [profile, setProfile] = useState({})
+  const [showEditUser, setShowEditUser] = useState(false)
 
   // ** Hooks
-  const router = useRouter()
-  const hideText = useMediaQuery(theme => theme.breakpoints.down('sm'))
   const session = useSession()
 
-  const handleChange = (event, value) => {
-    setIsLoading(true)
-    setActiveTab(value)
-    router
-      .push({
-        pathname: `/pages/user-profile/${value.toLowerCase()}`
-      })
-      .then(() => setIsLoading(false))
-  }
   useEffect(() => {
-    if (data) {
-      setIsLoading(false)
-    }
-  }, [data])
-  useEffect(() => {
-    if (tab && tab !== activeTab) {
-      setActiveTab(tab)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab])
+    getProfileFromEmail(session?.data?.user?.email).then(profile => {
+      console.log('The profile is ...')
+      console.log(JSON.parse(profile).Items[0])
+      setProfile(JSON.parse(profile).Items[0].data)
+    })
+  }, [])
 
-  const tabContentList = {
-    profile: <Profile data={data} />,
-    teams: <Teams data={data} />,
-    projects: <Projects data={data} />,
-    connections: <Connections data={data} />
-  }
+  const aboutList = [
+    { prop: 'name', label: 'Full Name', icon: 'mdi:person' },
+    { prop: 'email', label: 'E-mail', icon: 'mdi:email-outline' },
+    { prop: 'bio', label: 'Bio', icon: 'mdi:account-circle-outline' }
+  ]
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <UserProfileHeader userData={session?.data?.user} />
-      </Grid>
-      {activeTab === undefined ? null : (
+    <>
+      <DialogEditProfile
+        show={showEditUser}
+        userProfile={profile}
+        setShow={setShowEditUser}
+        updateProfile={updateProfile}
+      />
+
+      <Grid container spacing={6}>
         <Grid item xs={12}>
-          <TabContext value={activeTab}>
-            <Grid container spacing={6}>
-              <Grid item xs={12}>
-                <TabList
-                  variant='scrollable'
-                  scrollButtons='auto'
-                  onChange={handleChange}
-                  aria-label='customized tabs example'
-                >
-                  <Tab
-                    value='profile'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon icon='mdi:account-outline' />
-                        {!hideText && 'Profile'}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='teams'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon icon='mdi:account-multiple-outline' />
-                        {!hideText && 'Teams'}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='projects'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon icon='mdi:view-grid-outline' />
-                        {!hideText && 'Projects'}
-                      </Box>
-                    }
-                  />
-                  <Tab
-                    value='connections'
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                        <Icon icon='mdi:link-variant' />
-                        {!hideText && 'Connections'}
-                      </Box>
-                    }
-                  />
-                </TabList>
-              </Grid>
-              <Grid item xs={12}>
-                {isLoading ? (
-                  <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    <CircularProgress sx={{ mb: 4 }} />
-                    <Typography>Loading...</Typography>
-                  </Box>
-                ) : (
-                  <TabPanel sx={{ p: 0 }} value={activeTab}>
-                    {tabContentList[activeTab]}
-                  </TabPanel>
-                )}
-              </Grid>
-            </Grid>
-          </TabContext>
+          <UserProfileHeader userData={session?.data?.user} />
         </Grid>
-      )}
-    </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <CardContent>
+                  <Box sx={{ mb: 7 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: ['space-between']
+                      }}
+                    >
+                      <Typography variant='body2' sx={{ mb: 4, color: 'text.disabled', textTransform: 'uppercase' }}>
+                        About
+                      </Typography>
+                      <Button
+                        sx={{ display: 'flex', ml: 2, color: 'text.disabled' }}
+                        onClick={() => setShowEditUser(true)}
+                      >
+                        <Icon icon={'mdi:cog-outline'} />
+                      </Button>
+                    </Box>
+                    {renderList(aboutList, profile)}
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
   )
 }
 
