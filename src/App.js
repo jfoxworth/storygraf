@@ -54,6 +54,7 @@ function App() {
           {window.location.pathname === "/" && <HeaderLanding />}
           <BrowserRouter>
             <Routes>
+              <Route path="" element={<LandingPage />} />
               <Route path="/" element={<LandingPage />} />
               <Route path="/createSource" element={<CreateSource />} />
               <Route path="/createTag" element={<CreateTag />} />
