@@ -1,24 +1,26 @@
-import * as AmazonCognitoIdentity from "amazon-cognito-identity-js";
+import * as AmazonCognitoIdentity from 'amazon-cognito-identity-js'
 
 const createPool = () => {
   const poolData = {
     UserPoolId: process.env.REACT_APP_UserPoolId,
-    ClientId: process.env.REACT_APP_UserPoolClientId,
-  };
-  return new AmazonCognitoIdentity.CognitoUserPool(poolData);
-};
+    ClientId: process.env.REACT_APP_UserPoolClientId
+  }
+  const poolDataTemp = {
+    UserPoolId: 'us-east-2_bInPwxVtq',
+    ClientId: '688p0ue75spe2edfmq26f24kfm'
+  }
+  return new AmazonCognitoIdentity.CognitoUserPool(poolDataTemp)
+}
 
 const signUpUser = (username, email, password) => {
-  var attributeList = [];
+  var attributeList = []
   var dataEmail = {
-    Name: "email",
-    Value: email,
-  };
-  var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
-    dataEmail
-  );
-  attributeList.push(attributeEmail);
-  const CognitoUserPool = createPool();
+    Name: 'email',
+    Value: email
+  }
+  var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail)
+  attributeList.push(attributeEmail)
+  const CognitoUserPool = createPool()
   CognitoUserPool.signUp(
     email,
     password,
@@ -26,70 +28,68 @@ const signUpUser = (username, email, password) => {
     null,
     function (err, result) {
       if (err) {
-        alert(err.message || JSON.stringify(err));
-        return;
+        alert(err.message || JSON.stringify(err))
+        return
       } else {
-        return createDBUserData(username, email, result.userSub);
+        return createDBUserData(username, email, result.userSub)
       }
     },
     null
-  );
-};
+  )
+}
 
 // Make call to add user and profile
 const createDBUserData = (username, email, id) => {
-  fetch("http://localhost:3080/api/addUser", {
-    method: "POST",
+  fetch('http://localhost:3080/api/addUser', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       username: username,
       email: email,
-      cognitoId: id,
-    }),
-  }).then((response) => {
-    return true;
-  });
-};
+      cognitoId: id
+    })
+  }).then(response => {
+    return true
+  })
+}
 
 const getSession = async () =>
   await new Promise((resolve, reject) => {
-    const userPool = createPool();
-    const user = userPool.getCurrentUser();
+    const userPool = createPool()
+    const user = userPool.getCurrentUser()
     if (user) {
       user.getSession((err, session) => {
         if (err) {
-          reject();
+          reject()
         } else {
-          resolve(session);
+          resolve(session)
         }
-      });
+      })
     } else {
-      reject();
+      reject()
     }
-  });
+  })
 
 const loginUser = async (username, password) => {
   var authenticationData = {
     Username: username,
-    Password: password,
-  };
-  var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
-    authenticationData
-  );
-  var userPool = createPool();
+    Password: password
+  }
+  var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData)
+  var userPool = createPool()
   var userData = {
     Username: username,
-    Pool: userPool,
-  };
-  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    Pool: userPool
+  }
+  var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
   //  let result = await asyncAuthenticateUser(cognitoUser, authenticationDetails);
 
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
       //var accessToken = result.getAccessToken().getJwtToken();
-      window.location.href = "/MyProfile";
+      window.location.href = '/MyProfile'
 
       /*
       //POTENTIAL: Region needs to be set if not already set previously elsewhere.
@@ -119,17 +119,17 @@ const loginUser = async (username, password) => {
     },
 
     onFailure: function (err) {
-      alert(err.message || JSON.stringify(err));
-    },
-  });
-};
+      alert(err.message || JSON.stringify(err))
+    }
+  })
+}
 
 const logoutUser = async () => {
-  var userPool = createPool();
-  const user = userPool.getCurrentUser();
+  var userPool = createPool()
+  const user = userPool.getCurrentUser()
   if (user) {
-    user.signOut();
+    user.signOut()
   }
-};
+}
 
-export { createPool, signUpUser, loginUser, logoutUser, getSession };
+export { createPool, signUpUser, loginUser, logoutUser, getSession }

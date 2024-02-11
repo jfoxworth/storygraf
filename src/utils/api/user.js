@@ -5,13 +5,27 @@
 
 */
 
-const getUser = (userId) => {
-  return fetch("http://localhost:3080/api/user/" + userId, {
-    method: "GET",
+const getUser = userId => {
+  return fetch('http://localhost:3080/api/user/' + userId, {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((response) => response.text());
-};
+      'Content-Type': 'application/json'
+    }
+  }).then(response => response.text())
+}
 
-export { getUser };
+// This is in response to a user logging in and records some login info and makes sure that
+// a profile exists for this user
+const userLoggedIn = (provider, email, name, image) => {
+  return fetch('http://localhost:3080/api/userLogin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      Item: { provider: provider, email: email, name: name, image: image }
+    })
+  }).then(response => response.text())
+}
+
+export { getUser, userLoggedIn }
