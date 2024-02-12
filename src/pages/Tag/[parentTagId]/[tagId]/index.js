@@ -16,7 +16,9 @@ import TagList from 'src/components/TagList'
 import ItemList from 'src/components/ItemList'
 import TagStackCard from 'src/components/TagStackCard'
 import TagDetailCards from './TagDetailCards'
+import TagDetailCard from './TagDetailCard'
 import EditArticle from 'src/components/modals/EditArticle'
+import TagButtonCard from './TagButtonCard'
 
 // ** API Util
 import { updateItem } from 'src/utils/api/item'
@@ -51,6 +53,12 @@ const TagsPage = ({ thisTag, childTags, childItems, cumulatives }) => {
       <TagDetailCards
         Tag={{ ...thisTag, tags: childTags.length, items: childItems.length, cumulatives: cumulatives.length }}
       />
+
+      <TagDetailCard
+        Tag={{ ...thisTag, tags: childTags.length, items: childItems.length, cumulatives: cumulatives.length }}
+      />
+
+      <TagButtonCard />
 
       <EditArticle
         show={showEditArticle}
