@@ -10,7 +10,15 @@ import { styled } from '@mui/material/styles'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const TagButtonCard = ({ Tag }) => {
+const saveModalChanges = newItem => {
+  console.log('The new item is ...')
+  console.log(newItem)
+  updateItem(newItem).then(data => {
+    console.log('Item updated')
+  })
+}
+
+const TagButtonCard = ({ setShowAddEditItem, setCurrentItem }) => {
   return (
     <Grid item xs={12} lg={6} sx={{ display: 'flex', alignItems: 'center' }}>
       <Card sx={{ width: '100%' }}>
@@ -36,6 +44,10 @@ const TagButtonCard = ({ Tag }) => {
                 color='secondary'
                 sx={{ alignItems: 'center', width: '100%', mx: 3 }}
                 startIcon={<Icon icon='mdi:plus-circle' />}
+                onClick={() => {
+                  setCurrentItem({})
+                  setShowAddEditItem(true)
+                }}
               >
                 Add Child Item
               </Button>

@@ -50,15 +50,17 @@ const TagsPage = ({ thisTag, childTags, childItems, cumulatives }) => {
       />
       <TagStackCard tags={[...thisTag?.data?.tagTree, thisTag]} />
 
+      {/*
       <TagDetailCards
         Tag={{ ...thisTag, tags: childTags.length, items: childItems.length, cumulatives: cumulatives.length }}
       />
+  */}
 
       <TagDetailCard
         Tag={{ ...thisTag, tags: childTags.length, items: childItems.length, cumulatives: cumulatives.length }}
       />
 
-      <TagButtonCard />
+      <TagButtonCard setShowAddEditItem={setShowEditArticle} setCurrentItem={setCurrentArticle} />
 
       <EditArticle
         show={showEditArticle}

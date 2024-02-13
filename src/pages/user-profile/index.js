@@ -56,6 +56,7 @@ const UserProfile = () => {
   // ** State
   const [profile, setProfile] = useState({})
   const [showEditUser, setShowEditUser] = useState(false)
+  const [showAddItem, setShowAddItem] = useState(false)
 
   // ** Hooks
   const session = useSession()
@@ -67,6 +68,16 @@ const UserProfile = () => {
       setProfile(JSON.parse(profile).Items[0].data)
     })
   }, [])
+
+  const saveModalChanges = newItem => {
+    console.log('The new item is ...')
+    console.log(newItem)
+    /*
+    updateItem(newItem).then(data => {
+      console.log('Item updated')
+    })
+    */
+  }
 
   const aboutList = [
     { prop: 'name', label: 'Full Name', icon: 'mdi:person' },
@@ -83,9 +94,17 @@ const UserProfile = () => {
         updateProfile={updateProfile}
       />
 
+      <EditArticle
+        show={showAddItem}
+        thisTag={{}}
+        setShow={setShowAddItem}
+        currentArticle={{}}
+        saveChanges={saveModalChanges}
+      />
+
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <UserProfileHeader userData={session?.data?.user} />
+          <UserProfileHeader userData={session?.data?.user} setShowAddItem={setShowAddItem} />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={6}>
